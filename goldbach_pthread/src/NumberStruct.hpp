@@ -15,6 +15,16 @@ class NumberStruct{
     NumberStruct();
     ~NumberStruct();
 
+    int64_t get_number();
+
+    NumberArray get_smaller_primes_array();
+
+    NumberArray get_sums_array();
+
+    void append_prime_number(int64_t number);
+
+    void append_sums_number(int64_t number);
+
     void copy_number_array(NumberStruct*);
 };
 
