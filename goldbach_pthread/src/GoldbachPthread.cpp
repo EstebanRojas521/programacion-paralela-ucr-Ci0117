@@ -38,10 +38,52 @@ int64_t GoldbachPthread::calculate_smaller_primes(NumberStruct* number_struct){
     }
 }
 
-int64_t GoldbachPthread::check_repeated_even(NumberArray*, int64_t, int64_t){
+int64_t GoldbachPthread::check_repeated_even(
+    NumberArray* number_array, int64_t num1, int64_t num2){
+    int64_t repeated = false;
+    if (number_array->get_total_numbers() == 0) {
+    } else {
+        int64_t size = number_array->get_total_numbers();
+        std::vector<int64_t> numbers_array =
+                            number_array->get_numbers_array();
+        for (int64_t i = 0; i < size; i+=2) {
+            if (numbers_array[i] == num2 &&
+                numbers_array[i+1] == num1) {
+                    repeated = true;
+                }
+        }
+    }
+    return repeated;
 }
 
-int64_t GoldbachPthread::check_repeated_uneven(NumberArray*, int64_t, int64_t, int64_t){
+int64_t GoldbachPthread::check_repeated_uneven(
+    NumberArray* number_array, int64_t num1, int64_t num2, int64_t num3){
+    int64_t repeated = false;
+    if (number_array->get_total_numbers() == 0) {
+    } else {
+        int64_t size = number_array->get_total_numbers();
+        std::vector<int64_t> numbers_array =
+                            number_array->get_numbers_array();
+        for (int64_t i = 0; i < size; i+=3) {
+            int64_t number_i = numbers_array[i];
+            int64_t number_i_plus = numbers_array[i+1];
+            int64_t number_i_plus_plus = numbers_array[i+2];
+
+            if ((number_i == num1 && number_i_plus == num3 && number_i_plus_plus
+                                                                    == num2)
+            || (number_i == num2 && number_i_plus == num3 && number_i_plus_plus
+                                                                    == num1)
+            || (number_i == num2 && number_i_plus == num1 && number_i_plus_plus
+                                                                    == num3)
+            || (number_i == num3 && number_i_plus == num1 && number_i_plus_plus
+                                                                    == num2)
+            || (number_i == num3 && number_i_plus == num2 && number_i_plus_plus
+                                                                    == num1)) {
+                repeated = true;
+            }
+        }
+    }
+    return repeated;
 }
 
 int64_t GoldbachPthread::process_even_number(NumberStruct*){
