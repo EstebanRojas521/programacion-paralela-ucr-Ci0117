@@ -1,5 +1,5 @@
-#ifndef GOLDBACH_PHTHREAD_HPP
-#define GOLDBACH_PHTHREAD_HPP
+#ifndef GOLDBACH_PTHREAD_HPP
+#define GOLDBACH_PTHREAD_HPP
 
 #include "number_struct.hpp"
 #include "number_array.hpp"
@@ -39,6 +39,8 @@ class goldbach_pthread{
 
     number_struct* find_biggest_number();
     int64_t calculate_block_mapping(int64_t, int64_t, int64_t);
+
+    void process_goldbach_range(private_data*);
 
     int64_t read_goldbach_numbers();
     int64_t process_goldbach_numbers();
