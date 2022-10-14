@@ -5,6 +5,7 @@
 
 #include "HttpServer.hpp"
 #include "FactWebApp.hpp"
+#include "GolbachWebApp.hpp"
 
 //crea servidor web = abstracto = codigo reutilizable = agnostico de lo que le voy a pedir
 
@@ -19,9 +20,10 @@ int main(int argc, char* argv[]) {
   // Create the web server
   HttpServer httpServer;
   // Create a factorization web application, and other apps if you want
-  FactWebApp factWebApp;
+  //FactWebApp factWebApp;
+  GolbachWebApp golbachWebApp;
   // Register the web application(s) with the web server
-  httpServer.chainWebApp(&factWebApp);
+  httpServer.chainWebApp(&golbachWebApp);
   // Start the web server
   return httpServer.start(argc, argv);
 }
