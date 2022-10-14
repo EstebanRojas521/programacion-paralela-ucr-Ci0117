@@ -7,12 +7,12 @@
 #include <stdint.h>
 
 struct private_data{
-    goldbach_pthread* goldbach_pthread;
+    Goldbach_Pthread* goldbach_pthread;
     int64_t start;
     int64_t finish;
 };
 
-class goldbach_pthread{
+class Goldbach_Pthread{
 
     int64_t thread_count;
     int64_t total_sums;
@@ -22,8 +22,8 @@ class goldbach_pthread{
     std::vector<number_struct*> number_struct_array;
     
     public:
-    goldbach_pthread();
-    ~goldbach_pthread();
+    Goldbach_Pthread();
+    ~Goldbach_Pthread();
 
     int64_t is_prime(int64_t);
     int64_t calculate_smaller_primes(number_struct*);
