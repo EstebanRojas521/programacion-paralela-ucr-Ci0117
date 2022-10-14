@@ -14,6 +14,12 @@ class NumberArray{
     
     NumberArray();
     ~NumberArray();
+
+    int64_t get_total_numbers();
+    int64_t get_total_sums();
+    void increment_total_sums();
+
+    void append_number(int64_t number);
 };
 
 #endif
