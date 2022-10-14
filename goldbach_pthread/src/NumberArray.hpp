@@ -17,6 +17,8 @@ class NumberArray{
 
     int64_t get_total_numbers();
     int64_t get_total_sums();
+    std::vector<int64_t> get_numbers_array();
+
     void increment_total_sums();
 
     void append_number(int64_t number);
