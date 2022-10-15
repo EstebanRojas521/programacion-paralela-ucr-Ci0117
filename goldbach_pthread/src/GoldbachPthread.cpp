@@ -38,6 +38,7 @@ int64_t GoldbachPthread::calculate_smaller_primes(NumberStruct* number_struct){
             number_struct->append_prime_number(i);
         }
     }
+    return error;
 }
 
 int64_t GoldbachPthread::check_repeated_even(
@@ -108,6 +109,7 @@ int64_t GoldbachPthread::process_even_number(NumberStruct* number_struct){
             }
         }
     }
+    return EXIT_SUCCESS;
 }
 
 int64_t GoldbachPthread::process_uneven_number(NumberStruct* number_struct){
@@ -137,13 +139,9 @@ int64_t GoldbachPthread::process_uneven_number(NumberStruct* number_struct){
             }
         }
     }
+    return EXIT_SUCCESS;
 }
 
-void GoldbachPthread::print64_t_goldbach_even(NumberStruct* number_struct){
-}
-
-void GoldbachPthread::print64_t_goldbach_uneven(NumberStruct* number_struct){
-}
 
 NumberStruct* GoldbachPthread::find_biggest_number(){
     NumberStruct* biggestNumberStruct = this->numberStructArray[0];
@@ -169,8 +167,47 @@ int64_t GoldbachPthread::calculate_block_mapping(int64_t index,
     return result;
 }
 
-void GoldbachPthread::process_goldbach_range(PrivateData*){
+void GoldbachPthread::print64_t_goldbach_even(NumberStruct* number_struct) {
+    if (number_struct->get_number() > 0) {
+        std::cout << number_struct->get_number() << ": "
+                  << number_struct->get_sums_array().get_total_sums()
+                  << " sums: ";
+    } else {
+        int64_t size = number_struct->get_sums_array().get_total_numbers();
+        std::cout << number_struct->get_number() << ": "
+                  << number_struct->get_sums_array().get_total_sums()
+                  << " sums";
+        for (int64_t i = 0; i < size; i+=2) {
+            std::cout << number_struct->get_sums_array().get_numbers_array()[i]
+            << " + " << number_struct->get_sums_array().get_numbers_array()[i+1];
+            if (i != (size-2)) {
+                std::cout << ", ";
+            }
+        }
+    }
 }
+
+void GoldbachPthread::print64_t_goldbach_uneven(NumberStruct* number_struct) {
+    if (number_struct->get_number() > 0) {
+        std::cout << number_struct->get_number() << ": "
+                  << number_struct->get_sums_array().get_total_sums()
+                  << " sums: ";
+    } else {
+        int64_t size = number_struct->get_sums_array().get_total_numbers();
+        std::cout << number_struct->get_number() << ": "
+                  << number_struct->get_sums_array().get_total_sums()
+                  << " sums";
+        for (int64_t i = 0; i < size; i+=3) {
+            std::cout << number_struct->get_sums_array().get_numbers_array()[i]
+            << " + " << number_struct->get_sums_array().get_numbers_array()[i+1]
+            << " + " << number_struct->get_sums_array().get_numbers_array()[i+2];
+            if (i != (size-3)) {
+                std::cout << ", ";
+            }
+        }
+    }
+}
+
 
 int64_t GoldbachPthread::read_goldbach_numbers(){
     int64_t error = EXIT_SUCCESS;
@@ -201,6 +238,9 @@ int64_t GoldbachPthread::read_goldbach_numbers(){
     }
 
     return error;
+}
+
+void GoldbachPthread::process_goldbach_range(PrivateData*){
 }
 
 int64_t GoldbachPthread::process_goldbach_numbers(){
