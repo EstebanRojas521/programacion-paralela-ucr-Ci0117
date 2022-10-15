@@ -146,9 +146,27 @@ void GoldbachPthread::print64_t_goldbach_uneven(NumberStruct* number_struct){
 }
 
 NumberStruct* GoldbachPthread::find_biggest_number(){
+    NumberStruct* biggestNumberStruct = this->numberStructArray[0];
+
+    for (int64_t i = 1; i < this->totalNumbers; i++) {
+        int64_t biggest = (int64_t)abs((int)biggestNumberStruct->get_number());
+        int64_t next_num = (int64_t)
+                            abs((int)this->numberStructArray[i]->get_number());
+        if (biggest < next_num) {
+            biggestNumberStruct = this->numberStructArray[i];
+        }
+    }
+    return biggestNumberStruct;
 }
 
-int64_t GoldbachPthread::calculate_block_mapping(int64_t, int64_t, int64_t){
+int64_t GoldbachPthread::calculate_block_mapping(int64_t index,
+                                                 int64_t numbers,
+                                                 int64_t thread_count) {
+    int64_t div = numbers/thread_count;
+    int64_t mod = numbers % thread_count;
+    int64_t min = (index < mod) ? index : mod;
+    int64_t result = (index*div) + min;
+    return result;
 }
 
 void GoldbachPthread::process_goldbach_range(PrivateData*){
