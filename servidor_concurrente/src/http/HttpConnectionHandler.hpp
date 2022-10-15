@@ -46,22 +46,4 @@ class HttpConnectionHandler: public Consumer<Socket>{
 
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif

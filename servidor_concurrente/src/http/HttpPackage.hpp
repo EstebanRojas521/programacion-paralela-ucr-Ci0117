@@ -21,23 +21,20 @@ class HttpPackage {
   //  Agregar vector para resultados
   // resultado de la clase Goldbach std::vector<resultados> results;
   bool solicitudInvalida;
-  bool condicionParada;
 
   /**
   @brief Paquete de datos (unifica) con requests and response 
   @param httpRequest request 
   @param httpResponse response
-  @param condicionParada condición de parada para el programa
   */
   explicit HttpPackage(const HttpRequest& httpRequest,
-   const HttpResponse& httpResponse
-    , bool condicionParada = true);
+   const HttpResponse& httpResponse);
 
   /**
   @brief Destructor.
   */
   ~HttpPackage();
-  bool operator==(const HttpPackage httpPackage) const;
+
 };
 
 #endif

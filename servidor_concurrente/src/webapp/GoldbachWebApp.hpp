@@ -10,7 +10,7 @@
 #include "HttpApp.hpp"
 #include "HttpPackage.hpp"
 //#include "SumGoldbachModel.hpp"
-#include "GoldbachResponder.hpp"
+#include "GoldbachHTML.hpp"
 #include "common.hpp"
 
   /**
@@ -22,7 +22,7 @@ class GoldbachWebApp : public HttpApp{
 
  protected:
   
-  GoldbachResponder goldbachResponder;
+  GoldbachHTML goldbachHTML;
 
   /**
    @brief Count of solvers.

@@ -1,5 +1,5 @@
-build/webapp/GoldbachResponder.o: src/webapp/GoldbachResponder.cpp \
- src/webapp/GoldbachResponder.hpp src/common/common.hpp \
+build/webapp/GolbachHTML.o: src/webapp/GolbachHTML.cpp \
+ src/webapp/GoldbachHTML.hpp src/common/common.hpp \
  src/prodcons/Consumer.hpp src/prodcons/Queue.hpp \
  src/prodcons/Semaphore.hpp src/prodcons/Thread.hpp \
  src/http/HttpPackage.hpp src/http/HttpRequest.hpp \

@@ -8,11 +8,12 @@
 #include <string>
 #include <vector>
 
-#include "GoldbachWebApp.hpp"
+#include "GoldbachHTML.hpp"
 //#include "SumGoldbachModel.hpp"
 #include "HttpPackage.hpp"
 #include "HttpRequest.hpp"
 #include "HttpResponse.hpp"
+#include "GoldbachWebApp.hpp"
 
 GoldbachWebApp::GoldbachWebApp() {
 }
@@ -50,10 +51,10 @@ bool GoldbachWebApp::handleHttpRequest(HttpPackage& httpPackage) {
     int finish = matches[0].length() - 1;
     this->createVectorOfNumbers
     (start, finish, URI, httpPackage.numerosIngresados);
-    goldbachResponder.validRequest(httpPackage);
+    goldbachHTML.validRequest(httpPackage);
   } else {
     httpPackage.solicitudInvalida= true;
-    goldbachResponder.invalidRequest(httpPackage);
+    goldbachHTML.invalidRequest(httpPackage);
   }
   return EXIT_SUCCESS;
 }
