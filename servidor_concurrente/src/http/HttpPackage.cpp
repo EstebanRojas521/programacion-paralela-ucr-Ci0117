@@ -6,7 +6,7 @@
 HttpPackage::HttpPackage(const HttpRequest& httpRequest,
   const HttpResponse& httpResponse, bool stopCondition)
   : httpRequest(httpRequest), httpResponse(httpResponse)
-  , condicionParada(stopCondition) {
+  , condicionParada(condicionParada) {
     this->solicitudInvalida = false;
 }
 

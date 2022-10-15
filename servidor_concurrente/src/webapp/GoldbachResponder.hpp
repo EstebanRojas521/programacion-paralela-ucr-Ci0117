@@ -47,5 +47,7 @@ class GoldbachResponder: public Consumer<HttpPackage> {
   */
   void solicitudInvalida(HttpPackage httpPackage);
 
+  //  Agregar impresión de respuestas de Goldbach
+
 };
 #endif

@@ -19,7 +19,7 @@ class HttpPackage {
   HttpResponse httpResponse;
   std::vector<int64_t> numerosIngresados;
   //  Agregar vector para resultados
-  // resultado de la clase Goldbach std::vector<result> results;
+  // resultado de la clase Goldbach std::vector<resultados> results;
   bool solicitudInvalida;
   bool condicionParada;
 

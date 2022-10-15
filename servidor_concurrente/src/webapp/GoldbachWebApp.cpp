@@ -29,11 +29,28 @@ void GoldbachWebApp::stop() {
   // TODO(you): Stop producers, consumers, assemblers...
 }
 
-bool GoldbachWebApp::handleHttpRequest(HttpRequest& httpPackage) {
+void GoldbachWebApp::consume(HttpPackage httpPackage) {
+  this->handleHttpRequest(httpPackage);
+}
+
+bool GoldbachWebApp::handleHttpRequest(HttpPackage& httpPackage) {
   // If the home page was asked
   std::smatch matches;
-  std::string URI = httpPackage.getURI();
-
+  std::string URI = httpPackage.httpRequest.getURI();
+  this->reemplazoCaracteres(URI, std::string("%2C"), std::string("+"));
+  std::regex inQuery
+  ("^/goldbach(/|\\?number=)(\\d+|\\-\\d+)(?:\\+(\\d+|\\-\\d+))*$");
+  if (std::regex_search(URI, matches, inQuery)) {
+    assert(matches.length() >= 3);
+    int inicio = matches[1].length() == 1 ? 9 : 16;
+    int fin = matches[0].length() - 1;
+    this->vectorNumeros
+    (inicio, fin, URI, httpPackage.numerosIngresados);
+  } else {
+    httpPackage.solicitudInvalida = true;
+  }
+  this->produce(httpPackage);
+  return EXIT_SUCCESS;
 }
 
 // TODO(you): Fix code redundancy in the following methods
@@ -76,17 +93,17 @@ void GoldbachWebApp::reemplazoCaracteres(std::string& str,
 }
 
 //  crea un vector de números
-void GoldbachWebApp::vectorNumeros(int start
-, int finish, const std::string URI
+void GoldbachWebApp::vectorNumeros(int inicio
+, int fin, const std::string URI
 , std::vector<int64_t>& numbers) {
   bool out_of_limit  = false;
   std::string number = "";
-  for (int i = start + 1; i <= finish && !out_of_limit ; i++) {
-    if (URI[i] != '+' && i != finish) {
+  for (int i = inicio + 1; i <= fin && !out_of_limit ; i++) {
+    if (URI[i] != '+' && i != fin) {
       number += URI[i];
     } else {
       int64_t converted_number;
-      if (i != finish) {
+      if (i != fin) {
         out_of_limit = convertStringToInt(number, converted_number);
         if (!out_of_limit) {
           numbers.push_back(converted_number);

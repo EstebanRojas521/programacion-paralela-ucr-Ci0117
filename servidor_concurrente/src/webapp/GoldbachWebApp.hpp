@@ -44,7 +44,7 @@ class GoldbachWebApp : public HttpApp, public Producer<HttpPackage>{
   /// @return true If this application handled the request, false otherwise
   /// and another chained application should handle it
 
-  bool handleHttpRequest(HttpRequest& HttpPackage);
+  bool handleHttpRequest(HttpPackage& HttpPackage);
   
  protected:
 
@@ -61,7 +61,7 @@ class GoldbachWebApp : public HttpApp, public Producer<HttpPackage>{
   int run() override; 
 
   //  consume las solicitudes de la cola
-  void consume(HttpRequest HttpPackage);
+  void consume(HttpPackage HttpPackage);
 
   //  Envia un paquete vacio para finalizar
   void detenerGoldbach();
