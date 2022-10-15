@@ -16,6 +16,7 @@ class NumberStruct{
     ~NumberStruct();
 
     int64_t get_number();
+    void set_number(int64_t);
 
     NumberArray get_smaller_primes_array();
 

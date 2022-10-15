@@ -5,6 +5,10 @@ int64_t NumberStruct::get_number(){
     return this->number;
 }
 
+void NumberStruct::set_number(int64_t new_number){
+    this->number = new_number;
+}
+
 NumberArray NumberStruct::get_smaller_primes_array() {
     return this->smallerPrimesArray;
 }
