@@ -247,4 +247,20 @@ int64_t GoldbachPthread::process_goldbach_numbers(){
 }
 
 void GoldbachPthread::print_goldbach_numbers(){
+    std::cout << "Total " << this->totalNumbers << " numbers " <<
+    this->totalSums << "\n\n";
+    int64_t size = this->totalNumbers;
+
+    for (int64_t i = 0; i < size; i++) {
+        int64_t number = (int64_t)abs((int)this->numberStructArray[i]->get_number());
+
+        if((number <= 3) | (number == 5)) {
+            std::cout << number << ": NA";
+        } else if (number % 2 == 0) {
+            print64_t_goldbach_even(this->numberStructArray[i]);
+        } else {
+            print64_t_goldbach_uneven(this->numberStructArray[i]);
+        }
+        std::cout << "\n";
+    }
 }
