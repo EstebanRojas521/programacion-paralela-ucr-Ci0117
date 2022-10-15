@@ -38,6 +38,7 @@ class HttpServer: public TcpServer {
   /// TCP port where this web server will listen for connections
 
   const char* port = DEFAULT_PORT;
+  size_t numberOfThreads  = 0;
   /// Chain of registered web applications. Each time an incoming HTTP request
   /// is received, the request is provided to each application of this chain.
   /// If an application detects the request is for it, the application will

@@ -140,20 +140,20 @@ int HttpServer::start(int argc, char* argv[]) {
       //comienza a escuchar en un punto del sistema operativo -> se arma un socket
       this->producingQueue = new Queue<Socket>();
       //creamos 10 connection handler momentaneamente;
-      this->consumers.resize(10);
-      for ( size_t index = 0; index < 10; ++index ) {
+      this->consumers.resize(this->numberOfThreads);
+      for ( size_t index = 0; index < this->numberOfThreads; ++index ) {
         this->consumers[index] = new HttpConnectionHandler(this->applications);
         assert(this->consumers[index]);
         this->consumers[index]->setConsumingQueue(this->producingQueue);
       }
 
-      for ( size_t index = 0; index <10; ++index ) {
+      for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
         this->consumers[index]->startThread();
       }
       this->acceptAllConnections();
       //Aqui terminamos todos los hilos -> creo
 
-      for ( size_t index = 0; index <10; ++index ) {
+      for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
         this->consumers[index]->waitToFinish();
       }
     }
@@ -186,8 +186,13 @@ bool HttpServer::analyzeArguments(int argc, char* argv[]) {
     }
   }
 
-  if (argc >= 2) {
+  if (argc >= 3) {
     this->port = argv[1];
+    this->numberOfThreads = std::strtoull(argv[2], nullptr, 10);
+  }
+  else{
+    //cantidad default de hilos es 10
+    this->numberOfThreads = 10;
   }
 
   return true;

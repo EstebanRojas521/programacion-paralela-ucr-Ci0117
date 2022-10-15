@@ -59,7 +59,7 @@ void HttpConnectionHandler::consume(Socket client){
 
     //This version handles just one client request per connection
     //TODO(you): Remove this break after parallelizing this method
-    break;
+    //break;
   }
 }
 
