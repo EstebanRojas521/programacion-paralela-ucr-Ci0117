@@ -1,4 +1,4 @@
-// Copyright 2022 #Agregar nombres Universidad de Costa Rica. CC BY 4.0
+
 
 #ifndef HTTPPACKAGE_H
 #define HTTPPACKAGE_H

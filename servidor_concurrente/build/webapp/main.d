@@ -5,5 +5,6 @@ build/webapp/main.o: src/webapp/main.cpp src/http/HttpServer.hpp \
  src/prodcons/Consumer.hpp src/prodcons/Queue.hpp \
  src/prodcons/Semaphore.hpp src/prodcons/Thread.hpp \
  src/prodcons/Queue.hpp src/http/HttpServer.hpp src/http/HttpApp.hpp \
- src/webapp/FactWebApp.hpp src/http/HttpApp.hpp \
- src/webapp/GoldbachWebApp.hpp
+ src/http/HttpPackage.hpp src/webapp/FactWebApp.hpp \
+ src/webapp/GoldbachWebApp.hpp src/http/HttpApp.hpp \
+ src/http/HttpPackage.hpp src/webapp/GoldbachResponder.hpp

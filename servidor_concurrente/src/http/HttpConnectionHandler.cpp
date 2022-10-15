@@ -25,10 +25,6 @@ int HttpConnectionHandler::run(){
 
 
 void HttpConnectionHandler::consume(Socket client){
-    (void)client;
-    ////Metodo while del http response va aca
-    HttpServer instance;
-    ++this->numberOfSockets;
    while (true) {
    // break;
     // Create an object that parses the HTTP request from the socket
@@ -45,10 +41,10 @@ void HttpConnectionHandler::consume(Socket client){
     // A complete HTTP client request was received. Create an object for the
     // server responds to that client's request
     HttpResponse httpResponse(client);
-
+     HttpPackage httpPackage(httpRequest, httpResponse);
     // Give subclass a chance to respond the HTTP request
-    const bool handled =handleHttpRequest(httpRequest, httpResponse);
-
+    const bool handled =handleHttpRequest(httpPackage);
+  
     // If subclass did not handle the request or the client used HTTP/1.0
     if (!handled || httpRequest.getHttpVersion() == "HTTP/1.0") {
         std::cout<<"enter"<<std::endl;
@@ -64,50 +60,48 @@ void HttpConnectionHandler::consume(Socket client){
 }
 
 
-bool HttpConnectionHandler::handleHttpRequest(HttpRequest& httpRequest,
-    HttpResponse& httpResponse) {
+bool HttpConnectionHandler::handleHttpRequest(HttpPackage& httpPackage) {
   // Print IP and port from client
-  const NetworkAddress& address = httpRequest.getNetworkAddress();
+  const NetworkAddress& address = httpPackage.httpRequest.getNetworkAddress();
   Log::append(Log::INFO, "connection",
     std::string("connection established with client ") + address.getIP()
     + " port " + std::to_string(address.getPort()));
 
   // Print HTTP request
-  Log::append(Log::INFO, "request", httpRequest.getMethod()
-    + ' ' + httpRequest.getURI()
-    + ' ' + httpRequest.getHttpVersion());
+  Log::append(Log::INFO, "request", httpPackage.httpRequest.getMethod()
+    + ' ' + httpPackage.httpRequest.getURI()
+    + ' ' + httpPackage.httpRequest.getHttpVersion());
 
-  return this->route(httpRequest, httpResponse);
+  return this->route(httpPackage);
 }
 
 
-bool HttpConnectionHandler::route(HttpRequest& httpRequest, HttpResponse& httpResponse) {
+bool HttpConnectionHandler::route(HttpPackage& httpPackage) {
   // Traverse the chain of applications
   for (size_t index = 0; index < this->applications.size(); ++index) {
     // If this application handles the request
     HttpApp* app = this->applications[index];
-    if (app->handleHttpRequest(httpRequest, httpResponse)) {
+    if (app->handleHttpRequest(httpPackage)) {
       return true;
     }
   }
 
   // Unrecognized request
-  return this->serveNotFound(httpRequest, httpResponse);
+  return this->serveNotFound(httpPackage);
 }
 
 
-bool HttpConnectionHandler::serveNotFound(HttpRequest& httpRequest
-  , HttpResponse& httpResponse) {
-  (void)httpRequest;
+bool HttpConnectionHandler::serveNotFound(HttpPackage& httpPackage) {
+  //(void)httpRequest;
 
   // Set HTTP response metadata (headers)
-  httpResponse.setStatusCode(404);
-  httpResponse.setHeader("Server", "AttoServer v1.0");
-  httpResponse.setHeader("Content-type", "text/html; charset=ascii");
+  httpPackage.httpResponse.setStatusCode(404);
+  httpPackage.httpResponse.setHeader("Server", "AttoServer v1.0");
+  httpPackage.httpResponse.setHeader("Content-type", "text/html; charset=ascii");
 
   // Build the body of the response
   std::string title = "Not found";
-  httpResponse.body() << "<!DOCTYPE html>\n"
+  httpPackage.httpResponse.body() << "<!DOCTYPE html>\n"
     << "<html lang=\"en\">\n"
     << "  <meta charset=\"ascii\"/>\n"
     << "  <title>" << title << "</title>\n"
@@ -118,5 +112,5 @@ bool HttpConnectionHandler::serveNotFound(HttpRequest& httpRequest
     << "</html>\n";
 
   // Send the response to the client (user agent)
-  return httpResponse.send();
+  return httpPackage.httpResponse.send();
 }

@@ -12,6 +12,7 @@
 #include "Queue.hpp"
 #include "HttpServer.hpp"
 #include "HttpApp.hpp"
+#include "HttpPackage.hpp"
 
 class HttpApp;
 class HttpServer;
@@ -27,11 +28,10 @@ class HttpConnectionHandler: public Consumer<Socket>{
 
     std::vector<HttpApp*> applications;
     
-    virtual bool handleHttpRequest(HttpRequest& httpRequest,
-    HttpResponse& httpResponse);
+    virtual bool handleHttpRequest(HttpPackage& httpPackage);
 
-    bool route(HttpRequest& httpRequest, HttpResponse& httpResponse);
-      bool serveNotFound(HttpRequest& httpRequest, HttpResponse& httpResponse);
+    bool route(HttpPackage& httpPackage);
+      bool serveNotFound(HttpPackage& httpPackage);
     public:
 
 

@@ -1,53 +1,64 @@
-// // Copyright 2022 CC BY 4.0
 
-// #ifndef GOLDBACHRESPONDER_H
-// #define GOLDBACHRESPONDER_H
+#ifndef GOLDBACHRESPONDER_H
+#define GOLDBACHRESPONDER_H
 
-// #include <string>
-// #include <vector>
+#include <string>
+#include <vector>
 
-// #include "common.hpp"
-// #include "Consumer.hpp"
-// #include "HttpPackage.hpp"
+#include "common.hpp"
+#include "Consumer.hpp"
+#include "HttpPackage.hpp"
 
-//  /**
-//   * @brief Solicitudes enviadas por la persona usuaria
-//   */
+ /**
+  * @brief Creates the response that it's send to the user.
+  */
  
-// class GoldbachResponder: public Consumer<HttpPackage> {
-//   DISABLE_COPY(GoldbachResponder);
+class GoldbachResponder{
+  DISABLE_COPY(GoldbachResponder);
 
-//  public:
-//   /**
-//   * @brief constructor.
-//   */
-//   GoldbachResponder();
+ public:
+  /**
+  * @brief Default constructor.
+  */
+  GoldbachResponder();
+  ~GoldbachResponder();
 
-//   /**
-//   * @brief Consume solicitudes constantemente de la cola.
-//   */
-//   int run() override;
+  /**
+  * @brief Checks if the data entered by the user is valid
+  * @details If the data are valid, it returns the goldbach sums.
+  * @param httpPackage response and request carrier
+  */
+  void validRequest(HttpPackage httpPackage);
 
-//   /**
-//   * @brief consume y verifica si es válido
-//   */
-//   void consume(HttpPackage httpPackage) override;
+  /**
+  * @brief Checks if the data entered by the user is invalid
+  * @details If the data is invalid, returns an error response
+  * @param httpPackage response and request carrier
+  */
+  void invalidRequest(HttpPackage httpPackage);
 
-//   /**
-//   * @brief Verifica si los datos son válidos
-//   * @details Si son validos, procesa los datos
-//   * @param httpPackage solicitudes y respuestas
-//   */
-//   void solicitudValida(HttpPackage httpPackage);
+  /**
+  * @brief Prints the sums of Goldbach for the even numbers
+  * @param results Struct with the results.
+  * @param httpResponse Responde made to a user.
+  */
+  void print_even_number(struct result results
+  , HttpResponse& httpResponse);
 
-//   /**
-//   * @brief Si no es válido, se pasa a este método
-//   * @details Se responde con un msj de error
-//   * @param httpPackage solicitudes y respuestas
-//   */
-//   void solicitudInvalida(HttpPackage httpPackage);
+  /**
+  * @brief Prints the sums of Goldbach for the odd numbers
+  * @param results Struct with the results.
+  * @param httpResponse Responde made to a user.
+  */
+  void print_odd_number(struct result results
+  , HttpResponse& httpResponse);
 
-//   //  Agregar impresión de respuestas de Goldbach
-
-// };
-// #endif
+  /**
+  * @brief Prints all the sums of Goldbach for all the given numbers entered by user
+  * @param results Array of all the results of every number entered by the user.
+  * @param httpResponse Responde made to a user.
+  */
+  void goldbach_print(std::vector<result> results
+  , HttpResponse& httpResponse);
+};
+#endif
