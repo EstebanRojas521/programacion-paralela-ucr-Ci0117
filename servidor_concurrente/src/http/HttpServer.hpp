@@ -78,16 +78,6 @@ class HttpServer: public TcpServer {
   /// @return true on success and the server will continue handling further
   /// HTTP requests, or false if server should stop accepting requests from
   /// this client (e.g: HTTP/1.0)
-  virtual bool handleHttpRequest(HttpRequest& httpRequest,
-    HttpResponse& httpResponse);
-  /// Route, that provide an answer according to the URI value
-  /// For example, home page is handled different than a number
-  bool route(HttpRequest& httpRequest, HttpResponse& httpResponse);
-  /// Sends a page for a non found resouce in this server. This method is called
-  /// if none of the registered web applications handled the request.
-  /// If you want to override this method, create a web app, e.g NotFoundWebApp
-  /// that reacts to all URIs, and chain it as the last web app
-  bool serveNotFound(HttpRequest& httpRequest, HttpResponse& httpResponse);
 };
 
 #endif  // HTTPSERVER_H

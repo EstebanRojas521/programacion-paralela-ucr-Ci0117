@@ -1,60 +1,66 @@
-// #include "GoldbachResponder.hpp"
-// #include "common.hpp"
+//2022 CY
 
-// void GoldbachResponder::consume(HttpPackage httpPackage) {
-//   if (httpPackage.solicitudInvalida) {
-//     this->solicitudInvalida(httpPackage);
-//   } else {
-//     this->solicitudValida(httpPackage);
-//   }
-//   bool handled = httpPackage.httpResponse.send();
-//   if (!handled) {
-//     httpPackage.httpResponse.getSocket().close();
-//   }
-// }
+#include "GoldbachResponder.hpp"
+#include "common.hpp"
 
-// void GoldbachResponder::solicitudInvalida(HttpPackage httpPackage) {
-//   std::string titulo = "Solicitud invalida";
-//   httpPackage.httpResponse.body() << "<!DOCTYPE html>\n"
-//         << "<html lang=\"en\">\n"
-//         << "  <meta charset=\"ascii\"/>\n"
-//         << "  <title>" << titulo << "</title>\n"
-//         << "  <style>body {font-family: monospace} .err {color: red}</style>\n"
-//         << "  <h1 class=\"err\">" << titulo << "</h1>\n"
-//         << "  <p>Invalid request for sums of Goldbach</p>\n"
-//         << "  <hr><p><a href=\"/\">Back</a></p>\n"
-//         << "</html>\n";
-// }
+//GoldbachResponder::GoldbachResponder()
+ // : Consumer(true) {}
 
-// void GoldbachResponder::solicitudValida(HttpPackage httpPackage) {
-//   httpPackage.httpResponse.setHeader
-//   ("Server", "AttoServer v1.0");
-//   httpPackage.httpResponse.setHeader
-//   ("Content-type", "text/html; charset=ascii");
 
-// //  Agrega los números leídos al título
-//   std::string titulo = "Conjetura de Goldbach ";
+GoldbachResponder::GoldbachResponder(){}
 
-//   int tamano = httpPackage.numerosIngresados.size();
-//   for (int i=0; i < tamano; i++) {
-//     titulo += std::to_string(httpPackage.numerosIngresados[i]);
-//     if (i+1 == tamano) {
-//       break;
-//     }
-//     titulo += ',';
-//   }
+GoldbachResponder::~GoldbachResponder(){}
 
-//     httpPackage.httpResponse.body() << "<!DOCTYPE html>\n"
-//   << "  <html lang=\"en\">\n"
-//   << "  <meta charset=\"ascii\"/>\n"
-//   << "  <title>" << titulo << "</title>\n"
-//   << "  <style>body {font-family: monospace} .err {color: red}</style>\n"
-//   << "  <h1>" << titulo << "</h1>\n";
+//int GoldbachResponder::run() {
+  //this->consumeForever();
+  //return EXIT_SUCCESS;
+//}
 
-//   //goldbach_print(httpPackage.results, httpPackage.httpResponse);
 
-//   httpPackage.httpResponse.body()
-//   << "  <hr><p><a href=\"/\">Back</a></p>\n"
-//   << "</html>\n";
-// }
+void GoldbachResponder::validRequest(HttpPackage httpPackage) {
+  httpPackage.httpResponse.setHeader
+  ("Server", "AttoServer v1.0");
+  httpPackage.httpResponse.setHeader
+  ("Content-type", "text/html; charset=ascii");
+
+  std::string title = "Sums of Goldbach of ";
+
+  int numbers_size = httpPackage.numerosIngresados.size();
+  for (int i=0; i < numbers_size; i++) {
+    //std::cout<<httpPackage.numerosIngresados[i]<<std::endl;
+    title += std::to_string(httpPackage.numerosIngresados[i]);
+    if (i+1 == numbers_size) {
+      break;
+    }
+    title += ',';
+  }
+
+  httpPackage.httpResponse.body() << "<!DOCTYPE html>\n"
+  << "  <html lang=\"en\">\n"
+  << "  <meta charset=\"ascii\"/>\n"
+  << "  <title>" << title << "</title>\n"
+  << "  <style>body {font-family: monospace} .err {color: red}</style>\n"
+  << "  <h1>" << title << "</h1>\n";
+
+  //goldbach_print(httpPackage.results, httpPackage.httpResponse);
+
+  httpPackage.httpResponse.body()
+  << "  <hr><p><a href=\"/\">Back</a></p>\n"
+  << "</html>\n";
+}
+
+void GoldbachResponder::invalidRequest(HttpPackage httpPackage) {
+  std::string title = "Invalid Request in Sums of Goldbach";
+  httpPackage.httpResponse.body() << "<!DOCTYPE html>\n"
+        << "<html lang=\"en\">\n"
+        << "  <meta charset=\"ascii\"/>\n"
+        << "  <title>" << title << "</title>\n"
+        << "  <style>body {font-family: monospace} .err {color: red}</style>\n"
+        << "  <h1 class=\"err\">" << title << "</h1>\n"
+        << "  <p>Invalid request for sums of Goldbach</p>\n"
+        << "  <hr><p><a href=\"/\">Back</a></p>\n"
+        << "</html>\n";
+}
+
+
 
