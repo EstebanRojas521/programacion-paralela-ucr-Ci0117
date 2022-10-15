@@ -3,7 +3,9 @@
 #include "NumberArray.hpp"
 #include <iostream>
 #include <cstdlib>
+#include <cstdio>
 #include <stdint.h>
+#include <unistd.h>
 
 GoldbachPthread::GoldbachPthread(){
     this->totalNumbers = 0;
@@ -153,6 +155,34 @@ void GoldbachPthread::process_goldbach_range(PrivateData*){
 }
 
 int64_t GoldbachPthread::read_goldbach_numbers(){
+    int64_t error = EXIT_SUCCESS;
+
+    FILE* input = stdin;
+    long long value = 0ll;
+
+    while (fscanf(input, "%lld", &value) == 1) {
+        if (value < INT64_MAX) {
+            NumberStruct* new_number = new NumberStruct();
+            if (new_number) {
+                new_number->set_number((int64_t)value);
+                this->numberStructArray.push_back(new_number);
+            } else {
+                std::cerr << "Error: No se pudo crear el number_struct\n";
+                error = EXIT_FAILURE;
+            }
+        } else {
+            std::cerr << "Error: Entrada invalida";
+        }
+    }
+
+    int64_t number = this->numberStructArray[0]->get_number();
+    if (number) {
+        this->threadCount = (int64_t)abs(number);
+    } else {
+        this->threadCount = sysconf(_SC_NPROCESSORS_CONF);
+    }
+
+    return error;
 }
 
 int64_t GoldbachPthread::process_goldbach_numbers(){
