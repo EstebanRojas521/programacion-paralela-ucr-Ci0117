@@ -84,24 +84,12 @@ void GoldbachHTML::fillUpVector(struct golbachElement& goldbachStruct){
   number = number;
   std::vector<size_t> results = goldbachStruct.results;
   
-  //aca tengo que llamar a goldbach
-   //aca tengo que llamar a goldbach
   SumGoldbachModel* sumGoldbachModel = new SumGoldbachModel();
   sumGoldbachModel->processGoldbachNumber(goldbachStruct.number, goldbachStruct.results);
   goldbachStruct.sizeOfVector = goldbachStruct.results.size();
 
   delete sumGoldbachModel;
 
-
-  //codigo_ulises(numero, vector);
-  //vector.push_bach();
-
-
-
-
-  //trivialmente es dos
-  
-  //verifcar esto despues 
   if(goldbachStruct.number %2 ==0){
     goldbachStruct.sizeOfVector = goldbachStruct.results.size()/2;
   } else {
