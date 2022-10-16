@@ -5,7 +5,9 @@
 #include <cstdlib>
 #include <cstdio>
 #include <stdint.h>
+#include <thread>
 #include <unistd.h>
+
 
 GoldbachPthread::GoldbachPthread(){
     this->totalNumbers = 0;
@@ -89,43 +91,52 @@ int64_t GoldbachPthread::check_repeated_uneven(
     return repeated;
 }
 
-int64_t GoldbachPthread::process_even_number(NumberStruct* number_struct){
-    int64_t size = number_struct->get_smaller_primes_array().get_total_numbers();
+int64_t GoldbachPthread::process_even_number(NumberStruct* number_struct,
+                                    NumberStruct* biggest_number_struct) {
+    int64_t size = biggest_number_struct->get_smaller_primes_array()
+                                         .get_total_numbers();
     int64_t number = (int64_t)abs((int)number_struct->get_number());
-    NumberArray* sums_array = &number_struct->get_sums_array();
-
+    NumberArray* sums_array = &number_struct->sumsArray;
+    
     for (int64_t i = 0; i < size; i++) {
         for (int64_t j = 0; j < size; j++) {
             int64_t number_i =
-            number_struct->get_smaller_primes_array().get_numbers_array()[i];
+            biggest_number_struct->get_smaller_primes_array()
+                                  .get_numbers_array()[i];
             int64_t number_j =
-            number_struct->get_smaller_primes_array().get_numbers_array()[j];
+            biggest_number_struct->get_smaller_primes_array()
+                                  .get_numbers_array()[j];
 
             if (((number_i + number_j) == number)
              && check_repeated_even(sums_array, number_i, number_j) == false) {
                 number_struct->append_sums_number(number_i);
                 number_struct->append_sums_number(number_j);
-                number_struct->get_sums_array().increment_total_sums();
+                number_struct->sumsArray.totalSums++;
             }
         }
     }
     return EXIT_SUCCESS;
 }
 
-int64_t GoldbachPthread::process_uneven_number(NumberStruct* number_struct){
-    int64_t size = number_struct->get_smaller_primes_array().get_total_numbers();
+int64_t GoldbachPthread::process_uneven_number(NumberStruct* number_struct,
+                                        NumberStruct* biggest_number_struct){
+    int64_t size = biggest_number_struct->get_smaller_primes_array()
+                                         .get_total_numbers();
     int64_t number = (int64_t)abs((int)number_struct->get_number());
-    NumberArray* sums_array = &number_struct->get_sums_array();
+    NumberArray* sums_array = &number_struct->sumsArray;
 
     for (int64_t i = 0; i < size; i++) {
         for (int64_t j = 0; j < size; j++) {
             for (int64_t k = 0; k < size; k++) {
-                int64_t number_i = number_struct->get_smaller_primes_array().
-                                                  get_numbers_array()[i];
-                int64_t number_j = number_struct->get_smaller_primes_array().
-                                                  get_numbers_array()[j];
-                int64_t number_k = number_struct->get_smaller_primes_array().
-                                                  get_numbers_array()[k];
+                int64_t number_i =
+                             biggest_number_struct->get_smaller_primes_array().
+                                                    get_numbers_array()[i];
+                int64_t number_j =
+                             biggest_number_struct->get_smaller_primes_array().
+                                                    get_numbers_array()[j];
+                int64_t number_k =
+                             biggest_number_struct->get_smaller_primes_array().
+                                                    get_numbers_array()[k];
 
                 if (((number_i + number_j + number_k) == number)
                 && (check_repeated_uneven(sums_array, number_i, number_j,
@@ -134,7 +145,7 @@ int64_t GoldbachPthread::process_uneven_number(NumberStruct* number_struct){
                     number_struct->append_sums_number(number_i);
                     number_struct->append_sums_number(number_j);
                     number_struct->append_sums_number(number_k);
-                    number_struct->get_sums_array().increment_total_sums();
+                    number_struct->sumsArray.totalSums++;
                 }
             }
         }
@@ -167,6 +178,13 @@ int64_t GoldbachPthread::calculate_block_mapping(int64_t index,
     return result;
 }
 
+void GoldbachPthread::calculate_total_sums(){
+    int64_t size = this->totalNumbers;
+    for (int64_t i = 0; i < size; i++) {
+        this->totalSums += this->numberStructArray[i]->get_sums_array().get_total_sums();
+    }
+}
+
 void GoldbachPthread::print64_t_goldbach_even(NumberStruct* number_struct) {
     if (number_struct->get_number() > 0) {
         std::cout << number_struct->get_number() << ": "
@@ -176,7 +194,7 @@ void GoldbachPthread::print64_t_goldbach_even(NumberStruct* number_struct) {
         int64_t size = number_struct->get_sums_array().get_total_numbers();
         std::cout << number_struct->get_number() << ": "
                   << number_struct->get_sums_array().get_total_sums()
-                  << " sums";
+                  << " sums: ";
         for (int64_t i = 0; i < size; i+=2) {
             std::cout << number_struct->get_sums_array().get_numbers_array()[i]
             << " + " << number_struct->get_sums_array().get_numbers_array()[i+1];
@@ -196,7 +214,7 @@ void GoldbachPthread::print64_t_goldbach_uneven(NumberStruct* number_struct) {
         int64_t size = number_struct->get_sums_array().get_total_numbers();
         std::cout << number_struct->get_number() << ": "
                   << number_struct->get_sums_array().get_total_sums()
-                  << " sums";
+                  << " sums: ";
         for (int64_t i = 0; i < size; i+=3) {
             std::cout << number_struct->get_sums_array().get_numbers_array()[i]
             << " + " << number_struct->get_sums_array().get_numbers_array()[i+1]
@@ -221,6 +239,7 @@ int64_t GoldbachPthread::read_goldbach_numbers(){
             if (new_number) {
                 new_number->set_number((int64_t)value);
                 this->numberStructArray.push_back(new_number);
+                this->totalNumbers++;
             } else {
                 std::cerr << "Error: No se pudo crear el number_struct\n";
                 error = EXIT_FAILURE;
@@ -230,20 +249,49 @@ int64_t GoldbachPthread::read_goldbach_numbers(){
         }
     }
 
-    int64_t number = this->numberStructArray[0]->get_number();
-    if (number) {
-        this->threadCount = (int64_t)abs(number);
-    } else {
-        this->threadCount = sysconf(_SC_NPROCESSORS_CONF);
-    }
-
     return error;
 }
 
-void GoldbachPthread::process_goldbach_range(PrivateData*){
-}
-
 int64_t GoldbachPthread::process_goldbach_numbers(){
+    int64_t error = EXIT_SUCCESS;
+
+    NumberStruct* biggest_number_struct = this->biggestNumberStruct = 
+                                        find_biggest_number();
+    int64_t biggest_number = (int64_t)abs((int)biggest_number_struct->get_number());
+    int64_t size = this->totalNumbers;
+
+    if (biggest_number > 5) {
+        for (int64_t i = 0; i < size; i++) {
+            int64_t number =
+                (int64_t)abs((int)this->numberStructArray[i]->get_number());
+            if (biggest_number == number) {
+                calculate_smaller_primes(this->numberStructArray[i]);
+            }
+        }
+        for (int64_t i = 0; i < size; i++) {
+            int64_t number = (int64_t)abs((int)this->numberStructArray[i]->get_number());
+            if ((number > 5) | (number == 4)) {
+                if ((number % 2) == 0) {
+                    process_even_number(numberStructArray[i],
+                                        biggestNumberStruct);
+                } else {
+                    process_uneven_number(numberStructArray[i],
+                                        biggestNumberStruct);
+                }
+            }
+        }
+        calculate_total_sums();
+    } else if (biggest_number == 4) {
+        error = calculate_smaller_primes(biggest_number_struct);
+        if (error == EXIT_SUCCESS) {
+            error = process_even_number(biggest_number_struct, biggest_number_struct);
+            if (error == EXIT_SUCCESS) {
+                this->totalSums = 1;
+            }
+        }
+
+    }
+    return error;
 }
 
 void GoldbachPthread::print_goldbach_numbers(){

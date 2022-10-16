@@ -6,11 +6,7 @@
 #include <vector>
 #include <stdint.h>
 
-struct PrivateData{
-    GoldbachPthread* goldbachPthread;
-    int64_t start;
-    int64_t finish;
-};
+
 
 class GoldbachPthread{
 
@@ -31,21 +27,21 @@ class GoldbachPthread{
     int64_t check_repeated_even(NumberArray*, int64_t, int64_t);
     int64_t check_repeated_uneven(NumberArray*, int64_t, int64_t, int64_t);
 
-    int64_t process_even_number(NumberStruct*);
-    int64_t process_uneven_number(NumberStruct*);
+    int64_t process_even_number(NumberStruct*, NumberStruct*);
+    int64_t process_uneven_number(NumberStruct*, NumberStruct*);
 
     void print64_t_goldbach_even(NumberStruct*);
     void print64_t_goldbach_uneven(NumberStruct*);
 
     NumberStruct* find_biggest_number();
     int64_t calculate_block_mapping(int64_t, int64_t, int64_t);
-
-    void process_goldbach_range(PrivateData*);
+    void calculate_total_sums();
 
     int64_t read_goldbach_numbers();
     int64_t process_goldbach_numbers();
     void print_goldbach_numbers();
 
 };
+
 
 #endif
