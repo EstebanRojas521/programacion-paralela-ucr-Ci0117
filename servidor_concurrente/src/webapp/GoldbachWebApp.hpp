@@ -42,30 +42,25 @@ class GoldbachWebApp : public HttpApp{
   ~GoldbachWebApp();
 
   /**
-  * @brief Called by the web server when the web server is started.
+  * @brief Se llama cuando el servidor se inicia
   */
   void start() override;
 
-  /**
-  * @brief Called when the web server stops, in order to allow the web
-  * application clean itself and finish as well
+ /**
+  * @brief Se llama cuando el servidor es detenido, para que
+  * detenga, cada una de las aplicaciones en usp
   */
   void stop() override;
 
-  /**
-  * @brief Handles the request made by an user.
-  * @param httpPackage Contains the request and response made by an user
-  */
-
+ //  empaquetado de respuestas y solicitudes
   bool handleHttpRequest(HttpPackage& httpPackage) override;
 
 protected:
 
   /**
-   * @brief Takes a package from the queue.
-   * @param httpPackage Contains the request and response made by an user
-   */
-  
+ * @brief Consume las solicitudes disponibles en la cola
+ * @param httpPackage contiene las solicitudes y respuestas
+ */
   void consume(HttpPackage httpPackage) ;
 
 
@@ -87,24 +82,25 @@ protected:
   , int finish, const std::string URI
   , std::vector<int64_t>& numbers);
 
-  /**
-   * @brief This method converts a string to int64_t if it is a number.
-   * @details This method validates if a string of numbers has
-   * the right size to be converted to int64_t.
-   * @param number The number in string form to convert.
-   * @param converted_number The converted number if it can be converted.
-   * @return true or false if it succeeds in conversion
-  */
+  /** 
+   * @brief  Vector que recibe los números en int
+   * @details Asume que se leyó los datos de entrada, y por cada números
+   * procesado se guarda en el vector, ocurre hasta que no haya
+   * más números por procesar
+   * @param URI entrada de datos, que se deben convertir
+   * @param numbers números almacenados, para procesar posteriormete
+   * @param start inicio de la hilera
+   * @param finish fin de la hilera
+   */
   bool convertStringToInt(std::string& number
   , int64_t& converted_number);
 
   /**
-   * @brief Replaces characters with other characters
-   * The method replaces all occurrences of a string,
-   * with another one that is more functional
-   * @param str The row to be replaced with
-   * @param from The subrow to replace
-   * @param to The subrow to be replaced by
+   * @brief reemplaza los caracteres por unos más funcionales
+   * es decir, cambia la , (%2C) por un +, para facilitar la manipulación
+   * @param str lugar que se debe de reemplazar
+   * @param from Caracter a reemplazar
+   * @param to Caracter de reemplazo
   */
   void replaceCharacters(std::string& str,
   const std::string& from, const std::string& to);

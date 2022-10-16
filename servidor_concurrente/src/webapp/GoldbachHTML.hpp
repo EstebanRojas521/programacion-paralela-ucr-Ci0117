@@ -21,6 +21,12 @@ class GoldbachHTML{
   //algunos de estos metodos pueden ser protegidos
   public:
 
+ /**
+  * @brief elementos utilizados por Goldbach
+  * @param number numeros recibidos por Goldbach
+  * @param sizeOfVector tamaño del vector
+  * @param results recibe los resultados de Goldbach
+  */
   struct golbachElement{
     int number;
     size_t sizeOfVector;
@@ -34,44 +40,62 @@ class GoldbachHTML{
   ~GoldbachHTML();
 
   /**
-  * @brief Checks if the data entered by the user is valid
-  * @details If the data are valid, it returns the goldbach sums.
-  * @param httpPackage response and request carrier
+  * @brief Verifica si los datos dados por el usuario son válidos
+  * @details Si la información es válida, se procesa, es decir,
+  * se recibe, se pasa al vector y se ejecuta Goldbach
+  * @param httpPackage paquete de solicitudes y respuestas
   */
   void validRequest(HttpPackage httpPackage);
 
 
   std::vector<golbachElement> golbachElements;
 
-  void fillUpVector(struct golbachElement& goldbachStruct);
-  void cleanUpVector(struct golbachElement& goldbachStruct);
   /**
-  * @brief Checks if the data entered by the user is invalid
-  * @details If the data is invalid, returns an error response
-  * @param httpPackage response and request carrier
+  * @brief llena el vector con los resultados de las
+  * sumas de Goldbach
+  * @param goldbachStruct struct de Goldbach
+  */
+  void fillUpVector(struct golbachElement& goldbachStruct);
+
+  /**
+  * @brief Limpia el arreglo con los resultados de Goldbach
+  * @details envia un "paquete" con elementos en 0
+  * @param goldbachStruct struct de Goldbach
+  */
+  void cleanUpVector(struct golbachElement& goldbachStruct);
+
+  /**
+  * @brief Si los datos no son válidos, se ingresa a este método
+  * @details se retorna un mensaje de error cuando los datos dados
+  * son inválidos
+  * @param httpPackage paquete de solicitudes y respuestas
   */
   void invalidRequest(HttpPackage httpPackage);
 
   /**
-  * @brief Prints the sums of Goldbach for the even numbers
-  * @param goldbachStruct Struct with the results.
-  * @param httpResponse Responde made to a user.
+  * @brief Imprimime los resultados de la suma de Goldbach cuando
+  * los datos son válidos. Imprime resultados para números pares
+  * @param goldbachStruct contiene los resultados
+  * @param httpResponse envia la respuesta al usuario.
   */
   void print_even(struct golbachElement goldbachStruct
   , HttpResponse& httpResponse);
 
   /**
-  * @brief Prints the sums of Goldbach for the odd numbers
-  * @param goldbachStruct Struct with the results.
-  * @param httpResponse Responde made to a user.
+  * @brief Imprimime los resultados de la suma de Goldbach cuando
+  * los datos son válidos. Imprime resultados para números impares
+  * @param goldbachStruct ontiene los resultados
+  * @param httpResponse envia la respuesta al usuario.
   */
   void print_odd(struct golbachElement goldbachStruct
   , HttpResponse& httpResponse);
 
   /**
-  * @brief Prints all the sums of Goldbach for all the given numbers entered by user
-  * @param goldbachStruct Array of all the results of every number entered by the user.
-  * @param httpResponse Responde made to a user.
+  * @brief Llamado general a imprimir los resultados
+  * se divide acorde a la conjetura, débil o fuerte
+  * @param goldbachStruct Arreglo con todos los resultados obtenidos
+  * de los números ingresados.
+  * @param httpResponse muestra los resultados al usuario
   */
   void goldbach_print(std::vector<golbachElement> golbachElements
   , HttpResponse& httpResponse);
