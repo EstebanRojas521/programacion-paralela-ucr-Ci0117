@@ -3,6 +3,7 @@
 #include <cassert>
 #include <stdexcept>
 #include <string>
+#include <csignal>
 
 #include "HttpApp.hpp"
 #include "HttpServer.hpp"
@@ -12,6 +13,7 @@
 #include "NetworkAddress.hpp"
 #include "Socket.hpp"
 #include "Queue.hpp"
+
 
 // TODO(you): Implement connection handlers argument
 const char* const usage =
@@ -26,8 +28,13 @@ HttpServer::HttpServer() {
 }
 
 
-//destructor
-HttpServer::~HttpServer() {
+//destructor = defaulted
+//HttpServer::~HttpServer() {}
+
+
+HttpServer& HttpServer::getInstance(){
+  static HttpServer server;
+  return server;
 }
 
 void HttpServer::listenForever(const char* port) {
@@ -35,68 +42,8 @@ void HttpServer::listenForever(const char* port) {
   return TcpServer::listenForever(port);
 }
 
-//acepta las solicitudes a todos
-//solicitudes van atraves del http request
-//este codigo es que hay que paralelizar
-//TODO(you) va todo lo importante
-//descargar extension to do
-//servidor web = corre en hilo principal
-//Persona que entra = va en cola = sockets
-//cada socket =  representa una coneccion = representa una persona 
-//conection handler = consumen los sockets = pero solo una vez
-//crear arreglo de conection handlers
-//conection handler, solo toman ordenes y mandan todas las solicitudes a una cola
-//Procesa las solicitudes, hace golbach, y luego las despacha
-//Clase conection handler no existe 
-//Servidor web debe ser concurrente
-//Romper la serialidad del codigo dado
-//Route hay que cambiarlo porque actualmente lo hace el "guarda"
-//Los codigos que desplegamos en la pagina van en HTTP(encabezado, cuerpo)
-//
 void HttpServer::handleClientConnection(Socket& client) {
-  // TODO(you): Make this method concurrent. Store client connections (sockets)
-  // into a collection (e.g thread-safe queue) and stop
-  //Socket& newSocket = client;
-  //client = client
   this->producingQueue->push(client);
-  //std::cout<<"enter"<<std::endl;
-  //client.close();
-  // TODO(you) Move the following loop to a consumer thread class
-  // While the same client asks for HTTP requests in the same connection
-  // Consumer run sobrecargar -> el procesa el client
-  //while (true) {
-  //  // break;
-  //   // Create an object that parses the HTTP request from the socket
-  //   HttpRequest httpRequest(client);
-
-  //   // If the request is not valid or an error happened
-  //   if (!httpRequest.parse()) {
-  //     // Non-valid requests are normal after a previous valid request. Do not
-  //     // close the connection yet, because the valid request may take time to
-  //     // be processed. Just stop waiting for more requests
-  //     break;
-  //   }
-
-  //   // A complete HTTP client request was received. Create an object for the
-  //   // server responds to that client's request
-  //   HttpResponse httpResponse(client);
-
-  //   // Give subclass a chance to respond the HTTP request
-  //   const bool handled = this->handleHttpRequest(httpRequest, httpResponse);
-
-  //   // If subclass did not handle the request or the client used HTTP/1.0
-  //   if (!handled || httpRequest.getHttpVersion() == "HTTP/1.0") {
-  //       std::cout<<"enter"<<std::endl;
-  //     // The socket will not be more used, close the connection
-  //     client.close();
-  //     break;
-  //   }
-
-    // This version handles just one client request per connection
-    // TODO(you): Remove this break after parallelizing this method
-    //break;
-  //}
-  //std::cout<<"Number of clients: "<< this->producingQueue->returnQueQueCounter()<<std::endl;
 }
 
 void HttpServer::chainWebApp(HttpApp* application) {
@@ -105,10 +52,22 @@ void HttpServer::chainWebApp(HttpApp* application) {
 }
 
 
+void signal_handler(int signal_num)
+{
+   // std::cout << "The interrupt signal is (" << signal_num
+    //     << "). \n";
+
+    HttpServer::getInstance().stop();
+    // It terminates the  program
+    //exit(signal_num);
+}
+
 
 int HttpServer::start(int argc, char* argv[]) {
   bool stopApps = false;
+  signal(SIGINT, signal_handler);  
   try {
+    //signal(SIGINT, signal_handler);  
     if (this->analyzeArguments(argc, argv)) {
       // Start the log service
       //Es una bitacora que guardae eventos y los guarde en discos
@@ -159,6 +118,11 @@ int HttpServer::start(int argc, char* argv[]) {
     }
     //catch donde verifica si no pudo conectarsea  un puerto
   } catch (const std::runtime_error& error) {
+   // this->stop();
+   //se encicla porque los hilos no terminan (no se como hacerlos terminar)
+    //for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
+     // this->consumers[index]->waitToFinish();
+   //}
     std::cerr << "error: " << error.what() << std::endl;
   }
 
@@ -199,6 +163,11 @@ bool HttpServer::analyzeArguments(int argc, char* argv[]) {
 }
 
 void HttpServer::stop() {
+  std::cout<<"SERVER STOPED"<<std::endl;
   // Stop listening for incoming client connection requests
   this->stopListening();
 }
+
+
+
+

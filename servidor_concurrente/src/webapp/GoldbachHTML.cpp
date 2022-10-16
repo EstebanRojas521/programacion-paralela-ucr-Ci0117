@@ -5,9 +5,6 @@ GoldbachHTML::GoldbachHTML(){}
 
 GoldbachHTML::~GoldbachHTML(){}
 
-
-
-
 void GoldbachHTML::validRequest(HttpPackage httpPackage) {
   httpPackage.httpResponse.setHeader
   ("Server", "AttoServer v1.0");
@@ -93,11 +90,6 @@ void GoldbachHTML::fillUpVector(struct golbachElement& goldbachStruct){
 
   //trivialmente es dos
   
-
-  //agregar logica de las sumas -> ver tarea
-  //esta bien lo de los pares
-
-
   //verifcar esto despues 
   if(goldbachStruct.number %2 ==0){
     goldbachStruct.sizeOfVector = goldbachStruct.results.size()/2;

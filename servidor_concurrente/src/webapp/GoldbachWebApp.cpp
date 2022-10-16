@@ -9,7 +9,6 @@
 #include <vector>
 
 #include "GoldbachHTML.hpp"
-//#include "SumGoldbachModel.hpp"
 #include "HttpPackage.hpp"
 #include "HttpRequest.hpp"
 #include "HttpResponse.hpp"

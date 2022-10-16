@@ -2,7 +2,7 @@
 
 #ifndef HTTPSERVER_H
 #define HTTPSERVER_H
-
+#include <csignal>
 #include <vector>
 
 #include "TcpServer.hpp"
@@ -27,6 +27,9 @@ class HttpServer: public TcpServer {
   DISABLE_COPY(HttpServer);
 
   private:
+  HttpServer();
+  /// Destructor
+  ~HttpServer() = default;
   Queue<Socket>* producingQueue;
   std::vector<HttpConnectionHandler*>consumers;
   int indexConnectionHandlers;
@@ -49,14 +52,18 @@ class HttpServer: public TcpServer {
   std::vector<HttpApp*> applications;
 
  public:
+
+  static HttpServer& getInstance();
   /// Constructor
-  HttpServer();
+  //HttpServer();
   /// Destructor
-  ~HttpServer();
+  //~HttpServer();
   /// Registers a web application to the chain
   void chainWebApp(HttpApp* application);
   /// Start the web server for listening client connections and HTTP requests
   int start(int argc, char* argv[]);
+
+  //static void signalHandler();
   /// Stop the web server. The server may stop not immediately. It will stop
   /// for listening further connection requests at once, but pending HTTP
   /// requests that are enqueued will be allowed to finish
