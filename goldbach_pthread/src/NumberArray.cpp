@@ -1,12 +1,23 @@
 #include "NumberArray.hpp"
 #include <stdint.h>
 
+NumberArray::NumberArray() {
+    this->totalNumbers = 0;
+    this->totalSums = 0;
+}
+
+NumberArray::~NumberArray(){ }
+
 int64_t NumberArray::get_total_numbers() {
     return this->totalNumbers;
 }
 
 int64_t NumberArray::get_total_sums() {
     return this->totalSums;
+}
+
+void NumberArray::set_total_sums(int64_t total_sums) {
+    this->totalSums = total_sums;
 }
 
 std::vector<int64_t> NumberArray::get_numbers_array() {
