@@ -1,4 +1,5 @@
 #include "GoldbachHTML.hpp"
+#include "SumGoldbachModel.hpp"
 #include "common.hpp"
 
 GoldbachHTML::GoldbachHTML(){}
@@ -84,10 +85,12 @@ void GoldbachHTML::fillUpVector(struct golbachElement& goldbachStruct){
   std::vector<size_t> results = goldbachStruct.results;
   
   //aca tengo que llamar a goldbach
-  goldbachStruct.results.push_back(10);
-  goldbachStruct.results.push_back(11);
-  goldbachStruct.results.push_back(12);
+   //aca tengo que llamar a goldbach
+  SumGoldbachModel* sumGoldbachModel = new SumGoldbachModel();
+  sumGoldbachModel->processGoldbachNumber(goldbachStruct.number, goldbachStruct.results);
+  goldbachStruct.sizeOfVector = goldbachStruct.results.size();
 
+  delete sumGoldbachModel;
 
 
   //codigo_ulises(numero, vector);
