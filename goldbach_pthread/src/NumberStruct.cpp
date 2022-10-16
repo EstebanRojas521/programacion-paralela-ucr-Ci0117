@@ -1,6 +1,12 @@
 #include "NumberStruct.hpp"
 #include <stdint.h>
 
+NumberStruct::NumberStruct(){
+    this->number = 0;
+}
+
+NumberStruct::~NumberStruct(){}
+
 int64_t NumberStruct::get_number(){
     return this->number;
 }
@@ -23,7 +29,4 @@ void NumberStruct::append_prime_number(int64_t number) {
 
 void NumberStruct::append_sums_number(int64_t number) {
     this->sumsArray.append_number(number);
-}
-
-void NumberStruct::copy_number_array(NumberStruct*){
 }

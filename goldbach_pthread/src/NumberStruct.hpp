@@ -7,11 +7,12 @@
 
 class NumberStruct{
 
+    public:
+
     int64_t number;
     NumberArray smallerPrimesArray;
     NumberArray sumsArray;
 
-    public:
     NumberStruct();
     ~NumberStruct();
 
@@ -26,7 +27,6 @@ class NumberStruct{
 
     void append_sums_number(int64_t number);
 
-    void copy_number_array(NumberStruct*);
 };
 
 #endif
