@@ -8,7 +8,7 @@
 
 # Descripción del problema
 
-Este programa pretende realizar el cálculo de las sumas de la conjetura de Goldbach, a partir de la modificación de un servidor, para que este se transforme de uno serial a uno concurrente.
+Este programa pretende realizar el cálculo de las sumas de la conjetura de Goldbach, a partir de la modificación de un servidor, para que este se transforme de uno serial a uno concurrente y pueda recibir varias solicitudes y procesarlas.
 
 # Manual de uso
 
