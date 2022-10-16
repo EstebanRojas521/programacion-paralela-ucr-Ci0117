@@ -2,7 +2,7 @@
 
 #ifndef HTTPSERVER_H
 #define HTTPSERVER_H
-
+#include <csignal>
 #include <vector>
 
 #include "TcpServer.hpp"
@@ -27,6 +27,9 @@ class HttpServer: public TcpServer {
   DISABLE_COPY(HttpServer);
 
   private:
+  HttpServer();
+  /// Destructor
+  ~HttpServer() = default;
   Queue<Socket>* producingQueue;
   std::vector<HttpConnectionHandler*>consumers;
   int indexConnectionHandlers;
@@ -38,6 +41,7 @@ class HttpServer: public TcpServer {
   /// TCP port where this web server will listen for connections
 
   const char* port = DEFAULT_PORT;
+  size_t numberOfThreads  = 0;//hello
   /// Chain of registered web applications. Each time an incoming HTTP request
   /// is received, the request is provided to each application of this chain.
   /// If an application detects the request is for it, the application will
@@ -48,14 +52,18 @@ class HttpServer: public TcpServer {
   std::vector<HttpApp*> applications;
 
  public:
+
+  static HttpServer& getInstance();
   /// Constructor
-  HttpServer();
+  //HttpServer();
   /// Destructor
-  ~HttpServer();
+  //~HttpServer();
   /// Registers a web application to the chain
   void chainWebApp(HttpApp* application);
   /// Start the web server for listening client connections and HTTP requests
   int start(int argc, char* argv[]);
+
+  //static void signalHandler();
   /// Stop the web server. The server may stop not immediately. It will stop
   /// for listening further connection requests at once, but pending HTTP
   /// requests that are enqueued will be allowed to finish
@@ -77,16 +85,6 @@ class HttpServer: public TcpServer {
   /// @return true on success and the server will continue handling further
   /// HTTP requests, or false if server should stop accepting requests from
   /// this client (e.g: HTTP/1.0)
-  virtual bool handleHttpRequest(HttpRequest& httpRequest,
-    HttpResponse& httpResponse);
-  /// Route, that provide an answer according to the URI value
-  /// For example, home page is handled different than a number
-  bool route(HttpRequest& httpRequest, HttpResponse& httpResponse);
-  /// Sends a page for a non found resouce in this server. This method is called
-  /// if none of the registered web applications handled the request.
-  /// If you want to override this method, create a web app, e.g NotFoundWebApp
-  /// that reacts to all URIs, and chain it as the last web app
-  bool serveNotFound(HttpRequest& httpRequest, HttpResponse& httpResponse);
 };
 
 #endif  // HTTPSERVER_H

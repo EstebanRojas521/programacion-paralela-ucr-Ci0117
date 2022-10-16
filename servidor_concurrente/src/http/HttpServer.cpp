@@ -3,6 +3,7 @@
 #include <cassert>
 #include <stdexcept>
 #include <string>
+#include <csignal>
 
 #include "HttpApp.hpp"
 #include "HttpServer.hpp"
@@ -12,6 +13,7 @@
 #include "NetworkAddress.hpp"
 #include "Socket.hpp"
 #include "Queue.hpp"
+
 
 // TODO(you): Implement connection handlers argument
 const char* const usage =
@@ -26,8 +28,13 @@ HttpServer::HttpServer() {
 }
 
 
-//destructor
-HttpServer::~HttpServer() {
+//destructor = defaulted
+//HttpServer::~HttpServer() {}
+
+
+HttpServer& HttpServer::getInstance(){
+  static HttpServer server;
+  return server;
 }
 
 void HttpServer::listenForever(const char* port) {
@@ -35,68 +42,8 @@ void HttpServer::listenForever(const char* port) {
   return TcpServer::listenForever(port);
 }
 
-//acepta las solicitudes a todos
-//solicitudes van atraves del http request
-//este codigo es que hay que paralelizar
-//TODO(you) va todo lo importante
-//descargar extension to do
-//servidor web = corre en hilo principal
-//Persona que entra = va en cola = sockets
-//cada socket =  representa una coneccion = representa una persona 
-//conection handler = consumen los sockets = pero solo una vez
-//crear arreglo de conection handlers
-//conection handler, solo toman ordenes y mandan todas las solicitudes a una cola
-//Procesa las solicitudes, hace golbach, y luego las despacha
-//Clase conection handler no existe 
-//Servidor web debe ser concurrente
-//Romper la serialidad del codigo dado
-//Route hay que cambiarlo porque actualmente lo hace el "guarda"
-//Los codigos que desplegamos en la pagina van en HTTP(encabezado, cuerpo)
-//
 void HttpServer::handleClientConnection(Socket& client) {
-  // TODO(you): Make this method concurrent. Store client connections (sockets)
-  // into a collection (e.g thread-safe queue) and stop
-  //Socket& newSocket = client;
-  //client = client
   this->producingQueue->push(client);
-  //std::cout<<"enter"<<std::endl;
-  //client.close();
-  // TODO(you) Move the following loop to a consumer thread class
-  // While the same client asks for HTTP requests in the same connection
-  // Consumer run sobrecargar -> el procesa el client
-  //while (true) {
-  //  // break;
-  //   // Create an object that parses the HTTP request from the socket
-  //   HttpRequest httpRequest(client);
-
-  //   // If the request is not valid or an error happened
-  //   if (!httpRequest.parse()) {
-  //     // Non-valid requests are normal after a previous valid request. Do not
-  //     // close the connection yet, because the valid request may take time to
-  //     // be processed. Just stop waiting for more requests
-  //     break;
-  //   }
-
-  //   // A complete HTTP client request was received. Create an object for the
-  //   // server responds to that client's request
-  //   HttpResponse httpResponse(client);
-
-  //   // Give subclass a chance to respond the HTTP request
-  //   const bool handled = this->handleHttpRequest(httpRequest, httpResponse);
-
-  //   // If subclass did not handle the request or the client used HTTP/1.0
-  //   if (!handled || httpRequest.getHttpVersion() == "HTTP/1.0") {
-  //       std::cout<<"enter"<<std::endl;
-  //     // The socket will not be more used, close the connection
-  //     client.close();
-  //     break;
-  //   }
-
-    // This version handles just one client request per connection
-    // TODO(you): Remove this break after parallelizing this method
-    //break;
-  //}
-  //std::cout<<"Number of clients: "<< this->producingQueue->returnQueQueCounter()<<std::endl;
 }
 
 void HttpServer::chainWebApp(HttpApp* application) {
@@ -105,10 +52,22 @@ void HttpServer::chainWebApp(HttpApp* application) {
 }
 
 
+void signal_handler(int signal_num)
+{
+   // std::cout << "The interrupt signal is (" << signal_num
+    //     << "). \n";
+
+    HttpServer::getInstance().stop();
+    // It terminates the  program
+    //exit(signal_num);
+}
+
 
 int HttpServer::start(int argc, char* argv[]) {
   bool stopApps = false;
+  signal(SIGINT, signal_handler);  
   try {
+    //signal(SIGINT, signal_handler);  
     if (this->analyzeArguments(argc, argv)) {
       // Start the log service
       //Es una bitacora que guardae eventos y los guarde en discos
@@ -140,25 +99,30 @@ int HttpServer::start(int argc, char* argv[]) {
       //comienza a escuchar en un punto del sistema operativo -> se arma un socket
       this->producingQueue = new Queue<Socket>();
       //creamos 10 connection handler momentaneamente;
-      this->consumers.resize(10);
-      for ( size_t index = 0; index < 10; ++index ) {
+      this->consumers.resize(this->numberOfThreads);
+      for ( size_t index = 0; index < this->numberOfThreads; ++index ) {
         this->consumers[index] = new HttpConnectionHandler(this->applications);
         assert(this->consumers[index]);
         this->consumers[index]->setConsumingQueue(this->producingQueue);
       }
 
-      for ( size_t index = 0; index <10; ++index ) {
+      for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
         this->consumers[index]->startThread();
       }
       this->acceptAllConnections();
       //Aqui terminamos todos los hilos -> creo
 
-      for ( size_t index = 0; index <10; ++index ) {
+      for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
         this->consumers[index]->waitToFinish();
       }
     }
     //catch donde verifica si no pudo conectarsea  un puerto
   } catch (const std::runtime_error& error) {
+   // this->stop();
+   //se encicla porque los hilos no terminan (no se como hacerlos terminar)
+    for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
+     //Thread::~thread(this->consumers[index]);
+   }
     std::cerr << "error: " << error.what() << std::endl;
   }
 
@@ -186,69 +150,24 @@ bool HttpServer::analyzeArguments(int argc, char* argv[]) {
     }
   }
 
-  if (argc >= 2) {
+  if (argc >= 3) {
     this->port = argv[1];
+    this->numberOfThreads = std::strtoull(argv[2], nullptr, 10);
+  }
+  else{
+    //cantidad default de hilos es 10
+    this->numberOfThreads = 10;
   }
 
   return true;
 }
 
 void HttpServer::stop() {
+  std::cout<<"SERVER STOPED"<<std::endl;
   // Stop listening for incoming client connection requests
   this->stopListening();
 }
 
-bool HttpServer::handleHttpRequest(HttpRequest& httpRequest,
-    HttpResponse& httpResponse) {
-  // Print IP and port from client
-  const NetworkAddress& address = httpRequest.getNetworkAddress();
-  Log::append(Log::INFO, "connection",
-    std::string("connection established with client ") + address.getIP()
-    + " port " + std::to_string(address.getPort()));
 
-  // Print HTTP request
-  Log::append(Log::INFO, "request", httpRequest.getMethod()
-    + ' ' + httpRequest.getURI()
-    + ' ' + httpRequest.getHttpVersion());
 
-  return this->route(httpRequest, httpResponse);
-}
 
-bool HttpServer::route(HttpRequest& httpRequest, HttpResponse& httpResponse) {
-  // Traverse the chain of applications
-  for (size_t index = 0; index < this->applications.size(); ++index) {
-    // If this application handles the request
-    HttpApp* app = this->applications[index];
-    if (app->handleHttpRequest(httpRequest, httpResponse)) {
-      return true;
-    }
-  }
-
-  // Unrecognized request
-  return this->serveNotFound(httpRequest, httpResponse);
-}
-
-bool HttpServer::serveNotFound(HttpRequest& httpRequest
-  , HttpResponse& httpResponse) {
-  (void)httpRequest;
-
-  // Set HTTP response metadata (headers)
-  httpResponse.setStatusCode(404);
-  httpResponse.setHeader("Server", "AttoServer v1.0");
-  httpResponse.setHeader("Content-type", "text/html; charset=ascii");
-
-  // Build the body of the response
-  std::string title = "Not found";
-  httpResponse.body() << "<!DOCTYPE html>\n"
-    << "<html lang=\"en\">\n"
-    << "  <meta charset=\"ascii\"/>\n"
-    << "  <title>" << title << "</title>\n"
-    << "  <style>body {font-family: monospace} h1 {color: red}</style>\n"
-    << "  <h1>" << title << "</h1>\n"
-    << "  <p>The requested resouce was not found on this server.</p>\n"
-    << "  <hr><p><a href=\"/\">Homepage</a></p>\n"
-    << "</html>\n";
-
-  // Send the response to the client (user agent)
-  return httpResponse.send();
-}
