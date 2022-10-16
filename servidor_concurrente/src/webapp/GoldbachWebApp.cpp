@@ -75,7 +75,7 @@ bool GoldbachWebApp::serveHomePage(HttpPackage httpPackage) {
   httpPackage.httpResponse.setHeader("Content-type", "text/html; charset=ascii");
 
   // Build the body of the response
-  std::string title = "Prime factorization";
+  std::string title = "Conjetura Goldbach";
   httpPackage.httpResponse.body() << "<!DOCTYPE html>\n"
     << "<html lang=\"en\">\n"
     << "  <meta charset=\"ascii\"/>\n"
@@ -83,9 +83,9 @@ bool GoldbachWebApp::serveHomePage(HttpPackage httpPackage) {
     << "  <style>body {font-family: monospace}</style>\n"
     << "  <h1>" << title << "</h1>\n"
     << "  <form method=\"get\" action=\"/goldbach\">\n"
-    << "    <label for=\"number\">Number</label>\n"
+    << "    <label for=\"number\">Numbers</label>\n"
     << "    <input type=\"text\" name=\"number\" required/>\n"
-    << "    <button type=\"submit\">Factorize</button>\n"
+    << "    <button type=\"submit\">Calcular</button>\n"
     << "  </form>\n"
     << "</html>\n";
 

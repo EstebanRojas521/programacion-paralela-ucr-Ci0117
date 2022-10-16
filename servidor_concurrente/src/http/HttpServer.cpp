@@ -120,9 +120,9 @@ int HttpServer::start(int argc, char* argv[]) {
   } catch (const std::runtime_error& error) {
    // this->stop();
    //se encicla porque los hilos no terminan (no se como hacerlos terminar)
-    //for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
-     // this->consumers[index]->waitToFinish();
-   //}
+    for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
+     //Thread::~thread(this->consumers[index]);
+   }
     std::cerr << "error: " << error.what() << std::endl;
   }
 

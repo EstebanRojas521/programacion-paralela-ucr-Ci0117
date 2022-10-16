@@ -88,6 +88,14 @@ void GoldbachHTML::fillUpVector(struct golbachElement& goldbachStruct){
   goldbachStruct.results.push_back(11);
   goldbachStruct.results.push_back(12);
 
+
+
+  //codigo_ulises(numero, vector);
+  //vector.push_bach();
+
+
+
+
   //trivialmente es dos
   
   //verifcar esto despues 
