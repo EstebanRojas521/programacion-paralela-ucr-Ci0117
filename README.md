@@ -2,9 +2,9 @@
 
 ## Integrantes:
 
-- Esteban Rojas Carranza C06816
-- Ulises Fonseca Hurtado C03046
 - Yasmyn Chacón Hernández B41761
+- Ulises Fonseca Hurtado C03046
+- Esteban Rojas Carranza C06816
 
 # Descripción del problema
 
