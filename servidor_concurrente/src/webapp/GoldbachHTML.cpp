@@ -39,13 +39,13 @@ void GoldbachHTML::validRequest(HttpPackage httpPackage) {
   //aca va donde llenamos el vector de golbach
   for(int i = 0;i<numbers_size;i++){
     this->golbachElements[i].number = httpPackage.numerosIngresados[i];
-    fillUpVector(this->golbachElements[i]);
+    this->fillUpVector(this->golbachElements[i]);
   }
 
-  goldbach_print(this->golbachElements, httpPackage.httpResponse);
+  this->goldbach_print(this->golbachElements, httpPackage.httpResponse);
 
   for(int i = 0;i<numbers_size;i++){
-    cleanUpVector(this->golbachElements[i]);
+    this->cleanUpVector(this->golbachElements[i]);
   }
 
   httpPackage.httpResponse.body()
@@ -98,11 +98,11 @@ void GoldbachHTML::fillUpVector(struct golbachElement& goldbachStruct){
 }
 
 
-  void GoldbachHTML::cleanUpVector(struct golbachElement& goldbachStruct){
-    goldbachStruct.number = 0;
-    goldbachStruct.results.clear();
-    goldbachStruct.sizeOfVector = 0;
-  }
+void GoldbachHTML::cleanUpVector(struct golbachElement& goldbachStruct){
+  goldbachStruct.number = 0;
+  goldbachStruct.results.clear();
+  goldbachStruct.sizeOfVector = 0;
+}
 
 
 void GoldbachHTML::print_even(struct golbachElement goldbachStruct ,HttpResponse& httpResponse) {

@@ -29,7 +29,8 @@ void SumGoldbachModel::calculate_smaller_primes(NumberStruct* numberStruct){
 int64_t SumGoldbachModel::check_repeated_even(std::vector<size_t>& sumsVector,
                                                     int64_t num1, int64_t num2){
     int64_t repeated = false;
-    for (int64_t i = 0; i < sumsVector.size(); i+=2) {
+    int64_t size = sumsVector.size();
+    for (int64_t i = 0; i < size; i+=2) {
         if (sumsVector[i] == (size_t)num2 &&
             sumsVector[i+1] == (size_t)num1) {
             repeated = true;
@@ -58,7 +59,8 @@ void SumGoldbachModel::processEvenSums(NumberStruct* numberStruct, std::vector<s
 int64_t SumGoldbachModel::check_repeated_uneven(
     std::vector<size_t>& sumsVector, int64_t num1, int64_t num2, int64_t num3){
     int64_t repeated = false;
-    for (int64_t i = 0; i < sumsVector.size(); i+=3) {
+    int64_t size = sumsVector.size();
+    for (int64_t i = 0; i < size; i+=3) {
         int64_t number_i = sumsVector[i];
         int64_t number_i_plus = sumsVector[i+1];
         int64_t number_i_plus_plus = sumsVector[i+2];

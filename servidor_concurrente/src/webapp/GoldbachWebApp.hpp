@@ -52,7 +52,7 @@ class GoldbachWebApp : public HttpApp{
   */
   void stop() override;
 
- //  empaquetado de respuestas y solicitudes
+  ///  Empaquetado de respuestas y solicitudes
   bool handleHttpRequest(HttpPackage& httpPackage) override;
 
 protected:

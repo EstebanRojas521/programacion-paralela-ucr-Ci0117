@@ -12,11 +12,9 @@
  /**
   * @brief Creates the response that it's send to the user.
   */
- 
+
 class GoldbachHTML{
   DISABLE_COPY(GoldbachHTML);
-
-
 
   //algunos de estos metodos pueden ser protegidos
   public:

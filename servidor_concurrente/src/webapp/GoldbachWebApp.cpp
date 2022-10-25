@@ -50,10 +50,10 @@ bool GoldbachWebApp::handleHttpRequest(HttpPackage& httpPackage) {
     int finish = matches[0].length() - 1;
     this->createVectorOfNumbers
     (start, finish, URI, httpPackage.numerosIngresados);
-    goldbachHTML.validRequest(httpPackage);
+    this->goldbachHTML.validRequest(httpPackage);
   } else {
     httpPackage.solicitudInvalida= true;
-    goldbachHTML.invalidRequest(httpPackage);
+    this->goldbachHTML.invalidRequest(httpPackage);
   }
   return EXIT_SUCCESS;
 }

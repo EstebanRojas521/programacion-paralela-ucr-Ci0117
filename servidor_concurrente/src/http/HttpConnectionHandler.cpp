@@ -18,8 +18,8 @@ int HttpConnectionHandler::run(){
 
     this->consumeForever();
 
-    Log::append(Log::INFO, "Consumer", std::to_string(this->numberOfSockets)
-    + " Sockets consumed");
+    // Log::append(Log::INFO, "Consumer", std::to_string(this->numberOfSockets)
+    // + " Sockets consumed");
     return EXIT_SUCCESS;
 }
 
@@ -41,9 +41,9 @@ void HttpConnectionHandler::consume(Socket client){
     // A complete HTTP client request was received. Create an object for the
     // server responds to that client's request
     HttpResponse httpResponse(client);
-     HttpPackage httpPackage(httpRequest, httpResponse);
+    HttpPackage httpPackage(httpRequest, httpResponse);
     // Give subclass a chance to respond the HTTP request
-    const bool handled =handleHttpRequest(httpPackage);
+    const bool handled = this->handleHttpRequest(httpPackage);
   
     // If subclass did not handle the request or the client used HTTP/1.0
     if (!handled || httpRequest.getHttpVersion() == "HTTP/1.0") {
@@ -78,6 +78,7 @@ bool HttpConnectionHandler::handleHttpRequest(HttpPackage& httpPackage) {
 
 bool HttpConnectionHandler::route(HttpPackage& httpPackage) {
   // Traverse the chain of applications
+  //bool entered = true;
   for (size_t index = 0; index < this->applications.size(); ++index) {
     // If this application handles the request
     HttpApp* app = this->applications[index];
@@ -88,6 +89,7 @@ bool HttpConnectionHandler::route(HttpPackage& httpPackage) {
 
   // Unrecognized request
   return this->serveNotFound(httpPackage);
+ //return true;
 }
 
 
@@ -96,7 +98,7 @@ bool HttpConnectionHandler::serveNotFound(HttpPackage& httpPackage) {
 
   // Set HTTP response metadata (headers)
   httpPackage.httpResponse.setStatusCode(404);
-  httpPackage.httpResponse.setHeader("Server", "AttoServer v1.0");
+  httpPackage.httpResponse.setHeader("Server", "AttoServer v1.1");
   httpPackage.httpResponse.setHeader("Content-type", "text/html; charset=ascii");
 
   // Build the body of the response
@@ -111,6 +113,7 @@ bool HttpConnectionHandler::serveNotFound(HttpPackage& httpPackage) {
     << "  <hr><p><a href=\"/\">Homepage</a></p>\n"
     << "</html>\n";
 
+  //httpPackage.httpResponse.body() << "<!DOCTYPE html>\n"
   // Send the response to the client (user agent)
   return httpPackage.httpResponse.send();
 }

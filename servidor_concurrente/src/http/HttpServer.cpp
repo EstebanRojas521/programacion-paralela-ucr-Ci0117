@@ -54,12 +54,13 @@ void HttpServer::chainWebApp(HttpApp* application) {
 
 void signal_handler(int signal_num)
 {
-   // std::cout << "The interrupt signal is (" << signal_num
-    //     << "). \n";
+  signal_num = signal_num;
+  // std::cout << "The interrupt signal is (" << signal_num
+  //     << "). \n";
 
-    HttpServer::getInstance().stop();
-    // It terminates the  program
-    //exit(signal_num);
+  HttpServer::getInstance().stop();
+  // It terminates the  program
+  //exit(signal_num);
 }
 
 
@@ -111,18 +112,21 @@ int HttpServer::start(int argc, char* argv[]) {
       }
       this->acceptAllConnections();
       //Aqui terminamos todos los hilos -> creo
-
-      for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
-        this->consumers[index]->waitToFinish();
-      }
     }
     //catch donde verifica si no pudo conectarsea  un puerto
   } catch (const std::runtime_error& error) {
-   // this->stop();
-   //se encicla porque los hilos no terminan (no se como hacerlos terminar)
+    // this->stop();
+    //se encicla porque los hilos no terminan (no se como hacerlos terminar)
     for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
-     //Thread::~thread(this->consumers[index]);
-   }
+      //Thread::~thread(this->consumers[index]);
+      this->producingQueue->push(Socket());
+    }
+    for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
+      this->consumers[index]->waitToFinish();
+    }
+    for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
+      delete this->consumers[index];
+    }
     std::cerr << "error: " << error.what() << std::endl;
   }
 

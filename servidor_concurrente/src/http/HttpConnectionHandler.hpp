@@ -19,30 +19,28 @@ class HttpServer;
 
 
 class HttpConnectionHandler: public Consumer<Socket>{
-    DISABLE_COPY(HttpConnectionHandler);
+  DISABLE_COPY(HttpConnectionHandler);
 
+  protected:
 
-    protected:
+  size_t numberOfSockets = 0;
 
-    size_t numberOfSockets = 0;
+  std::vector<HttpApp*> applications;
+  
+  virtual bool handleHttpRequest(HttpPackage& httpPackage);
 
-    std::vector<HttpApp*> applications;
-    
-    virtual bool handleHttpRequest(HttpPackage& httpPackage);
+  bool route(HttpPackage& httpPackage);
+  bool serveNotFound(HttpPackage& httpPackage);
 
-    bool route(HttpPackage& httpPackage);
-      bool serveNotFound(HttpPackage& httpPackage);
-    public:
+  public:
+  // HttpConnectionHandler();
+  //~HttpConnectionHandler();
 
+  explicit HttpConnectionHandler(std::vector<HttpApp*> applications);
 
-   // HttpConnectionHandler();
-    //~HttpConnectionHandler();
+  int run()override;
 
-    explicit HttpConnectionHandler(std::vector<HttpApp*> applications);
-
-    int run()override;
-
-    void consume(Socket client) override;
+  void consume(Socket client) override;
 
 };
 
