@@ -7,10 +7,10 @@
 
 #include <mutex>
 #include <queue>
+#include <iostream>
 
 #include "common.hpp"
 #include "Semaphore.hpp"
-#include <iostream>
 /**
  * @brief A thread-safe generic queue for consumer-producer pattern.
  *
@@ -52,7 +52,7 @@ class Queue {
     this->canConsume.signal();
   }
 
-  int returnQueQueCounter(){
+  int returnQueQueCounter() {
     return this->counter;
   }
 

@@ -1,14 +1,17 @@
+// Copyright 2022  Yasmyn Chacón Hernández,Ulises Fonseca Hurtado
+// y Esteban Rojas Carranza - Universidad de Costa Rica.
+
+
 #include "SumGoldbachModel.hpp"
 #include <cstdlib>
 
-SumGoldbachModel::SumGoldbachModel() { }
+SumGoldbachModel::SumGoldbachModel() {}
 
-SumGoldbachModel::~SumGoldbachModel() { }
+SumGoldbachModel::~SumGoldbachModel() {}
 
-int64_t SumGoldbachModel::is_prime(int64_t number){
+int64_t SumGoldbachModel::is_prime(int64_t number) {
     int64_t is_prime = EXIT_SUCCESS;
-
-    for (int64_t i = 2; i < number; i++){
+    for (int64_t i = 2; i < number; i++) {
         if ((number % i) == 0) {
             is_prime = EXIT_FAILURE;
         }
@@ -16,7 +19,7 @@ int64_t SumGoldbachModel::is_prime(int64_t number){
     return is_prime;
 }
 
-void SumGoldbachModel::calculate_smaller_primes(NumberStruct* numberStruct){
+void SumGoldbachModel::calculate_smaller_primes(NumberStruct* numberStruct) {
     int64_t struct_number = (int64_t)abs((int)numberStruct->number);
     for (int64_t i = 2; i < struct_number; i++) {
         if (is_prime(i) == 0) {
@@ -27,7 +30,7 @@ void SumGoldbachModel::calculate_smaller_primes(NumberStruct* numberStruct){
 }
 
 int64_t SumGoldbachModel::check_repeated_even(std::vector<size_t>& sumsVector,
-                                                    int64_t num1, int64_t num2){
+int64_t num1, int64_t num2) {
     int64_t repeated = false;
     int64_t size = sumsVector.size();
     for (int64_t i = 0; i < size; i+=2) {
@@ -39,7 +42,8 @@ int64_t SumGoldbachModel::check_repeated_even(std::vector<size_t>& sumsVector,
     return repeated;
 }
 
-void SumGoldbachModel::processEvenSums(NumberStruct* numberStruct, std::vector<size_t>& sumsVector){
+void SumGoldbachModel::processEvenSums(NumberStruct* numberStruct,
+std::vector<size_t>& sumsVector) {
     int64_t size = numberStruct->totalPrimes;
     int64_t number = numberStruct->number;
     for (int64_t i = 0; i < size; i++) {
@@ -56,8 +60,8 @@ void SumGoldbachModel::processEvenSums(NumberStruct* numberStruct, std::vector<s
     }
 }
 
-int64_t SumGoldbachModel::check_repeated_uneven(
-    std::vector<size_t>& sumsVector, int64_t num1, int64_t num2, int64_t num3){
+int64_t SumGoldbachModel::check_repeated_uneven(std::vector<size_t>&
+sumsVector, int64_t num1, int64_t num2, int64_t num3) {
     int64_t repeated = false;
     int64_t size = sumsVector.size();
     for (int64_t i = 0; i < size; i+=3) {
@@ -65,16 +69,16 @@ int64_t SumGoldbachModel::check_repeated_uneven(
         int64_t number_i_plus = sumsVector[i+1];
         int64_t number_i_plus_plus = sumsVector[i+2];
 
-        if ((number_i == num1 && number_i_plus == num3 && number_i_plus_plus
-                                                                == num2)
-        || (number_i == num2 && number_i_plus == num3 && number_i_plus_plus
-                                                                == num1)
-        || (number_i == num2 && number_i_plus == num1 && number_i_plus_plus
-                                                                == num3)
-        || (number_i == num3 && number_i_plus == num1 && number_i_plus_plus
-                                                                == num2)
-        || (number_i == num3 && number_i_plus == num2 && number_i_plus_plus
-                                                                == num1)) {
+        if ((number_i == num1 && number_i_plus == num3
+        && number_i_plus_plus == num2)
+        || (number_i == num2 && number_i_plus == num3
+        && number_i_plus_plus == num1)
+        || (number_i == num2 && number_i_plus == num1
+        && number_i_plus_plus == num3)
+        || (number_i == num3 && number_i_plus == num1
+        && number_i_plus_plus == num2)
+        || (number_i == num3 && number_i_plus ==
+        num2 && number_i_plus_plus == num1)) {
             repeated = true;
         }
     }
@@ -82,7 +86,8 @@ int64_t SumGoldbachModel::check_repeated_uneven(
 }
 
 
-void SumGoldbachModel::processUnevenSums(NumberStruct* numberStruct, std::vector<size_t>& sumsVector){
+void SumGoldbachModel::processUnevenSums(NumberStruct*
+numberStruct, std::vector<size_t>& sumsVector) {
     int64_t size = numberStruct->totalPrimes;
     int64_t number = numberStruct->number;
     for (int64_t i = 0; i < size; i++) {
@@ -100,14 +105,15 @@ void SumGoldbachModel::processUnevenSums(NumberStruct* numberStruct, std::vector
                     sumsVector.push_back(number_j);
                     sumsVector.push_back(number_k);
                 }
-            }  
+            }
         }
     }
 }
 
-void SumGoldbachModel::processGoldbachNumber(size_t number, std::vector<size_t>& sumsVector) {
+void SumGoldbachModel::processGoldbachNumber(size_t number,
+std::vector<size_t>& sumsVector) {
     int64_t absNumber = (int64_t)abs((int)number);
-    if(absNumber > 5) {
+    if (absNumber > 5) {
         NumberStruct* numberStruct = new NumberStruct();
         numberStruct->number = absNumber;
         calculate_smaller_primes(numberStruct);

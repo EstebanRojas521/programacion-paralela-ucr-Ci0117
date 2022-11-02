@@ -4,23 +4,19 @@
 #ifdef WEBSERVER
 
 #include "HttpServer.hpp"
-#include "FactWebApp.hpp"
 #include "GoldbachWebApp.hpp"
 
-//crea servidor web = abstracto = codigo reutilizable = agnostico de lo que le voy a pedir
-
-//aplicacion web = depende del contexto 
-
-//servidores tienen start, restart, stop , config, test, test_config 
-
-//HTTP -> depende de NETWORK
-
+// crea servidor web = abstracto = codigo reutilizable =
+// agnostico de lo que le voy a pedir
+// aplicacion web = depende del contexto
+// servidores tienen start, restart, stop , config, test, test_config
+// HTTP -> depende de NETWORK
 /// Start the web server
 int main(int argc, char* argv[]) {
   // Create the web server
-  //HttpServer httpServer;
+  // HttpServer httpServer;
   // Create a factorization web application, and other apps if you want
-  //FactWebApp factWebApp;
+  // FactWebApp factWebApp;
   GoldbachWebApp goldbachWebApp;
   // Register the web application(s) with the web server
   HttpServer::getInstance().chainWebApp(&goldbachWebApp);

@@ -3,10 +3,9 @@
 #include "HttpApp.hpp"
 
 void HttpApp::start() {
-  // Default base class implementation does nothing
+  //  Default base class implementation does nothing
 }
 
 void HttpApp::stop() {
   // Default base class implementation does nothing
 }
- 

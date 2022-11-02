@@ -1,3 +1,6 @@
+// Copyright 2022  Yasmyn Chacón Hernández,Ulises Fonseca Hurtado
+// y Esteban Rojas Carranza - Universidad de Costa Rica.
+
 
 #ifndef GOLDBACHHTML_H
 #define GOLDBACHHTML_H
@@ -15,10 +18,8 @@
 
 class GoldbachHTML{
   DISABLE_COPY(GoldbachHTML);
-
-  //algunos de estos metodos pueden ser protegidos
-  public:
-
+  // algunos de estos metodos pueden ser protegidos
+ public:
  /**
   * @brief elementos utilizados por Goldbach
   * @param number numeros recibidos por Goldbach
@@ -28,7 +29,7 @@ class GoldbachHTML{
   struct golbachElement{
     int number;
     size_t sizeOfVector;
-    //el tipo de dato puede cambiar(no se como funciona golbach) 
+    // el tipo de dato puede cambiar(no se como funciona golbach)
     std::vector<size_t> results;
   };
   /**
@@ -50,7 +51,8 @@ class GoldbachHTML{
 
   /**
   * @brief llena el vector con los resultados de las
-  * sumas de Goldbach
+  * sumas // Copyright 2022  Yasmyn Chacón Hernández,Ulises Fonseca Hurtado
+// y Esteban Rojas Carranza - Universidad de Costa Rica.de Goldbach
   * @param goldbachStruct struct de Goldbach
   */
   void fillUpVector(struct golbachElement& goldbachStruct);

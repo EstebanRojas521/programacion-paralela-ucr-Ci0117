@@ -26,7 +26,6 @@ void GoldbachWebApp::start() {
 
 void GoldbachWebApp::stop() {
   // TODO(you): Stop producers, consumers, assemblers...
-
 }
 
 
@@ -35,7 +34,8 @@ void GoldbachWebApp::consume(HttpPackage httpPackage) {
 }
 
 bool GoldbachWebApp::handleHttpRequest(HttpPackage& httpPackage) {
-  if (httpPackage.httpRequest.getMethod() == "GET" && httpPackage.httpRequest.getURI() == "/") {
+  if (httpPackage.httpRequest.getMethod() == "GET" &&
+  httpPackage.httpRequest.getURI() == "/") {
     return this->serveHomePage(httpPackage);
   }
   std::smatch matches;
@@ -52,7 +52,7 @@ bool GoldbachWebApp::handleHttpRequest(HttpPackage& httpPackage) {
     (start, finish, URI, httpPackage.numerosIngresados);
     this->goldbachHTML.validRequest(httpPackage);
   } else {
-    httpPackage.solicitudInvalida= true;
+    httpPackage.solicitudInvalida = true;
     this->goldbachHTML.invalidRequest(httpPackage);
   }
   return EXIT_SUCCESS;
@@ -68,12 +68,10 @@ void GoldbachWebApp::replaceCharacters(std::string& str,
 }
 
 bool GoldbachWebApp::serveHomePage(HttpPackage httpPackage) {
-  //(void)httpRequest;
-
   // Set HTTP response metadata (headers)
   httpPackage.httpResponse.setHeader("Server", "AttoServer v1.1");
-  httpPackage.httpResponse.setHeader("Content-type", "text/html; charset=ascii");
-
+  httpPackage.httpResponse.setHeader("Content-type",
+   "text/html; charset=ascii");
   // Build the body of the response
   std::string title = "Conjetura Goldbach";
   httpPackage.httpResponse.body() << "<!DOCTYPE html>\n"
@@ -99,7 +97,7 @@ void GoldbachWebApp::createVectorOfNumbers(int start
   bool out_of_limit  = false;
   std::string number = "";
   for (int i = start + 1; i <= finish && !out_of_limit ; i++) {
-    //std::cout<< start << std::endl;
+    // std::cout<< start << std::endl;
     if (URI[i] != '+' && i != finish) {
       number += URI[i];
     } else {

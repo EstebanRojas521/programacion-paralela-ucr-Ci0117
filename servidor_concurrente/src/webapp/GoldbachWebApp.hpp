@@ -9,7 +9,7 @@
 
 #include "HttpApp.hpp"
 #include "HttpPackage.hpp"
-//#include "SumGoldbachModel.hpp"
+// #include "SumGoldbachModel.hpp"
 #include "GoldbachHTML.hpp"
 #include "common.hpp"
 
@@ -21,7 +21,6 @@ class GoldbachWebApp : public HttpApp{
   DISABLE_COPY(GoldbachWebApp);
 
  protected:
-  
   GoldbachHTML goldbachHTML;
 
   /**
@@ -55,13 +54,12 @@ class GoldbachWebApp : public HttpApp{
   ///  Empaquetado de respuestas y solicitudes
   bool handleHttpRequest(HttpPackage& httpPackage) override;
 
-protected:
-
+ protected:
   /**
  * @brief Consume las solicitudes disponibles en la cola
  * @param httpPackage contiene las solicitudes y respuestas
  */
-  void consume(HttpPackage httpPackage) ;
+  void consume(HttpPackage httpPackage);
 
 
   bool serveHomePage(HttpPackage httpPackage);
