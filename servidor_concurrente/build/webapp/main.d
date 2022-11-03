@@ -7,4 +7,4 @@ build/webapp/main.o: src/webapp/main.cpp src/http/HttpServer.hpp \
  src/prodcons/Queue.hpp src/http/HttpServer.hpp src/http/HttpApp.hpp \
  src/http/HttpPackage.hpp src/webapp/GoldbachWebApp.hpp \
  src/http/HttpApp.hpp src/http/HttpPackage.hpp \
- src/webapp/GoldbachHTML.hpp
+ src/webapp/SumGoldbachModel.hpp src/webapp/GoldbachHTML.hpp

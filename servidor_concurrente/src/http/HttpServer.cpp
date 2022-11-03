@@ -107,28 +107,34 @@ int HttpServer::start(int argc, char* argv[]) {
         assert(this->consumers[index]);
         this->consumers[index]->setConsumingQueue(this->producingQueue);
       }
-
       for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
         this->consumers[index]->startThread();
       }
       this->acceptAllConnections();
+
+      // Nunca va a llegar a este punto
       // Aqui terminamos todos los hilos -> creo
     }
     // catch donde verifica si no pudo conectarsea  un puerto
   } catch (const std::runtime_error& error) {
     // this->stop();
     // se encicla porque los hilos no terminan (no se como hacerlos terminar)
+    // no reconoce la condicion de parada
+    Socket client;
+    //std::cerr << "got here"<< std::endl;
     for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
-      // Thread::~thread(this->consumers[index]);
+      //Thread::~thread(this->consumers[index]);
+      //this->consumers[index]->setStop();
       this->producingQueue->push(Socket());
     }
+    std::cerr << "got here"<< std::endl;
     for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
       this->consumers[index]->waitToFinish();
     }
     for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
-      delete this->consumers[index];
+      //delete this->consumers[index];
     }
-    std::cerr << "error: " << error.what() << std::endl;
+    //std::cerr << "error: " << error.what() << std::endl;
   }
 
   // If applications were started

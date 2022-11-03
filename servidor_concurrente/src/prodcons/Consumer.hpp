@@ -27,6 +27,7 @@ class Consumer : public virtual Thread {
   /// This data will be used to represent that the Consumer must stop the
   /// consumption, and finish its work. It is used for cleaning purposes.
   const DataType stopCondition;
+  //bool stopCondition;
   /// True if this consumer owns the queue and it must be deleted in destructor
   bool ownsQueue;
 
@@ -35,6 +36,7 @@ class Consumer : public virtual Thread {
   /// @see stopCondition
   explicit Consumer(Queue<DataType>* consumingQueue = nullptr
     , const DataType& stopCondition = DataType()
+    //,bool stopCondition = false
     , bool createOwnQueue = false)
     : consumingQueue(consumingQueue)
     , stopCondition(stopCondition)
@@ -63,6 +65,7 @@ class Consumer : public virtual Thread {
     this->consumingQueue = consumingQueue;
   }
 
+ 
   /// Creates a new empty queue owned by this consumer
   void createOwnQueue() {
     assert(this->consumingQueue == nullptr);
@@ -78,7 +81,7 @@ class Consumer : public virtual Thread {
       // Get the next data to consume, or block while queue is empty
       const DataType& data = this->consumingQueue->pop();
       // If data is the stop condition, stop the loop
-      if ( data == this->stopCondition ) {
+      if ( data == DataType() ) {
         break;
       }
       // Process this data

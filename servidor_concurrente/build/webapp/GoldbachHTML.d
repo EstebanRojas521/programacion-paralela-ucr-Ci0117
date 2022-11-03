@@ -4,4 +4,5 @@ build/webapp/GoldbachHTML.o: src/webapp/GoldbachHTML.cpp \
  src/prodcons/Semaphore.hpp src/prodcons/Thread.hpp \
  src/http/HttpPackage.hpp src/http/HttpRequest.hpp \
  src/http/HttpMessage.hpp src/network/Socket.hpp \
- src/http/HttpResponse.hpp src/webapp/SumGoldbachModel.hpp
+ src/http/HttpResponse.hpp src/webapp/SumGoldbachModel.hpp \
+ src/http/HttpApp.hpp src/http/HttpPackage.hpp

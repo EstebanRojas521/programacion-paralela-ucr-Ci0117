@@ -9,7 +9,7 @@
 
 #include "HttpApp.hpp"
 #include "HttpPackage.hpp"
-// #include "SumGoldbachModel.hpp"
+#include "SumGoldbachModel.hpp"
 #include "GoldbachHTML.hpp"
 #include "common.hpp"
 

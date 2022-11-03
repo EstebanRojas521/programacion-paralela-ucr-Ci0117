@@ -6,4 +6,5 @@ build/webapp/GoldbachWebApp.o: src/webapp/GoldbachWebApp.cpp \
  src/http/HttpMessage.hpp src/network/Socket.hpp \
  src/http/HttpResponse.hpp src/http/HttpRequest.hpp \
  src/http/HttpResponse.hpp src/webapp/GoldbachWebApp.hpp \
- src/http/HttpApp.hpp src/http/HttpPackage.hpp
+ src/http/HttpApp.hpp src/http/HttpPackage.hpp \
+ src/webapp/SumGoldbachModel.hpp
