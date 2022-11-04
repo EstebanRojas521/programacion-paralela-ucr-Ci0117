@@ -15,18 +15,17 @@
 
 class HttpApp;
 class HttpConnectionHandler;
-//Notas - tema15
-//los puertos se puede ver como direcciones de telefono, donde buscamos contactarlo con alguien
-//(en este caso el servidor)
-//delega control a las aplicaciones
-
-/// TODO: Documentation
-//TCP server =  servidor seguro 
-
+// Notas - tema15
+// los puertos se puede ver como direcciones de telefono,
+// donde buscamos contactarlo con alguien
+// (en este caso el servidor)
+// delega control a las aplicaciones
+// TODO(cualquiera): Documentation
+// TCP server =  servidor seguro
 class HttpServer: public TcpServer {
   DISABLE_COPY(HttpServer);
 
-  private:
+ private:
   HttpServer();
   /// Destructor
   ~HttpServer() = default;
@@ -34,36 +33,35 @@ class HttpServer: public TcpServer {
   std::vector<HttpConnectionHandler*>consumers;
   int indexConnectionHandlers;
 
-  //cual es la diferencia entre protected y private
-  protected:
+  // cual es la diferencia entre protected y private
+ protected:
   /// Lookup criteria for searching network information about this host
   struct addrinfo hints;
   /// TCP port where this web server will listen for connections
 
   const char* port = DEFAULT_PORT;
-  size_t numberOfThreads  = 0;//hello
+  size_t numberOfThreads  = 0;
   /// Chain of registered web applications. Each time an incoming HTTP request
   /// is received, the request is provided to each application of this chain.
   /// If an application detects the request is for it, the application will
   /// call the httpResponse.send() and the chain stops. If no web app serves
   /// the request, the not found page will be served.
 
-  //vector de punteros a las aplicaciones
+  // vector de punteros a las aplicaciones
   std::vector<HttpApp*> applications;
 
  public:
-
   static HttpServer& getInstance();
   /// Constructor
-  //HttpServer();
+  // HttpServer();
   /// Destructor
-  //~HttpServer();
+  // ~HttpServer();
   /// Registers a web application to the chain
   void chainWebApp(HttpApp* application);
   /// Start the web server for listening client connections and HTTP requests
   int start(int argc, char* argv[]);
 
-  //static void signalHandler();
+  // static void signalHandler();
   /// Stop the web server. The server may stop not immediately. It will stop
   /// for listening further connection requests at once, but pending HTTP
   /// requests that are enqueued will be allowed to finish
@@ -73,7 +71,7 @@ class HttpServer: public TcpServer {
   /// will be called. Inherited classes must override that method
   void listenForever(const char* port);
 
- //protected:
+  // protected:
   /// Analyze the command line arguments
   /// @return true if program can continue execution, false otherwise
   bool analyzeArguments(int argc, char* argv[]);

@@ -23,22 +23,22 @@ const char* const usage =
     DEFAULT_PORT "\n"
   "  handlers     Number of connection handler theads\n";
 
-//constructor
+// constructor
 HttpServer::HttpServer() {
 }
 
 
-//destructor = defaulted
-//HttpServer::~HttpServer() {}
+// destructor = defaulted
+// HttpServer::~HttpServer() {}
 
 
-HttpServer& HttpServer::getInstance(){
+HttpServer& HttpServer::getInstance() {
   static HttpServer server;
   return server;
 }
 
 void HttpServer::listenForever(const char* port) {
-  //metodo de la clase TCPServer
+  // metodo de la clase TCPServer
   return TcpServer::listenForever(port);
 }
 
@@ -52,26 +52,26 @@ void HttpServer::chainWebApp(HttpApp* application) {
 }
 
 
-void signal_handler(int signal_num)
-{
-   // std::cout << "The interrupt signal is (" << signal_num
-    //     << "). \n";
+void signal_handler(int signal_num) {
+  signal_num = signal_num;
+  // std::cout << "The interrupt signal is (" << signal_num
+  // << "). \n";
 
-    HttpServer::getInstance().stop();
-    // It terminates the  program
-    //exit(signal_num);
+  HttpServer::getInstance().stop();
+  // It terminates the  program
+  // exit(signal_num);
 }
 
 
 int HttpServer::start(int argc, char* argv[]) {
   bool stopApps = false;
-  signal(SIGINT, signal_handler);  
+  signal(SIGINT, signal_handler);
   try {
-    //signal(SIGINT, signal_handler);  
+    // signal(SIGINT, signal_handler);
     if (this->analyzeArguments(argc, argv)) {
       // Start the log service
-      //Es una bitacora que guardae eventos y los guarde en discos
-      //Buena practica instaurar logs(bitacoras)
+      // Es una bitacora que guardae eventos y los guarde en discos
+      // Buena practica instaurar logs(bitacoras)
       Log::getInstance().start();
 
       // Start all web applications
@@ -81,49 +81,60 @@ int HttpServer::start(int argc, char* argv[]) {
       stopApps = true;
 
       // Start waiting for connections
-      //Comienza a recibir solicitudes
-      //Metodo de TCP server
+      // Comienza a recibir solicitudes
+      // Metodo de TCP server
       this->listenForConnections(this->port);
       const NetworkAddress& address = this->getNetworkAddress();
       Log::append(Log::INFO, "webserver", "Listening on " + address.getIP()
         + " port " + std::to_string(address.getPort()));
 
       // Accept all client connections
-      //Acepta todas las conciciones que le mandan 
-      //Solo acepta uno a la vez =  pero deberia de ser concurrente =  debe delegar tareas
-      //servidor se encarga de la ventanilla, 
-      //aplicaciones de los procesos -> golbach
-      //HTTP = lenguje utilizado para comunicarse 
-      //metodo heredado de TCPserver
-      //codigo de red = no preocuparse
-      //comienza a escuchar en un punto del sistema operativo -> se arma un socket
+      // Acepta todas las conciciones que le mandan
+      // Solo acepta uno a la vez =  pero deberia de ser concurrente =
+      // debe delegar tareas
+      // servidor se encarga de la ventanilla,
+      // aplicaciones de los procesos -> golbach
+      // HTTP = lenguje utilizado para comunicarse
+      // metodo heredado de TCPserver
+      // codigo de red = no preocuparse
+      // comienza a escuchar en un punto del sistema operativo
+      // -> se arma un socket
       this->producingQueue = new Queue<Socket>();
-      //creamos 10 connection handler momentaneamente;
+      // creamos 10 connection handler momentaneamente;
       this->consumers.resize(this->numberOfThreads);
       for ( size_t index = 0; index < this->numberOfThreads; ++index ) {
         this->consumers[index] = new HttpConnectionHandler(this->applications);
         assert(this->consumers[index]);
         this->consumers[index]->setConsumingQueue(this->producingQueue);
       }
-
       for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
         this->consumers[index]->startThread();
       }
       this->acceptAllConnections();
-      //Aqui terminamos todos los hilos -> creo
 
-      for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
-        this->consumers[index]->waitToFinish();
-      }
+      // Nunca va a llegar a este punto
+      // Aqui terminamos todos los hilos -> creo
     }
-    //catch donde verifica si no pudo conectarsea  un puerto
+    // catch donde verifica si no pudo conectarsea  un puerto
   } catch (const std::runtime_error& error) {
-   // this->stop();
-   //se encicla porque los hilos no terminan (no se como hacerlos terminar)
+    // this->stop();
+    // se encicla porque los hilos no terminan (no se como hacerlos terminar)
+    // no reconoce la condicion de parada
+    Socket client;
+    //std::cerr << "got here"<< std::endl;
     for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
-     //Thread::~thread(this->consumers[index]);
-   }
-    std::cerr << "error: " << error.what() << std::endl;
+      //Thread::~thread(this->consumers[index]);
+      //this->consumers[index]->setStop();
+      this->producingQueue->push(Socket());
+    }
+    std::cerr << "got here"<< std::endl;
+    for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
+      this->consumers[index]->waitToFinish();
+    }
+    for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
+      //delete this->consumers[index];
+    }
+    //std::cerr << "error: " << error.what() << std::endl;
   }
 
   // If applications were started
@@ -153,21 +164,15 @@ bool HttpServer::analyzeArguments(int argc, char* argv[]) {
   if (argc >= 3) {
     this->port = argv[1];
     this->numberOfThreads = std::strtoull(argv[2], nullptr, 10);
-  }
-  else{
-    //cantidad default de hilos es 10
+  } else {
+    // cantidad default de hilos es 10
     this->numberOfThreads = 10;
   }
-
   return true;
 }
 
 void HttpServer::stop() {
-  std::cout<<"SERVER STOPED"<<std::endl;
+  std::cout << "SERVER STOPED" << std::endl;
   // Stop listening for incoming client connection requests
   this->stopListening();
 }
-
-
-
-

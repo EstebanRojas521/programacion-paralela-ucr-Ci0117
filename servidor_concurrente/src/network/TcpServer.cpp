@@ -104,25 +104,25 @@ void TcpServer::openConnectionRequestSocket(const char* port) {
   }
 
   throw std::runtime_error(std::string("no available addresses for port ")
-      + port);
+  + port);
 }
 
 void TcpServer::acceptAllConnections() {
   while (true) {
-
     this->acceptConnectionRequest();
   }
 }
 
-//El sistema operativo nos indica cada vez que alguien nos quiere pedir algo
-//El acepta la coneccion , pero no la maneja, la delelga al servidor
+// El sistema operativo nos indica cada vez que alguien nos quiere pedir algo
+// El acepta la coneccion , pero no la maneja, la delelga al servidor
 void TcpServer::acceptConnectionRequest() {
   assert(this->connectionRequestSocket >= 0);
   // This object represents the communication with the peer
   Socket client;
 
   // Wait for and accept only one connection request
-  // TODO(jhc): stop accept() and clean exit when signals (e.g. Ctrl+C) are sent
+  // TODO(cualquiera): stop accept() and clean exit when signals
+  // (e.g. Ctrl+C) are sent
   // e.g: https://stackoverflow.com/a/35755340
   socklen_t clientAddressSize = sizeof(struct sockaddr_storage);
   int file = ::accept(this->connectionRequestSocket

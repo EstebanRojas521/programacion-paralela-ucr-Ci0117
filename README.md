@@ -50,3 +50,7 @@ Como se muestra en la imagen, por cada número ingresado, se muestra la cantidad
 Cabe destacar, que la persona usuarioa siempre tiene la opción de regresar a la página principal, seleccionando `Back`
 
 Finalmente, se menciona, que se puede interrumpir de forma abrupta el servidor mediante el comando `Kill` o mediante la interrupción `CRTL+C `
+
+Por tanto, el resultado final que va a obtener la persona usuaria sobre la consulta realizada, es como se muestra en la siguente imagen:
+
+![DiagramaCompleto](/servidor_concurrente/design/image/final.PNG)
