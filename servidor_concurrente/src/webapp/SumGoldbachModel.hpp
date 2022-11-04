@@ -14,30 +14,26 @@
 
 
 struct NumberStruct{
-    int64_t number;
-    std::vector<int64_t> smallerPrimes;
-    std::vector<int64_t> results;
-    int64_t totalPrimes;
+  int64_t number;
+  std::vector<int64_t> smallerPrimes;
+  std::vector<int64_t> results;
+  int64_t totalPrimes;
 };
 
 class SumGoldbachModel{
 
- //protected:
- // GoldbachHTML goldbachHTML;    
-
- public:
+  public:
     SumGoldbachModel();
     ~SumGoldbachModel();
     int64_t is_prime(int64_t);
     void calculate_smaller_primes(NumberStruct*);
-    int64_t check_repeated_even( std::vector<int64_t> results, int64_t, int64_t);
-    void processEvenSums(NumberStruct* x);
-    int64_t check_repeated_uneven( std::vector<int64_t> results, int64_t,
+    int64_t check_repeated_even( std::vector<int64_t>, int64_t, int64_t);
+    void processEvenSums(NumberStruct*);
+    int64_t check_repeated_uneven( std::vector<int64_t>, int64_t,
     int64_t, int64_t);
-    void processUnevenSums(NumberStruct*x);
-    void serveGolbach(int start, int finish, HttpPackage& httpPackage,std::string URI);
-
-
+    void processUnevenSums(NumberStruct*);
+    void processGoldbachNumber(NumberStruct*);
+    void serveGolbach(int, int, HttpPackage&,std::string);
 
     /** 
    * @brief  Method that stores in64_t numbers present in a row, in a vector.
@@ -52,9 +48,8 @@ class SumGoldbachModel{
    * @param start beginning of the string
    * @param finish Where the string ends
    */
-  void createVectorOfNumbers(int start
-  , int finish, const std::string URI
-  , std::vector<int64_t>& numbers);
+  void createVectorOfNumbers(int start , int finish, const std::string URI,
+                                                std::vector<int64_t>& numbers);
 
   /** 
    * @brief  Vector que recibe los números en int
@@ -66,8 +61,7 @@ class SumGoldbachModel{
    * @param start inicio de la hilera
    * @param finish fin de la hilera
    */
-  bool convertStringToInt(std::string& number
-  , int64_t& converted_number);
+  bool convertStringToInt(std::string& number, int64_t& converted_number);
 
 
     /**
@@ -76,8 +70,8 @@ class SumGoldbachModel{
   * @param goldbachStruct contiene lnumberos resultados
   * @param httpResponse envia la respuesta al usuario.
   */
-  void print_even(struct NumberStruct* goldbachStruct
-  , HttpResponse& httpResponse);
+  void print_even(struct NumberStruct* goldbachStruct,
+                                               HttpResponse& httpResponse);
 
   /**
   * @brief Imprimime los resultados de la suma de Goldbach cuando
@@ -85,7 +79,8 @@ class SumGoldbachModel{
   * @param goldbachStruct ontiene los resultados
   * @param httpResponse envia la respuesta al usuario.
   */
-  void print_odd(struct NumberStruct* goldbachStruct, HttpResponse& httpResponse);
+  void print_odd(struct NumberStruct* goldbachStruct,
+                                               HttpResponse& httpResponse);
 
   /**
   * @brief Llamado general a imprimir los resultados
@@ -94,8 +89,8 @@ class SumGoldbachModel{
   * de los números ingresados.
   * @param httpResponse muestra los resultados al usuario
   */
-  void goldbach_print(struct NumberStruct* goldbachStruct
-  , HttpResponse& httpResponse);
+  void goldbach_print(struct NumberStruct* goldbachStruct,
+                                               HttpResponse& httpResponse);
 };
 
 #endif
