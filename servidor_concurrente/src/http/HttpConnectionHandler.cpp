@@ -25,6 +25,10 @@ int HttpConnectionHandler::run() {
 
 
 void HttpConnectionHandler::consume(Socket client) {
+
+
+  //ahora no consume, las pone en cola para el http assembler
+  //pushea http package a una cola
   while (true) {
     // break;
     // Create an object that parses the HTTP request from the socket
@@ -76,6 +80,7 @@ bool HttpConnectionHandler::handleHttpRequest(HttpPackage& httpPackage) {
 bool HttpConnectionHandler::route(HttpPackage& httpPackage) {
   // Traverse the chain of applications
   // bool entered = true;
+  //aca van los hilos de htpp app que se crean 
   for (size_t index = 0; index < this->applications.size(); ++index) {
     // If this application handles the request
     HttpApp* app = this->applications[index];
