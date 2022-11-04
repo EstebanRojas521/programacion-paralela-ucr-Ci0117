@@ -167,6 +167,7 @@ HttpPackage& httpPackage,std::string URI) {
              std::cout<<"Struct number: "<< numberStruct->number <<std::endl;
             //numberStruct->results = results;
             calculate_smaller_primes(numberStruct);
+            for(int i = 0; i < numberStruct->
             if (absNumber % 2 == 0) {
                 processEvenSums(numberStruct);
             } else {
@@ -319,7 +320,7 @@ void SumGoldbachModel::print_odd(struct NumberStruct* numberStruct,
               << numberStruct->results[(count)+2];
             } else {
               if ((j == (numberStruct->results.size()-1))) {
-                if (numberStruct->results.size() == 1) {
+                if (numbeprocessUnevenSumsrStruct->results.size() == 1) {
                   httpResponse.body()
                   << numberStruct->results[count] << "+"
                   << numberStruct->results[(count)+1] << "+"
