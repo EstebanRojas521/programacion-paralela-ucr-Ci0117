@@ -129,14 +129,14 @@ void SumGoldbachModel::processGoldbachNumber(NumberStruct* numberStruct) {
 }
 
 void SumGoldbachModel::serveGolbach(int start, int finish,
-                            HttpPackage& httpPackage, std::string URI) {
+    HttpPackage& httpPackage, std::string URI) {
     std::vector<NumberStruct> numberStruct;
     // Creating vector of numbers 
     this->createVectorOfNumbers(start, finish, URI,
-                                         httpPackage.numerosIngresados);
+    httpPackage.numerosIngresados);
     httpPackage.httpResponse.setHeader("Server", "AttoServer v1.0");
     httpPackage.httpResponse.setHeader("Content-type",
-                                         "text/html; charset=ascii");
+    "text/html; charset=ascii");
     std::string title = "Sums of Goldbach of ";
 
     int numbers_size = httpPackage.numerosIngresados.size();
@@ -268,7 +268,6 @@ void SumGoldbachModel::print_even(struct NumberStruct* numberStruct,
 
 void SumGoldbachModel::print_odd(struct NumberStruct* numberStruct,
                                         HttpResponse& httpResponse) {
-    int64_t minusOne = -1;
     if (numberStruct->number != -1) {
         httpResponse.body() << numberStruct->number << ": "
         << numberStruct->results.size()/3 << " sums";
