@@ -85,19 +85,6 @@ class GoldbachWebApp : public HttpApp{
   void createVectorOfNumbers(int start, int finish, const std::string URI
                                           , std::vector<int64_t>& numbers);
 
-  /** 
-   * @brief  Vector que recibe los números en int
-   * @details Asume que se leyó los datos de entrada, y por cada números
-   * procesado se guarda en el vector, ocurre hasta que no haya
-   * más números por procesar
-   * @param URI entrada de datos, que se deben convertir
-   * @param numbers números almacenados, para procesar posteriormete
-   * @param start inicio de la hilera
-   * @param finish fin de la hilera
-   */
-  bool convertStringToInt(std::string& number
-  , int64_t& converted_number);
-
   /**
    * @brief reemplaza los caracteres por unos más funcionales
    * es decir, cambia la , (%2C) por un +, para facilitar la manipulación

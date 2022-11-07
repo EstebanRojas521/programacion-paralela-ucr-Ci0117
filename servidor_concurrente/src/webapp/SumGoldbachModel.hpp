@@ -65,7 +65,7 @@ class SumGoldbachModel{
    *          un numero par. Si se recibe un 1 del llamado a checkRepeatedEven
    *          con los numeros a agregar, valga la redundancia no se agregan al arreglo
    *          de sumas de goldbach, pues ya la serie existe, solo que en otro orden.
-   * @param number_struct Recibe struct de donde saca el numero, y los numeros primos
+   * @param numberStruct Recibe struct de donde saca el numero, y los numeros primos
    *                      menores que si para calcular sus sumas de goldbach
    * @return int64_t Retorna un int64_t, 0 en caso de exito al añadir memoria,
    *         1 en caso contrario 
@@ -131,14 +131,10 @@ class SumGoldbachModel{
                                                 std::vector<int64_t>& numbers);
 
   /** 
-   * @brief  Vector que recibe los números en int
-   * @details Asume que se leyó los datos de entrada, y por cada números
-   * procesado se guarda en el vector, ocurre hasta que no haya
-   * más números por procesar
-   * @param URI entrada de datos, que se deben convertir
-   * @param numbers números almacenados, para procesar posteriormete
-   * @param start inicio de la hilera
-   * @param finish fin de la hilera
+   * @brief Metodo que convierte una hilera a numero
+   * @param number hilera a convertir en numero
+   * @param converted_number numero convertido desde la hilera number
+   * @return retorna false si convirtio el numero con exito, true caso contrarioS
    */
   bool convertStringToInt(std::string& number, int64_t& converted_number);
 

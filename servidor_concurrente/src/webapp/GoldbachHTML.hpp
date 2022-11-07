@@ -93,11 +93,11 @@ class GoldbachHTML{
   /**
   * @brief Llamado general a imprimir los resultados
   * se divide acorde a la conjetura, débil o fuerte
-  * @param goldbachStruct Arreglo con todos los resultados obtenidos
+  * @param goldbachElements Arreglo con todos los resultados obtenidos
   * de los números ingresados.
   * @param httpResponse muestra los resultados al usuario
   */
-  void goldbach_print(std::vector<golbachElement> golbachElements
+  void goldbach_print(std::vector<golbachElement> goldbachElements
   , HttpResponse& httpResponse);
 };
 #endif
