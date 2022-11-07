@@ -19,7 +19,6 @@
 class HttpApp;
 class HttpServer;
 
-
 class HttpConnectionHandler: public Consumer<Socket>{
   DISABLE_COPY(HttpConnectionHandler);
 

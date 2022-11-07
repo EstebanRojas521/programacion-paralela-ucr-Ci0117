@@ -121,10 +121,10 @@ int HttpServer::start(int argc, char* argv[]) {
     // se encicla porque los hilos no terminan (no se como hacerlos terminar)
     // no reconoce la condicion de parada
     Socket client;
-    //std::cerr << "got here"<< std::endl;
+    // std::cerr << "got here"<< std::endl;
     for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
-      //Thread::~thread(this->consumers[index]);
-      //this->consumers[index]->setStop();
+      // Thread::~thread(this->consumers[index]);
+      // this->consumers[index]->setStop();
       this->producingQueue->push(Socket());
     }
     std::cerr << "got here"<< std::endl;
@@ -132,9 +132,9 @@ int HttpServer::start(int argc, char* argv[]) {
       this->consumers[index]->waitToFinish();
     }
     for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
-      //delete this->consumers[index];
+      // delete this->consumers[index];
     }
-    //std::cerr << "error: " << error.what() << std::endl;
+    // std::cerr << "error: " << error.what() << std::endl;
   }
 
   // If applications were started

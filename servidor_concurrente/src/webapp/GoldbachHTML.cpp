@@ -48,7 +48,7 @@ void GoldbachHTML::validRequest(HttpPackage httpPackage) {
 }
 
 
-//podria pasar este metodo a golbach web app
+// podria pasar este metodo a golbach web app
 void GoldbachHTML::invalidRequest(HttpPackage httpPackage) {
   std::string title = "Invalid Request in Sums of Goldbach";
   httpPackage.httpResponse.body() << "<!DOCTYPE html>\n"
@@ -63,7 +63,8 @@ void GoldbachHTML::invalidRequest(HttpPackage httpPackage) {
 }
 
 
-void GoldbachHTML::goldbach_print(std::vector<golbachElement> golbachElements, HttpResponse& httpResponse) {
+void GoldbachHTML::goldbach_print(std::vector<golbachElement> golbachElements,
+                                                 HttpResponse& httpResponse) {
   for (size_t i = 0; i < golbachElements.size(); i++) {
       if ((golbachElements[i].number%2) == 0) {
         print_even(golbachElements[i], httpResponse);
@@ -172,8 +173,8 @@ void GoldbachHTML::fillUpVector(struct golbachElement& goldbachStruct) {
   number = number;
   std::vector<size_t> results = goldbachStruct.results;
   SumGoldbachModel* sumGoldbachModel = new SumGoldbachModel();
-  //sumGoldbachModel->processGoldbachNumber(goldbachStruct.number,
-   //goldbachStruct.results);
+  // sumGoldbachModel->processGoldbachNumber(goldbachStruct.number,
+  // goldbachStruct.results);
   goldbachStruct.sizeOfVector = goldbachStruct.results.size();
 
   delete sumGoldbachModel;

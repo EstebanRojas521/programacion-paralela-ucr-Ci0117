@@ -13,9 +13,9 @@
 #include "GoldbachHTML.hpp"
 #include "common.hpp"
 
-  /**
-  * @brief A web application that calculates sums of goldbach
-  */
+/**
+* @brief A web application that calculates sums of goldbach
+*/
 class GoldbachWebApp : public HttpApp{
   /// Objects of this class cannot be copied
   DISABLE_COPY(GoldbachWebApp);
@@ -24,45 +24,51 @@ class GoldbachWebApp : public HttpApp{
   GoldbachHTML goldbachHTML;
 
   /**
-   @brief Count of solvers.
-    By default the program uses the number of cores in the computer.
-  */
+   * @brief Count of solvers.
+   * By default the program uses the number of cores in the computer.
+   */
   int solvers_count = std::thread::hardware_concurrency();
 
  public:
   /**
-  @brief Constructor of GoldbachWebApp.
-  */
+   * @brief Constructor de GoldbachWebApp.
+   */
   GoldbachWebApp();
 
   /**
-  * @brief Destructor of GoldbachWebApp.
-  */
+   * @brief Destructor de GoldbachWebApp.
+   */
   ~GoldbachWebApp();
 
   /**
-  * @brief Se llama cuando el servidor se inicia
-  */
+   * @brief Se llama cuando el servidor se inicia
+   */
   void start() override;
 
- /**
-  * @brief Se llama cuando el servidor es detenido, para que
-  * detenga, cada una de las aplicaciones en usp
-  */
+  /**
+   * @brief Se llama cuando el servidor es detenido, para que
+   * detenga, cada una de las aplicaciones en usp
+   */
   void stop() override;
 
-  ///  Empaquetado de respuestas y solicitudes
+  /**
+   * @brief Empaquetado de respuestas y solicitudes
+   * @param httpPackage Paquete a validar
+   * @return true 
+   * @return false 
+   */
   bool handleHttpRequest(HttpPackage& httpPackage) override;
 
  protected:
   /**
- * @brief Consume las solicitudes disponibles en la cola
- * @param httpPackage contiene las solicitudes y respuestas
- */
+   * @brief Consume las solicitudes disponibles en la cola
+   * @param httpPackage contiene las solicitudes y respuestas
+   */
   void consume(HttpPackage httpPackage);
 
 
   bool serveHomePage(HttpPackage httpPackage);
+
   /** 
    * @brief  Method that stores in64_t numbers present in a row, in a vector.
    * vector.
@@ -76,9 +82,8 @@ class GoldbachWebApp : public HttpApp{
    * @param start beginning of the string
    * @param finish Where the string ends
    */
-  void createVectorOfNumbers(int start
-  , int finish, const std::string URI
-  , std::vector<int64_t>& numbers);
+  void createVectorOfNumbers(int start, int finish, const std::string URI
+                                          , std::vector<int64_t>& numbers);
 
   /** 
    * @brief  Vector que recibe los números en int
@@ -99,9 +104,9 @@ class GoldbachWebApp : public HttpApp{
    * @param str lugar que se debe de reemplazar
    * @param from Caracter a reemplazar
    * @param to Caracter de reemplazo
-  */
-  void replaceCharacters(std::string& str,
-  const std::string& from, const std::string& to);
+   */
+  void replaceCharacters(std::string& str, const std::string& from,
+                                            const std::string& to);
 };
 
 #endif  // GOLDBACHWEBAPP_HPP
