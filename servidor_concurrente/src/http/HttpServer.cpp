@@ -107,7 +107,7 @@ int HttpServer::start(int argc, char* argv[]) {
         assert(this->consumers[index]);
         this->consumers[index]->setConsumingQueue(this->producingQueue);
       }
-      for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
+      for ( size_t index = 0; index < this->numberOfThreads; ++index ) {
         this->consumers[index]->startThread();
       }
       this->acceptAllConnections();

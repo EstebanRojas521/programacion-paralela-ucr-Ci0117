@@ -63,7 +63,7 @@ bool GoldbachWebApp::handleHttpRequest(HttpPackage& httpPackage) {
     sumGoldbachModel->serveGolbach(start, finish, httpPackage, URI);
   } else {
     httpPackage.solicitudInvalida = true;
-    this->goldbachHTML.invalidRequest(httpPackage);
+    this->invalidRequest(httpPackage);
   }
   return EXIT_SUCCESS;
 }
@@ -101,3 +101,15 @@ bool GoldbachWebApp::serveHomePage(HttpPackage httpPackage) {
   return httpPackage.httpResponse.send();
 }
 
+void GoldbachWebApp::invalidRequest(HttpPackage httpPackage) {
+  std::string title = "Invalid Request in Sums of Goldbach";
+  httpPackage.httpResponse.body() << "<!DOCTYPE html>\n"
+  << "<html lang=\"en\">\n"
+  << "  <meta charset=\"ascii\"/>\n"
+  << "  <title>" << title << "</title>\n"
+  << "  <style>body {font-family: monospace} .err {color: red}</style>\n"
+  << "  <h1 class=\"err\">" << title << "</h1>\n"
+  << "  <p>Invalid request for sums of Goldbach</p>\n"
+  << "  <hr><p><a href=\"/\">Back</a></p>\n"
+  << "</html>\n";
+}

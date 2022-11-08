@@ -32,7 +32,7 @@ class HttpConnectionHandler: public Consumer<Socket>{
   // HttpConnectionHandler();
   // ~HttpConnectionHandler();
   explicit HttpConnectionHandler(std::vector<HttpApp*> applications);
-  int run()override;
+  int run() override;
   void consume(Socket client) override;
 };
 

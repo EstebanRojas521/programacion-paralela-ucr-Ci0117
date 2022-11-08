@@ -21,8 +21,6 @@ class GoldbachWebApp : public HttpApp{
   DISABLE_COPY(GoldbachWebApp);
 
  protected:
-  GoldbachHTML goldbachHTML;
-
   /**
    * @brief Count of solvers.
    * By default the program uses the number of cores in the computer.
@@ -94,6 +92,14 @@ class GoldbachWebApp : public HttpApp{
    */
   void replaceCharacters(std::string& str, const std::string& from,
                                             const std::string& to);
+
+  /**
+   * @brief Si los datos no son válidos, se ingresa a este método
+   * @details se retorna un mensaje de error cuando los datos dados
+   * son inválidos
+   * @param httpPackage paquete de solicitudes y respuestas
+   */
+  void invalidRequest(HttpPackage httpPackage);
 };
 
 #endif  // GOLDBACHWEBAPP_HPP
