@@ -3,14 +3,14 @@
 #ifndef GOLDBACHWEBAPP_HPP
 #define GOLDBACHWEBAPP_HPP
 
-#include <string>
-#include <vector>
 #include <csignal>
+#include <string>
+#include <thread>
+#include <vector>
 
 #include "HttpApp.hpp"
 #include "HttpPackage.hpp"
 #include "SumGoldbachModel.hpp"
-#include "GoldbachHTML.hpp"
 #include "common.hpp"
 
 /**

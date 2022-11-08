@@ -8,11 +8,10 @@
 #include <string>
 #include <vector>
 
-#include "GoldbachHTML.hpp"
+#include "GoldbachWebApp.hpp"
 #include "HttpPackage.hpp"
 #include "HttpRequest.hpp"
 #include "HttpResponse.hpp"
-#include "GoldbachWebApp.hpp"
 
 GoldbachWebApp::GoldbachWebApp() {
 }

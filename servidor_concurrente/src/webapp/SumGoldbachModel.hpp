@@ -7,7 +7,6 @@
 #include <string>
 #include <vector>
 #include "common.hpp"
-#include "GoldbachHTML.hpp"
 #include "HttpApp.hpp"
 #include "HttpPackage.hpp"
 

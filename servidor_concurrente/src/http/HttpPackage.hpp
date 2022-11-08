@@ -13,8 +13,12 @@ class HttpPackage {
  public:
   /// Objects of this class can be copied, but avoid innecesary copies
   DECLARE_RULE4(HttpPackage, default);
+
+  /// Request de cada package
   HttpRequest httpRequest;
+  /// Response de cada package
   HttpResponse httpResponse;
+  /// Vector de numeros ingresados por el usuario
   std::vector<int64_t> numerosIngresados;
   // Agregar vector para resultados
   // resultado de la clase Goldbach std::vector<resultados> results;
