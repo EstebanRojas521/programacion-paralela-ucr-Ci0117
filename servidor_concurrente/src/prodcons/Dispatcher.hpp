@@ -35,7 +35,7 @@ class Dispatcher : public Consumer<DataType> {
   //   : Consumer<DataType>(consumingQueue, stopCondition, createOwnQueue) {
   // }
 
-  //este es el original
+  // este es el original
     explicit Dispatcher(Queue<DataType>* consumingQueue = nullptr
     , const DataType& stopCondition = DataType()
     , bool createOwnQueue = false)

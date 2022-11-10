@@ -3,66 +3,70 @@
 #ifndef GOLDBACHWEBAPP_HPP
 #define GOLDBACHWEBAPP_HPP
 
-#include <string>
-#include <vector>
 #include <csignal>
+#include <string>
+#include <thread>
+#include <vector>
 
 #include "HttpApp.hpp"
 #include "HttpPackage.hpp"
 #include "SumGoldbachModel.hpp"
-#include "GoldbachHTML.hpp"
 #include "common.hpp"
 
-  /**
-  * @brief A web application that calculates sums of goldbach
-  */
+/**
+* @brief A web application that calculates sums of goldbach
+*/
 class GoldbachWebApp : public HttpApp{
   /// Objects of this class cannot be copied
   DISABLE_COPY(GoldbachWebApp);
 
  protected:
-  GoldbachHTML goldbachHTML;
-
   /**
-   @brief Count of solvers.
-    By default the program uses the number of cores in the computer.
-  */
+   * @brief Count of solvers.
+   * By default the program uses the number of cores in the computer.
+   */
   int solvers_count = std::thread::hardware_concurrency();
 
  public:
   /**
-  @brief Constructor of GoldbachWebApp.
-  */
+   * @brief Constructor de GoldbachWebApp.
+   */
   GoldbachWebApp();
 
   /**
-  * @brief Destructor of GoldbachWebApp.
-  */
+   * @brief Destructor de GoldbachWebApp.
+   */
   ~GoldbachWebApp();
 
   /**
-  * @brief Se llama cuando el servidor se inicia
-  */
+   * @brief Se llama cuando el servidor se inicia
+   */
   void start() override;
 
- /**
-  * @brief Se llama cuando el servidor es detenido, para que
-  * detenga, cada una de las aplicaciones en usp
-  */
+  /**
+   * @brief Se llama cuando el servidor es detenido, para que
+   * detenga, cada una de las aplicaciones en usp
+   */
   void stop() override;
 
-  ///  Empaquetado de respuestas y solicitudes
+  /**
+   * @brief Empaquetado de respuestas y solicitudes
+   * @param httpPackage Paquete a validar
+   * @return true 
+   * @return false 
+   */
   bool handleHttpRequest(HttpPackage& httpPackage) override;
 
  protected:
   /**
- * @brief Consume las solicitudes disponibles en la cola
- * @param httpPackage contiene las solicitudes y respuestas
- */
+   * @brief Consume las solicitudes disponibles en la cola
+   * @param httpPackage contiene las solicitudes y respuestas
+   */
   void consume(HttpPackage httpPackage);
 
 
   bool serveHomePage(HttpPackage httpPackage);
+
   /** 
    * @brief  Method that stores in64_t numbers present in a row, in a vector.
    * vector.
@@ -76,22 +80,8 @@ class GoldbachWebApp : public HttpApp{
    * @param start beginning of the string
    * @param finish Where the string ends
    */
-  void createVectorOfNumbers(int start
-  , int finish, const std::string URI
-  , std::vector<int64_t>& numbers);
-
-  /** 
-   * @brief  Vector que recibe los números en int
-   * @details Asume que se leyó los datos de entrada, y por cada números
-   * procesado se guarda en el vector, ocurre hasta que no haya
-   * más números por procesar
-   * @param URI entrada de datos, que se deben convertir
-   * @param numbers números almacenados, para procesar posteriormete
-   * @param start inicio de la hilera
-   * @param finish fin de la hilera
-   */
-  bool convertStringToInt(std::string& number
-  , int64_t& converted_number);
+  void createVectorOfNumbers(int start, int finish, const std::string URI
+                                          , std::vector<int64_t>& numbers);
 
   /**
    * @brief reemplaza los caracteres por unos más funcionales
@@ -99,9 +89,17 @@ class GoldbachWebApp : public HttpApp{
    * @param str lugar que se debe de reemplazar
    * @param from Caracter a reemplazar
    * @param to Caracter de reemplazo
-  */
-  void replaceCharacters(std::string& str,
-  const std::string& from, const std::string& to);
+   */
+  void replaceCharacters(std::string& str, const std::string& from,
+                                            const std::string& to);
+
+  /**
+   * @brief Si los datos no son válidos, se ingresa a este método
+   * @details se retorna un mensaje de error cuando los datos dados
+   * son inválidos
+   * @param httpPackage paquete de solicitudes y respuestas
+   */
+  void invalidRequest(HttpPackage httpPackage);
 };
 
 #endif  // GOLDBACHWEBAPP_HPP

@@ -86,12 +86,11 @@ bool HttpConnectionHandler::route(HttpPackage& httpPackage) {
     HttpApp* app = this->applications[index];
     if (app->handleHttpRequest(httpPackage)) {
       return true;
+    } else {
+      return this->serveNotFound(httpPackage);
     }
   }
-
-  // Unrecognized request
-  return this->serveNotFound(httpPackage);
-  // return true;
+  return true;
 }
 
 

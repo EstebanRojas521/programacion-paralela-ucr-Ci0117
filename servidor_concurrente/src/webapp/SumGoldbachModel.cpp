@@ -1,7 +1,6 @@
 // Copyright 2022  Yasmyn Chacón Hernández,Ulises Fonseca Hurtado
 // y Esteban Rojas Carranza - Universidad de Costa Rica.
 
-
 #include "SumGoldbachModel.hpp"
 #include <cstdlib>
 
@@ -9,7 +8,7 @@ SumGoldbachModel::SumGoldbachModel() {}
 
 SumGoldbachModel::~SumGoldbachModel() {}
 
-int64_t SumGoldbachModel::is_prime(int64_t number) {
+int64_t SumGoldbachModel::isPrime(int64_t number) {
     int64_t is_prime = EXIT_SUCCESS;
     for (int64_t i = 2; i < number; i++) {
         if ((number % i) == 0) {
@@ -19,17 +18,16 @@ int64_t SumGoldbachModel::is_prime(int64_t number) {
     return is_prime;
 }
 
-void SumGoldbachModel::calculate_smaller_primes(NumberStruct* numberStruct) {
-    int64_t struct_number = (int64_t)abs((int)numberStruct->number);
+void SumGoldbachModel::calculateSmallerPrimes(NumberStruct* numberStruct) {
+    int64_t struct_number = (int64_t)abs(numberStruct->number);
     for (int64_t i = 2; i < struct_number; i++) {
-        if (is_prime(i) == 0) {
+        if (isPrime(i) == 0) {
             numberStruct->smallerPrimes.push_back(i);
-            numberStruct->totalPrimes++;
         }
     }
 }
 
-int64_t SumGoldbachModel::check_repeated_even(std::vector<int64_t> sumsVector,
+int64_t SumGoldbachModel::checkRepeatedEven(std::vector<int64_t> sumsVector,
                                                 int64_t num1, int64_t num2) {
     int64_t repeated = false;
     int64_t size = sumsVector.size();
@@ -43,16 +41,16 @@ int64_t SumGoldbachModel::check_repeated_even(std::vector<int64_t> sumsVector,
 }
 
 void SumGoldbachModel::processEvenSums(NumberStruct* numberStruct) {
-    int64_t size = numberStruct->totalPrimes;
+    int64_t size = numberStruct->smallerPrimes.size();
     int64_t number = numberStruct->number;
-    int64_t abs_number = (int64_t)abs((int)number);
+    int64_t abs_number = (int64_t)abs(number);
     for (int64_t i = 0; i < size; i++) {
         for (int64_t j = 0; j < size; j++) {
             int64_t number_i = numberStruct->smallerPrimes[i];
             int64_t number_j = numberStruct->smallerPrimes[j];
 
             if (((number_i + number_j) == abs_number)
-             && check_repeated_even(numberStruct->results, number_i, number_j)
+             && checkRepeatedEven(numberStruct->results, number_i, number_j)
                                                                     == false) {
                 numberStruct->results.push_back(number_i);
                 numberStruct->results.push_back(number_j);
@@ -61,7 +59,7 @@ void SumGoldbachModel::processEvenSums(NumberStruct* numberStruct) {
     }
 }
 
-int64_t SumGoldbachModel::check_repeated_uneven(std::vector<int64_t> sumsVector,
+int64_t SumGoldbachModel::checkRepeatedUneven(std::vector<int64_t> sumsVector,
                                      int64_t num1, int64_t num2, int64_t num3) {
     int64_t repeated = false;
     int64_t size = sumsVector.size();
@@ -88,9 +86,9 @@ int64_t SumGoldbachModel::check_repeated_uneven(std::vector<int64_t> sumsVector,
 
 
 void SumGoldbachModel::processUnevenSums(NumberStruct* numberStruct) {
-    int64_t size = numberStruct->totalPrimes;
+    int64_t size = numberStruct->smallerPrimes.size();
     int64_t number = numberStruct->number;
-    int64_t abs_number = (int64_t)abs((int)number);
+    int64_t abs_number = (int64_t)abs(number);
     for (int64_t i = 0; i < size; i++) {
         for (int64_t j = 0; j < size; j++) {
             for (int64_t k = 0; k < size; k++) {
@@ -99,7 +97,7 @@ void SumGoldbachModel::processUnevenSums(NumberStruct* numberStruct) {
                 int64_t number_k = numberStruct->smallerPrimes[k];
 
                 if (((number_i + number_j + number_k) == abs_number)
-                && (check_repeated_uneven(numberStruct->results, number_i,
+                && (checkRepeatedUneven(numberStruct->results, number_i,
                                         number_j, number_k) == false)
                 && (number_i != 0 && number_j != 0 && number_k != 0)) {
                     numberStruct->results.push_back(number_i);
@@ -112,10 +110,10 @@ void SumGoldbachModel::processUnevenSums(NumberStruct* numberStruct) {
 }
 
 void SumGoldbachModel::processGoldbachNumber(NumberStruct* numberStruct) {
-    int64_t absNumber = (int64_t)abs((int)numberStruct->number);
+    int64_t absNumber = (int64_t)abs(numberStruct->number);
     if (absNumber > 5) {
-        //numberStruct->results = results;
-        calculate_smaller_primes(numberStruct);
+        // numberStruct->results = results;
+        calculateSmallerPrimes(numberStruct);
 
         if (absNumber % 2 == 0) {
             processEvenSums(numberStruct);
@@ -131,7 +129,7 @@ void SumGoldbachModel::processGoldbachNumber(NumberStruct* numberStruct) {
 void SumGoldbachModel::serveGolbach(int start, int finish,
     HttpPackage& httpPackage, std::string URI) {
     std::vector<NumberStruct> numberStruct;
-    // Creating vector of numbers 
+    // Creating vector of numbers
     this->createVectorOfNumbers(start, finish, URI,
     httpPackage.numerosIngresados);
     httpPackage.httpResponse.setHeader("Server", "AttoServer v1.0");
@@ -154,7 +152,7 @@ void SumGoldbachModel::serveGolbach(int start, int finish,
     << "  <style>body {font-family: monospace} .err {color: red}</style>\n"
     << "  <h1>" << title << "</h1>\n";
 
-    //lleno vector -> calculo golbach
+    // lleno vector -> calculo golbach
     int size = httpPackage.numerosIngresados.size();
     for (int i = 0; i < size; i++) {
         int64_t number = httpPackage.numerosIngresados[i];
@@ -174,7 +172,6 @@ void SumGoldbachModel::serveGolbach(int start, int finish,
     httpPackage.httpResponse.body()
     << "  <hr><p><a href=\"/\">Back</a></p>\n"
     << "</html>\n";
-
 }
 
 void SumGoldbachModel::createVectorOfNumbers(int start, int finish,
@@ -192,7 +189,7 @@ void SumGoldbachModel::createVectorOfNumbers(int start, int finish,
                     numbers.push_back(converted_number);
                     number = "";
                 }
-            } else { 
+            } else {
                 number += URI[i];
                 out_of_limit  = convertStringToInt(number, converted_number);
                 if (!out_of_limit) {
@@ -216,7 +213,7 @@ bool SumGoldbachModel::convertStringToInt(std::string& number,
 
 void SumGoldbachModel::goldbach_print(struct NumberStruct* numberStruct,
                                              HttpResponse& httpResponse) {
-    int64_t absNumber = (int64_t)abs((int)numberStruct->number);
+    int64_t absNumber = (int64_t)abs(numberStruct->number);
     if ((absNumber%2) == 0) {
         print_even(numberStruct, httpResponse);
     } else {
