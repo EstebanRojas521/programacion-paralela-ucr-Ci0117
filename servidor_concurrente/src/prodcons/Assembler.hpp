@@ -39,8 +39,8 @@ protected:
  public:
   /// Constructor
   explicit Assembler(Queue<DataType>* consumingQueue = nullptr
-    , Queue<DataType>* producingQueue = nullptr
-    , const DataType& stopCondition = DataType(),
+    , Queue<DataType>* producingQueue = nullptr,
+    const DataType& stopCondition = DataType(),
     bool createOwnQueue = false)
     : consumingQueue(consumingQueue)
     //aqui va coma o dos puntos

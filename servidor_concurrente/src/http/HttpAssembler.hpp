@@ -17,18 +17,43 @@
 #include "HttpApp.hpp"
 #include "HttpPackage.hpp"
 
-Class HttpAssembler: public Assembler<HttpPackage>{
-    DISABLE_COPY(AssemblerTest);
+class HttpApp;
+class HttpServer;
 
-    protected:
 
-    public:
+class HttpAssembler: public Assembler<Socket>{
 
-    explicit HttpAssembler();
+  protected:
+  std::vector<HttpApp*> applications;
 
-    int run() override;
+  public:
 
-    void consumeASBM(NetworkMessage data) override;
+  explicit HttpAssembler();
+
+  int run() override;
+
+  void consumeASBM(Socket client) override;
+
+  HttpAssembler(std::vector<HttpApp*> applications);
+
+
+  /**
+   * @brief Metodo que maneja un request Http
+   * @param httpPackage Package de donde saca IP y puerto
+   */
+  virtual bool handleHttpRequest(HttpPackage& httpPackage);
+
+  /**
+   * @brief Metodo que establece si las aplicaciones manejan un package
+   * @param httpPackage Package a manejar
+   */
+  bool route(HttpPackage& httpPackage);
+
+  /**
+   * @brief Mensaje que se imprime en caso de no encontrar el servidor
+   * @param httpPackage Paquete para fijar informacion de error
+   */
+  bool serveNotFound(HttpPackage& httpPackage);
 
 };
 

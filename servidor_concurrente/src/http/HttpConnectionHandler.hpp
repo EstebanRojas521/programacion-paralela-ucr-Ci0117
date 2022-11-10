@@ -15,39 +15,26 @@
 #include "HttpServer.hpp"
 #include "HttpApp.hpp"
 #include "HttpPackage.hpp"
+#include "HttpAssembler.hpp"
+
 
 class HttpApp;
 class HttpServer;
+class HttpAssembler;
 
 class HttpConnectionHandler: public Consumer<Socket>{
   DISABLE_COPY(HttpConnectionHandler);
-
+  // protected es lo mismo que private? Cual 
+  // es la diferencia? 
  protected:
   /// @brief Cantidad de sockets, 0 por defecto
   size_t numberOfSockets = 0;
   /// @brief Vector de tipo HttpApp
   std::vector<HttpApp*> applications;
-
-  /**
-   * @brief Metodo que maneja un request Http
-   * @param httpPackage Package de donde saca IP y puerto
-   */
-  virtual bool handleHttpRequest(HttpPackage& httpPackage);
-
-  /**
-   * @brief Metodo que establece si las aplicaciones manejan un package
-   * @param httpPackage Package a manejar
-   */
-  bool route(HttpPackage& httpPackage);
-
-  /**
-   * @brief Mensaje que se imprime en caso de no encontrar el servidor
-   * @param httpPackage Paquete para fijar informacion de error
-   */
-  bool serveNotFound(HttpPackage& httpPackage);
-
+  Queue<Socket>* producingQueue;
+  HttpAssembler* assembler =  nullptr;
  public:
-  // HttpConnectionHandler();
+  //HttpConnectionHandler();
   // ~HttpConnectionHandler();
   /**
    * @brief Constructor de HttpConnectionHandler
