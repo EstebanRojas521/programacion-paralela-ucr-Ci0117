@@ -15,10 +15,7 @@
 
 class HttpApp;
 class HttpConnectionHandler;
-// Notas - tema15
-// los puertos se puede ver como direcciones de telefono,
-// donde buscamos contactarlo con alguien
-// (en este caso el servidor)
+
 // delega control a las aplicaciones
 // TODO(cualquiera): Documentation
 // TCP server =  servidor seguro
@@ -26,14 +23,21 @@ class HttpServer: public TcpServer {
   DISABLE_COPY(HttpServer);
 
  private:
+  /**
+   * @brief Constructor de HttpServer
+   */
   HttpServer();
-  /// Destructor
-  ~HttpServer() = default;
-  Queue<Socket>* producingQueue;
-  std::vector<HttpConnectionHandler*>consumers;
-  int indexConnectionHandlers;
 
-  // cual es la diferencia entre protected y private
+  /**
+   * @brief Destructor de HttpServer
+   */
+  ~HttpServer() = default;
+
+  // Cola de produccion del server, tiene sockets de tipo de dato
+  Queue<Socket>* producingQueue;
+  // Vector de consumidores de tipo HttpConnectionHandler
+  std::vector<HttpConnectionHandler*> consumers;
+
  protected:
   /// Lookup criteria for searching network information about this host
   struct addrinfo hints;
@@ -51,8 +55,8 @@ class HttpServer: public TcpServer {
   std::vector<HttpApp*> applications;
 
  public:
-  static HttpServer& getInstance();
   /// Constructor
+  static HttpServer& getInstance();
   // HttpServer();
   /// Destructor
   // ~HttpServer();

@@ -37,15 +37,15 @@ class GoldbachWebApp : public HttpApp{
     int run() override;
 
   /**
-   * @brief Metodo que consume sockets
-   * @param client El socket a consumir
+   * @brief Metodo que consume HttpPackages
+   * @param package El package a consumir
    */
     void consume(HttpPackage package) override;
+
   /**
    * @brief Destructor de GoldbachWebApp.
    */
   ~GoldbachWebApp();
-
 
   /** 
    * @brief Metodo que convierte una hilera a numero

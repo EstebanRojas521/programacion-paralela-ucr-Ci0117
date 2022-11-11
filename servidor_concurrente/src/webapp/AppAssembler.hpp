@@ -23,32 +23,39 @@ class AppAssembler: public Assembler<GoldbachStruct>{
   HttpPackage& package;
 
  public:
+  /**
+   * @brief Constructor de AppAssembler
+   * @param httpPackage HttpPackage a inicializar
+   */
   explicit AppAssembler(HttpPackage& httpPackage);
+
+  /**
+   * @brief Metodo heredado que llama a consumeForever
+   * @return int retorna 0
+   */
   int run() override;
+
+  /**
+   * @brief Metodo que consume datos de tipo GoldbachStruct y los envia a imprimir
+   * @param data GoldbachStruct a imprimir
+   */
   void consumeASBM(GoldbachStruct data) override;
 
   /**
-   * @brief Imprimime los resultados de la suma de Goldbach cuando
-   * los datos son válidos. Imprime resultados para números pares
-   * @param goldbachStruct contiene lnumberos resultados
-   * @param httpResponse envia la respuesta al usuario.
+   * @brief Metodo que imprime las sumas de goldbach para un numero par
+   * @param data GoldbachStruct que contiene el numero y sus sumas
    */
   void print_even(GoldbachStruct data);
 
   /**
-   * @brief Imprimime los resultados de la suma de Goldbach cuando
-   * los datos son válidos. Imprime resultados para números impares
-   * @param goldbachStruct ontiene los resultados
-   * @param httpResponse envia la respuesta al usuario.
+   * @brief Metodo que imprime las sumas de goldbach para un numero impar
+   * @param data GoldbachStruct que contiene el numero y sus sumas
    */
   void print_odd(GoldbachStruct data);
 
   /**
-   * @brief Llamado general a imprimir los resultados
-   * se divide acorde a la conjetura, débil o fuerte
-   * @param goldbachStruct Arreglo con todos los resultados obtenidos
-   * de los números ingresados.
-   * @param httpResponse muestra los resultados al usuario
+   * @brief Metodo que imprime las sumas de goldbach para un numero 
+   * @param data GoldbachStruct que contiene el numero y sus sumas
    */
   void goldbach_print(GoldbachStruct data);
 };

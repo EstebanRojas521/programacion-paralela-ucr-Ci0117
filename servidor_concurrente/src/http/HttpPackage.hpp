@@ -25,6 +25,13 @@ struct  HttpPackage{
   bool solicitudInvalida = false;
 
  public:
+  /**
+   * @brief Constructor de la clase HttpPackage
+   * @param httpRequest Request a inicializar
+   * @param httpResponse Response a inicializar
+   * @param numerosIngresados vector de numeros inicializados en 0
+   * @param solicitudInvalida variable booleana, falsa por defecto
+   */
   HttpPackage(HttpRequest httpRequest = HttpRequest(),
                HttpResponse httpResponse = HttpResponse(),
                 std::vector<int64_t> numerosIngresados = {0},
@@ -34,6 +41,12 @@ struct  HttpPackage{
     , numerosIngresados(numerosIngresados)
     , solicitudInvalida(solicitudInvalida) {}
 
+  /**
+   * @brief Sobrecarga de operador de igualdad, compara HttpPackages
+   * @param other El HttpPackage a comparar con si mismo
+   * @return true Si son iguales
+   * @return false Si son diferentes
+   */
   inline bool operator==(const HttpPackage& other) const {
     return this->httpRequest == other.httpRequest
       && this->httpResponse == other.httpResponse
