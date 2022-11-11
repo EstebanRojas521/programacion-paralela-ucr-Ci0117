@@ -52,7 +52,7 @@ class HttpMessage {
  public:
   /// Constructor
   explicit HttpMessage(const Socket& socket);
-  explicit HttpMessage();
+  HttpMessage();
   /// Destructor
   ~HttpMessage();
   /// Get access to the connection with the client

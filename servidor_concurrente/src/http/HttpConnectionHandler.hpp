@@ -24,8 +24,7 @@ class HttpAssembler;
 
 class HttpConnectionHandler: public Consumer<Socket>{
   DISABLE_COPY(HttpConnectionHandler);
-  // protected es lo mismo que private? Cual 
-  // es la diferencia? 
+
  protected:
   /// @brief Cantidad de sockets, 0 por defecto
   size_t numberOfSockets = 0;
@@ -33,8 +32,9 @@ class HttpConnectionHandler: public Consumer<Socket>{
   std::vector<HttpApp*> applications;
   Queue<Socket>* producingQueue;
   HttpAssembler* assembler =  nullptr;
+
  public:
-  //HttpConnectionHandler();
+  // HttpConnectionHandler();
   // ~HttpConnectionHandler();
   /**
    * @brief Constructor de HttpConnectionHandler

@@ -22,20 +22,17 @@ class HttpServer;
 
 
 class HttpAssembler: public Assembler<Socket>{
-
-  protected:
+ protected:
   std::vector<HttpApp*> applications;
 
-  public:
-
-  explicit HttpAssembler();
+ public:
+  HttpAssembler();
 
   int run() override;
 
   void consumeASBM(Socket client) override;
 
-  HttpAssembler(std::vector<HttpApp*> applications);
-
+  explicit HttpAssembler(std::vector<HttpApp*> applications);
 
   /**
    * @brief Metodo que maneja un request Http
@@ -54,7 +51,6 @@ class HttpAssembler: public Assembler<Socket>{
    * @param httpPackage Paquete para fijar informacion de error
    */
   bool serveNotFound(HttpPackage& httpPackage);
-
 };
 
 #endif

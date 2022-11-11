@@ -34,18 +34,13 @@ void HttpConnectionHandler::consume(Socket client) {
   this->assembler->setConsumingQueueASBM(this->producingQueue);
   this->producingQueue->push(client);
   this->assembler->startThread();
-  
+
   // aca creamos los hilos de httapss que son assemblers tambien
   // consumen los packages -> producen los packages
 
+  // aca talvez va el empaquetador?
 
-  
-  //aca talvez va el empaquetador?
-
-  
-  //wait to finish probablemente se encicle porque no
-  //hay condicion de parada
-  //this->assembler->waitToFinish(); 
+  // wait to finish probablemente se encicle porque no
+  // hay condicion de parada
+  // this->assembler->waitToFinish();
 }
-
-

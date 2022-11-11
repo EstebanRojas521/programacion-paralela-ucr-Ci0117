@@ -1,26 +1,27 @@
 // Copyright 2022  Yasmyn Chacón Hernández,Ulises Fonseca Hurtado
 // y Esteban Rojas Carranza - Universidad de Costa Rica.
 
+#include <string>
+
 #include "HttpAssembler.hpp"
 #include "HttpConnectionHandler.hpp"
 #include "Log.hpp"
 #include "NetworkAddress.hpp"
 
 HttpAssembler::HttpAssembler(std::vector<HttpApp*> applications)
-    :applications(applications){
+  :applications(applications) {
 }
 
 
-int HttpAssembler::run(){
+int HttpAssembler::run() {
   this->consumeForeverASBM();
 
   return 0;
 }
 
-
-void HttpAssembler::consumeASBM(Socket client){
-    //aca creamos los hilos de las apps?
-    while (true) {
+void HttpAssembler::consumeASBM(Socket client) {
+  // aca creamos los hilos de las apps?
+  while (true) {
     // break;
     // Create an object that parses the HTTP request from the socket
     HttpRequest httpRequest(client);
@@ -37,9 +38,9 @@ void HttpAssembler::consumeASBM(Socket client){
     HttpResponse httpResponse(client);
 
     std::vector<int64_t> numerosIngresados;
-    //ttpPackage httpPackage(httpRequest, httpResponse,nullptr,false);
+    // HttpPackage httpPackage(httpRequest, httpResponse,nullptr,false);
     // Give subclass a chance to respond the HTTP request
-    HttpPackage package(httpRequest,httpResponse,numerosIngresados,false);
+    HttpPackage package(httpRequest, httpResponse, numerosIngresados, false);
     const bool handled = this->handleHttpRequest(package);
     // If subclass did not handle the request or the client used HTTP/1.0
     if (!handled || httpRequest.getHttpVersion() == "HTTP/1.0") {
@@ -75,7 +76,7 @@ bool HttpAssembler::handleHttpRequest(HttpPackage& httpPackage) {
 bool HttpAssembler::route(HttpPackage& httpPackage) {
   // Traverse the chain of applications
   // bool entered = true;
-  //aca van los hilos de htpp app que se crean 
+  // aca van los hilos de htpp app que se crean
   for (size_t index = 0; index < this->applications.size(); ++index) {
     // If this application handles the request
     HttpApp* app = this->applications[index];

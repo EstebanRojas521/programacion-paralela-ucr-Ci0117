@@ -13,7 +13,7 @@
 #include "Socket.hpp"
 
 struct  HttpPackage{
-  public:
+ public:
   /// Request de cada package
   HttpRequest httpRequest;
   /// Response de cada package
@@ -24,25 +24,23 @@ struct  HttpPackage{
   // resultado de la clase Goldbach std::vector<resultados> results;
   bool solicitudInvalida = false;
 
-  public:
-  
-  HttpPackage( HttpRequest httpRequest = HttpRequest(), HttpResponse httpResponse = HttpResponse(),
-  std::vector<int64_t> numerosIngresados = {0}, bool solicitudInvalida = false)
-  : httpRequest(httpRequest)
-  ,httpResponse(httpResponse)
-  ,numerosIngresados(numerosIngresados)
-  ,solicitudInvalida(solicitudInvalida) {}
+ public:
+  HttpPackage(HttpRequest httpRequest = HttpRequest(),
+               HttpResponse httpResponse = HttpResponse(),
+                std::vector<int64_t> numerosIngresados = {0},
+                 bool solicitudInvalida = false)
+    : httpRequest(httpRequest)
+    , httpResponse(httpResponse)
+    , numerosIngresados(numerosIngresados)
+    , solicitudInvalida(solicitudInvalida) {}
 
-
-   inline bool operator==(const HttpPackage& other) const {
+  inline bool operator==(const HttpPackage& other) const {
     return this->httpRequest == other.httpRequest
       && this->httpResponse == other.httpResponse
       && this->solicitudInvalida == other.solicitudInvalida;
   }
 
-  //HttpPackage(){}
+  // HttpPackage(){}
 };
-
-
 
 #endif
