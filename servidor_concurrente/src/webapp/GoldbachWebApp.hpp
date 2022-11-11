@@ -77,14 +77,13 @@ class GoldbachWebApp : public HttpApp{
   bool handleHttpRequest(HttpPackage& httpPackage) override;
 
 
-   //bool appFound(HttpPackage& httpPackage) override;
+  // bool appFound(HttpPackage& httpPackage) override;
  protected:
   /**
    * @brief Consume las solicitudes disponibles en la cola
    * @param httpPackage contiene las solicitudes y respuestas
    */
-  //void consume(HttpPackage httpPackage);
-
+  // void consume(HttpPackage httpPackage);
 
   bool serveHomePage(HttpPackage httpPackage);
 
@@ -121,7 +120,6 @@ class GoldbachWebApp : public HttpApp{
    * @param httpPackage paquete de solicitudes y respuestas
    */
   void invalidRequest(HttpPackage httpPackage);
-
 };
 
 #endif  // GOLDBACHWEBAPP_HPP

@@ -29,7 +29,7 @@ class SumGoldbachModel: public Producer<GoldbachStruct>{
   int64_t number;
   int64_t first;
   int64_t last;
-  explicit SumGoldbachModel(int64_t number,int64_t first,int64_t last);
+  explicit SumGoldbachModel(int64_t number, int64_t first, int64_t last);
 
   /**
    * @brief Destructor de SumGoldbachModel
@@ -104,8 +104,7 @@ class SumGoldbachModel: public Producer<GoldbachStruct>{
    */
   GoldbachStruct processGoldbachNumber(NumberStruct* numberStruct);
 
-
-   GoldbachStruct sumador(int number);
+  GoldbachStruct sumador(int number);
 
   /**
    * @brief Metodo que procesa los numeros ingresados por el usuario con base en el URI
@@ -149,8 +148,7 @@ class SumGoldbachModel: public Producer<GoldbachStruct>{
   void goldbach_print(struct NumberStruct* goldbachStruct,
                                               HttpResponse& httpResponse);
 
-  protected:
-
+ protected:
   int run() override;
 };
 

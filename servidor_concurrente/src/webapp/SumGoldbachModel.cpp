@@ -4,10 +4,10 @@
 #include "SumGoldbachModel.hpp"
 #include <cstdlib>
 
-SumGoldbachModel::SumGoldbachModel(int64_t number,int64_t first,int64_t last)
+SumGoldbachModel::SumGoldbachModel(int64_t number, int64_t first, int64_t last)
     :number(number)
-    ,first(first)
-    ,last(last){}
+    , first(first)
+    , last(last) {}
 
 SumGoldbachModel::~SumGoldbachModel() {}
 
@@ -112,8 +112,9 @@ void SumGoldbachModel::processUnevenSums(NumberStruct* numberStruct) {
     }
 }
 
-GoldbachStruct SumGoldbachModel::processGoldbachNumber(NumberStruct* numberStruct) {
-     GoldbachStruct answer;
+GoldbachStruct SumGoldbachModel::processGoldbachNumber(
+                                            NumberStruct* numberStruct) {
+    GoldbachStruct answer;
     int64_t absNumber = (int64_t)abs(numberStruct->number);
     if (absNumber > 5) {
         // numberStruct->results = results;
@@ -130,10 +131,10 @@ GoldbachStruct SumGoldbachModel::processGoldbachNumber(NumberStruct* numberStruc
     }
     answer.number = numberStruct->number;
     answer.resultsVector = numberStruct->results;
-    if(first == 1){ 
+    if (first == 1) {
         answer.first = true;
     }
-    if(last == 1){
+    if (last == 1) {
         answer.last = true;
     }
     return answer;
@@ -141,24 +142,23 @@ GoldbachStruct SumGoldbachModel::processGoldbachNumber(NumberStruct* numberStruc
 
 
 int SumGoldbachModel::run() {
-    //std::vector<NumberStruct> numberStruct;
+    // std::vector<NumberStruct> numberStruct;
 
     GoldbachStruct answer;
     // Creating vector of numbers
-    
     // lleno vector -> calculo golbach
-    //int size = httpPackage.numerosIngresados.size();
-    //int64_t number = httpPackage.numerosIngresados[i];
+    // int size = httpPackage.numerosIngresados.size();
+    // int64_t number = httpPackage.numerosIngresados[i];
     // Se crea numberStruct
     NumberStruct* numberStruct = new NumberStruct();
     // Se asigna numero ingresado al numberStruct
     numberStruct->number = this->number;
     // Se procesan las sumas de goldbach
     this->produce(this->processGoldbachNumber(numberStruct));
-    //std::cout<<numberStruct->number<<std::endl;
+    // std::cout<<numberStruct->number<<std::endl;
     // condicion de parada
-    //std::cout<<"Boleano:"<<this->first<<std::endl;  
-   
+    // std::cout<<"Boleano:"<<this->first<<std::endl;
+
     answer.resultsVector = numberStruct->results;
     answer.number = number;
     return 0;

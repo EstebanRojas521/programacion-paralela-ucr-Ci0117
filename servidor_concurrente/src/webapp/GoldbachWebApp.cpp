@@ -94,48 +94,48 @@ bool GoldbachWebApp::handleHttpRequest(HttpPackage& httpPackage) {
     int finish = matches[0].length() - 1;
     // httpPackage.
     // serveGOlbach(start, finish,package);
-    //creamos vector de numeros
+    // creamos vector de numeros
     this->createVectorOfNumbers(start, finish, URI,
     httpPackage.numerosIngresados);
     producers.resize(httpPackage.numerosIngresados.size());
     // aca llamamos al equipo trabajor de hilos
     // que regresan? los resultados, pero en que forma?
-    //SumGoldbachModel* sumGoldbachModel = new SumGoldbachModel();
+    // SumGoldbachModel* sumGoldbachModel = new SumGoldbachModel();
     // aca creamos un hilo para cada numero de httpPackage.numerosIngresados
     // regresan un golbach struct que se pone en cola para el assembler
     int size = httpPackage.numerosIngresados.size();
     bool verdadero = true;
     bool falso = false;
-    if(size == 1){
-      producers[0] = new SumGoldbachModel(httpPackage.numerosIngresados[0],verdadero,verdadero);
-    }
-    else if(size == 2){
-      producers[0] = new SumGoldbachModel(httpPackage.numerosIngresados[0],verdadero,falso);
-      producers[1] = new SumGoldbachModel(httpPackage.numerosIngresados[1],falso,verdadero);
-    }
-    else{
-      for(int i  = 0 ; i < size; i++){
+    if (size == 1) {
+      producers[0] = new SumGoldbachModel(httpPackage.numerosIngresados[0],
+                                          verdadero, verdadero);
+    } else if (size == 2) {
+      producers[0] = new SumGoldbachModel(httpPackage.numerosIngresados[0],
+                                          verdadero, falso);
+      producers[1] = new SumGoldbachModel(httpPackage.numerosIngresados[1],
+                                          falso, verdadero);
+    } else {
+      for (int i  = 0 ; i < size; i++) {
         int number = httpPackage.numerosIngresados[i];
         int verdadero = 1;
         int falso = 0;
-        if(i == 0){
-          producers[i] = new SumGoldbachModel(number,verdadero,falso);
+        if (i == 0) {
+          producers[i] = new SumGoldbachModel(number, verdadero, falso);
         }
-        if(i != size-1&&i!=0){
-          //std::cout<<number<<std::endl;
-          producers[i] = new SumGoldbachModel(number,falso,falso);
-        }
-        else if(i!=0){ 
-          //el el ultimo, queremos que se detenga
-          producers[i] = new SumGoldbachModel(number,falso,verdadero);
+        if (i != size-1 && i != 0) {
+          // std::cout<<number<<std::endl;
+          producers[i] = new SumGoldbachModel(number, falso, falso);
+        } else if (i != 0) {
+          // el el ultimo, queremos que se detenga
+          producers[i] = new SumGoldbachModel(number, falso, verdadero);
         }
       }
     }
-    for(int i  = 0 ; i < size; i++){
+    for (int i  = 0 ; i < size; i++) {
       producers[i]->setProducingQueue(assembler->getConsumingQueueASBM());
     }
 
-    for(int i  = 0 ; i < size; i++){
+    for (int i  = 0 ; i < size; i++) {
       producers[i]->startThread();
     }
     assembler->setProducingQueueASBM(fakeAssembler->getConsumingQueueASBM());
@@ -194,9 +194,6 @@ void GoldbachWebApp::invalidRequest(HttpPackage httpPackage) {
   << "</html>\n";
 }
 
-
-int GoldbachWebApp::run(){
+int GoldbachWebApp::run() {
   return 0;
-};
-
-
+}
