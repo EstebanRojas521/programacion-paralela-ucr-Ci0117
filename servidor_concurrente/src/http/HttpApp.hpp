@@ -5,6 +5,8 @@
 
 #include "common.hpp"
 #include "HttpPackage.hpp"
+#include "Consumer.hpp"
+#include "Socket.hpp"
 class HttpRequest;
 class HttpResponse;
 
@@ -12,7 +14,7 @@ class HttpResponse;
 @brief Base class for all web applications that can be registered with the
 web server.
 */
-class HttpApp {
+class HttpApp:public Consumer<HttpPackage> {
   /// Web application objects are usually complex. This base class does not
   /// require child classes to allow copying
   DISABLE_COPY(HttpApp);

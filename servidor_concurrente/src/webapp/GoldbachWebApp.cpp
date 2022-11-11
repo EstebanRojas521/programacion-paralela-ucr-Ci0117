@@ -37,8 +37,6 @@ bool GoldbachWebApp::handleHttpRequest(HttpPackage& httpPackage) {
   httpPackage.httpRequest.getURI() == "/") {
     return this->serveHomePage(httpPackage);
   }
-
-  // aca no se deberia analizar ningun vector
   std::smatch matches;
   std::string URI = httpPackage.httpRequest.getURI();
   this->replaceCharacters(URI, std::string("%2C"), std::string("+"));
@@ -46,9 +44,6 @@ bool GoldbachWebApp::handleHttpRequest(HttpPackage& httpPackage) {
   std::regex inQuery
   ("^/goldbach(/|\\?number=)(\\d+|\\-\\d+)(?:\\+(\\d+|\\-\\d+))*$");
   if (std::regex_search(URI, matches, inQuery)) {
-    // aca pidieron golbach
-    // tengo que llamar a serve golbach aca
-
     assert(matches.length() >= 3);
     int start = matches[1].length() == 1 ? 9 : 16;
     int finish = matches[0].length() - 1;
@@ -112,3 +107,10 @@ void GoldbachWebApp::invalidRequest(HttpPackage httpPackage) {
   << "  <hr><p><a href=\"/\">Back</a></p>\n"
   << "</html>\n";
 }
+
+
+int GoldbachWebApp::run(){
+  return 0;
+};
+
+

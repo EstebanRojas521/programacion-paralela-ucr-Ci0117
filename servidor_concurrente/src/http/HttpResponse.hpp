@@ -29,6 +29,7 @@ class HttpResponse : public HttpMessage {
  public:
   /// Constructor
   explicit HttpResponse(const Socket& socket);
+  explicit HttpResponse();
   /// Destructor
   ~HttpResponse();
   /// Set the status code, and optionally the status text (reason phrase)

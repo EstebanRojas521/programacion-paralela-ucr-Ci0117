@@ -6,15 +6,16 @@
 #define HTTPPACKAGE_H
 #include <inttypes.h>
 #include <vector>
+#include <cstdint>
 #include "common.hpp"
 #include "HttpRequest.hpp"
 #include "HttpResponse.hpp"
-
+#include "Socket.hpp"
 
 struct  HttpPackage{
   public:
   /// Request de cada package
-  HttpRequest httpRequest ;
+  HttpRequest httpRequest;
   /// Response de cada package
   HttpResponse httpResponse;
   /// Vector de numeros ingresados por el usuario
@@ -23,13 +24,21 @@ struct  HttpPackage{
   // resultado de la clase Goldbach std::vector<resultados> results;
   bool solicitudInvalida = false;
 
- public:
-  HttpPackage( HttpRequest httpRequest, HttpResponse httpResponse,
-  std::vector<int64_t> numerosIngresados, bool solicitudInvalida)
+  public:
+  
+  HttpPackage( HttpRequest httpRequest = HttpRequest(), HttpResponse httpResponse = HttpResponse(),
+  std::vector<int64_t> numerosIngresados = {0}, bool solicitudInvalida = false)
   : httpRequest(httpRequest)
   ,httpResponse(httpResponse)
   ,numerosIngresados(numerosIngresados)
   ,solicitudInvalida(solicitudInvalida) {}
+
+
+   inline bool operator==(const HttpPackage& other) const {
+    return this->httpRequest == other.httpRequest
+      && this->httpResponse == other.httpResponse
+      && this->solicitudInvalida == other.solicitudInvalida;
+  }
 
   //HttpPackage(){}
 };

@@ -14,6 +14,9 @@ HttpMessage::HttpMessage(const Socket& socket)
   , sharedBody{new std::stringstream()} {
 }
 
+
+HttpMessage::HttpMessage() {
+}
 HttpMessage::~HttpMessage() {
 }
 

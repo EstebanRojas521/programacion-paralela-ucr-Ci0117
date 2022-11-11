@@ -9,7 +9,7 @@
 
 #include "Queue.hpp"
 #include "Thread.hpp"
-
+#include "HttpPackage.hpp"
 /**
  * @brief A template that generates abstract base classes for Consumers
  * Consumers are execution threads. They extract elements from a queue

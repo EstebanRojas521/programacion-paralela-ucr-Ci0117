@@ -13,6 +13,11 @@ HttpRequest::HttpRequest(const Socket& socket)
   : HttpMessage(socket) {
 }
 
+HttpRequest::HttpRequest(){
+ 
+}
+
+
 HttpRequest::~HttpRequest() {
 }
 

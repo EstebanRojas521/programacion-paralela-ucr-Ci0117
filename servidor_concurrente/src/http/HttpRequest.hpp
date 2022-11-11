@@ -22,7 +22,11 @@ class HttpRequest : public HttpMessage {
 
  public:
   /// Constructor
+
+  explicit HttpRequest();
   explicit HttpRequest(const Socket& socket);
+
+  
   /// Destructor
   ~HttpRequest();
   /// Parses an HTTP request from the data sent from the socket

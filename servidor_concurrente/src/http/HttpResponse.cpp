@@ -11,6 +11,9 @@ HttpResponse::HttpResponse(const Socket& socket)
   : HttpMessage{socket} {
 }
 
+HttpResponse::HttpResponse() {
+}
+
 HttpResponse::~HttpResponse() {
 }
 

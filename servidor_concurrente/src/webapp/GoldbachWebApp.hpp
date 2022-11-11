@@ -33,6 +33,14 @@ class GoldbachWebApp : public HttpApp{
    */
   GoldbachWebApp();
 
+
+    int run() override;
+
+  /**
+   * @brief Metodo que consume sockets
+   * @param client El socket a consumir
+   */
+    void consume(HttpPackage package) override;
   /**
    * @brief Destructor de GoldbachWebApp.
    */
@@ -62,7 +70,7 @@ class GoldbachWebApp : public HttpApp{
    * @brief Consume las solicitudes disponibles en la cola
    * @param httpPackage contiene las solicitudes y respuestas
    */
-  void consume(HttpPackage httpPackage);
+  //void consume(HttpPackage httpPackage);
 
 
   bool serveHomePage(HttpPackage httpPackage);
@@ -100,6 +108,7 @@ class GoldbachWebApp : public HttpApp{
    * @param httpPackage paquete de solicitudes y respuestas
    */
   void invalidRequest(HttpPackage httpPackage);
+
 };
 
 #endif  // GOLDBACHWEBAPP_HPP
