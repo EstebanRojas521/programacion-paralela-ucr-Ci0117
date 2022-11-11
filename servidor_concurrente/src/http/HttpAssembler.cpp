@@ -37,9 +37,12 @@ void HttpAssembler::consumeASBM(Socket client){
     // A complete HTTP client request was received. Create an object for the
     // server responds to that client's request
     HttpResponse httpResponse(client);
-    HttpPackage httpPackage(httpRequest, httpResponse);
+
+    std::vector<int64_t> numerosIngresados;
+    //ttpPackage httpPackage(httpRequest, httpResponse,nullptr,false);
     // Give subclass a chance to respond the HTTP request
-    const bool handled = this->handleHttpRequest(httpPackage);
+    HttpPackage package(httpRequest,httpResponse,numerosIngresados,false);
+    const bool handled = this->handleHttpRequest(package);
     // If subclass did not handle the request or the client used HTTP/1.0
     if (!handled || httpRequest.getHttpVersion() == "HTTP/1.0") {
       std::cout << "enter" << std::endl;

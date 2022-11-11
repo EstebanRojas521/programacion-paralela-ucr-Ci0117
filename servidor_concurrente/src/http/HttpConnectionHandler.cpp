@@ -26,14 +26,22 @@ int HttpConnectionHandler::run() {
 
 void HttpConnectionHandler::consume(Socket client) {
   // ahora no consume, las pone en cola para el http assembler
-  // pushea http package a una cola
+  // pushea client a una cola
   this->producingQueue = new Queue<Socket>();
 
-  //this->assembler->createOwnQueueASBM();
+  // this->assembler->createOwnQueueASBM();
   this->assembler = new HttpAssembler(applications);
   this->assembler->setConsumingQueueASBM(this->producingQueue);
   this->producingQueue->push(client);
   this->assembler->startThread();
+  
+  // aca creamos los hilos de httapss que son assemblers tambien
+  // consumen los packages -> producen los packages
+
+
+
+  //aca talvez va el empaquetador?
+
   
   //wait to finish probablemente se encicle porque no
   //hay condicion de parada
