@@ -9,8 +9,8 @@
 #include "common.hpp"
 #include "HttpApp.hpp"
 #include "HttpPackage.hpp"
-
-
+#include "GoldbachStruct.hpp"
+#include "Producer.hpp"
 struct NumberStruct{
   // Numero ingresado por usuario
   int64_t number;
@@ -20,12 +20,15 @@ struct NumberStruct{
   std::vector<int64_t> results;
 };
 
-class SumGoldbachModel{
+class SumGoldbachModel: public Producer<GoldbachStruct>{
  public:
   /**
    * @brief Constructor de SumGoldbachModel
    */
-  SumGoldbachModel();
+
+  int64_t number;
+  bool last;
+  explicit SumGoldbachModel(int64_t number,bool last);
 
   /**
    * @brief Destructor de SumGoldbachModel
@@ -98,7 +101,10 @@ class SumGoldbachModel{
    * @details Si el numero es par lo manda a processEvenSums, sino lo manda a processUnevenSums
    * @param numberStruct Struct de donde se saca el numero ingresado por el usuario
    */
-  void processGoldbachNumber(NumberStruct* numberStruct);
+  GoldbachStruct processGoldbachNumber(NumberStruct* numberStruct);
+
+
+   GoldbachStruct sumador(int number);
 
   /**
    * @brief Metodo que procesa los numeros ingresados por el usuario con base en el URI
@@ -112,30 +118,6 @@ class SumGoldbachModel{
    */
   void serveGolbach(int start, int finish, HttpPackage& httpPackage,
                                             std::string URI);
-
-  /** 
-   * @brief  Method that stores in64_t numbers present in a row, in a vector.
-   * vector.
-   * @details This method assumes that the row has passed through the regex of the method
-   * extractNumbersFromURI method, so it iterates over the row until it * encounters a + character.
-   * encounters a + character. If it finds it, then it tries to perform the
-   * conversion to number, if the conversion is unsuccessful it stops iterating and stops
-   * convert the numbers.
-   * @param URI string of characters to be parsed.
-   * @param numbers The vector where the numbers will be stored after reading them.
-   * @param start beginning of the string
-   * @param finish Where the string ends
-   */
-  void createVectorOfNumbers(int start , int finish, const std::string URI,
-                                                std::vector<int64_t>& numbers);
-
-  /** 
-   * @brief Metodo que convierte una hilera a numero
-   * @param number hilera a convertir en numero
-   * @param converted_number numero convertido desde la hilera number
-   * @return retorna false si convirtio el numero con exito, true caso contrarioS
-   */
-  bool convertStringToInt(std::string& number, int64_t& converted_number);
 
 
   /**
@@ -165,6 +147,10 @@ class SumGoldbachModel{
    */
   void goldbach_print(struct NumberStruct* goldbachStruct,
                                               HttpResponse& httpResponse);
+
+  protected:
+
+  int run() override;
 };
 
 #endif

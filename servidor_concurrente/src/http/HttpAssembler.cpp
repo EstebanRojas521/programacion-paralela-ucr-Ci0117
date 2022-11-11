@@ -19,9 +19,7 @@ int HttpAssembler::run(){
 
 
 void HttpAssembler::consumeASBM(Socket client){
-  //aca creamos los hilos de las
-    // apps?
-
+    //aca creamos los hilos de las apps?
     while (true) {
     // break;
     // Create an object that parses the HTTP request from the socket

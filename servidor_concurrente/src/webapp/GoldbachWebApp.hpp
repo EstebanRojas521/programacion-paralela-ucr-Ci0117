@@ -12,7 +12,7 @@
 #include "HttpPackage.hpp"
 #include "SumGoldbachModel.hpp"
 #include "common.hpp"
-
+#include "AppAssembler.hpp"
 /**
 * @brief A web application that calculates sums of goldbach
 */
@@ -46,7 +46,18 @@ class GoldbachWebApp : public HttpApp{
    */
   ~GoldbachWebApp();
 
-  /**
+
+  /** 
+   * @brief Metodo que convierte una hilera a numero
+   * @param number hilera a convertir en numero
+   * @param converted_number numero convertido desde la hilera number
+   * @return retorna false si convirtio el numero con exito, true caso contrarioS
+   */
+  bool convertStringToInt(std::string& number, int64_t& converted_number);
+
+
+
+  /** 
    * @brief Se llama cuando el servidor se inicia
    */
   void start() override;
@@ -65,6 +76,8 @@ class GoldbachWebApp : public HttpApp{
    */
   bool handleHttpRequest(HttpPackage& httpPackage) override;
 
+
+   //bool appFound(HttpPackage& httpPackage) override;
  protected:
   /**
    * @brief Consume las solicitudes disponibles en la cola

@@ -4,7 +4,9 @@
 #include "SumGoldbachModel.hpp"
 #include <cstdlib>
 
-SumGoldbachModel::SumGoldbachModel() {}
+SumGoldbachModel::SumGoldbachModel(int64_t number,bool last)
+    :number(number)
+    ,last(last){}
 
 SumGoldbachModel::~SumGoldbachModel() {}
 
@@ -109,7 +111,8 @@ void SumGoldbachModel::processUnevenSums(NumberStruct* numberStruct) {
     }
 }
 
-void SumGoldbachModel::processGoldbachNumber(NumberStruct* numberStruct) {
+GoldbachStruct SumGoldbachModel::processGoldbachNumber(NumberStruct* numberStruct) {
+     GoldbachStruct answer;
     int64_t absNumber = (int64_t)abs(numberStruct->number);
     if (absNumber > 5) {
         // numberStruct->results = results;
@@ -124,92 +127,37 @@ void SumGoldbachModel::processGoldbachNumber(NumberStruct* numberStruct) {
         numberStruct->results.push_back(2);
         numberStruct->results.push_back(2);
     }
+    answer.number = numberStruct->number;
+    answer.resultsVector = numberStruct->results;
+    return answer;
 }
 
-void SumGoldbachModel::serveGolbach(int start, int finish,
-    HttpPackage& httpPackage, std::string URI) {
-    std::vector<NumberStruct> numberStruct;
+
+int SumGoldbachModel::run() {
+    //std::vector<NumberStruct> numberStruct;
+
+    GoldbachStruct answer;
     // Creating vector of numbers
-    this->createVectorOfNumbers(start, finish, URI,
-    httpPackage.numerosIngresados);
-    httpPackage.httpResponse.setHeader("Server", "AttoServer v1.0");
-    httpPackage.httpResponse.setHeader("Content-type",
-    "text/html; charset=ascii");
-    std::string title = "Sums of Goldbach of ";
-
-    int numbers_size = httpPackage.numerosIngresados.size();
-    for (int i=0; i < numbers_size; i++) {
-        title += std::to_string(httpPackage.numerosIngresados[i]);
-        if (i+1 != numbers_size) {
-            title += ',';
-        }
-    }
-
-    httpPackage.httpResponse.body() << "<!DOCTYPE html>\n"
-    << "  <html lang=\"en\">\n"
-    << "  <meta charset=\"ascii\"/>\n"
-    << "  <title>" << title << "</title>\n"
-    << "  <style>body {font-family: monospace} .err {color: red}</style>\n"
-    << "  <h1>" << title << "</h1>\n";
-
+    
     // lleno vector -> calculo golbach
-    int size = httpPackage.numerosIngresados.size();
-    for (int i = 0; i < size; i++) {
-        int64_t number = httpPackage.numerosIngresados[i];
-        // Se crea numberStruct
-        NumberStruct* numberStruct = new NumberStruct();
-        // Se asigna numero ingresado al numberStruct
-        numberStruct->number = number;
-        // Se procesan las sumas de goldbach
-        this->processGoldbachNumber(numberStruct);
-        // Empezamos a crear body
-        this->goldbach_print(numberStruct, httpPackage.httpResponse);
-        // Terminamos de crear body
-        delete numberStruct;
-        // Vamos con siguiente numero
+    //int size = httpPackage.numerosIngresados.size();
+    //int64_t number = httpPackage.numerosIngresados[i];
+    // Se crea numberStruct
+    NumberStruct* numberStruct = new NumberStruct();
+    // Se asigna numero ingresado al numberStruct
+    numberStruct->number = this->number;
+    // Se procesan las sumas de goldbach
+    this->produce(this->processGoldbachNumber(numberStruct));
+    //std::cout<<numberStruct->number<<std::endl;
+    // condicion de parada
+    if(last == true){
+        this->produce(GoldbachStruct());
     }
-
-    httpPackage.httpResponse.body()
-    << "  <hr><p><a href=\"/\">Back</a></p>\n"
-    << "</html>\n";
+    answer.resultsVector = numberStruct->results;
+    answer.number = number;
+    return 0;
 }
 
-void SumGoldbachModel::createVectorOfNumbers(int start, int finish,
-                const std::string URI, std::vector<int64_t>& numbers) {
-    bool out_of_limit  = false;
-    std::string number = "";
-    for (int i = start + 1; i <= finish && !out_of_limit ; i++) {
-        if (URI[i] != '+' && i != finish) {
-            number += URI[i];
-        } else {
-            int64_t converted_number;
-            if (i != finish) {
-                out_of_limit = convertStringToInt(number, converted_number);
-                if (!out_of_limit) {
-                    numbers.push_back(converted_number);
-                    number = "";
-                }
-            } else {
-                number += URI[i];
-                out_of_limit  = convertStringToInt(number, converted_number);
-                if (!out_of_limit) {
-                    numbers.push_back(converted_number);
-                }
-            }
-        }
-    }
-}
-
-bool SumGoldbachModel::convertStringToInt(std::string& number,
-                                            int64_t& converted_number) {
-    bool out_of_limit = false;
-    try {
-        converted_number = std::stoll(number);
-    } catch (const std::out_of_range& out_of_range) {
-        out_of_limit = true;
-    }
-    return out_of_limit;
-}
 
 void SumGoldbachModel::goldbach_print(struct NumberStruct* numberStruct,
                                              HttpResponse& httpResponse) {
