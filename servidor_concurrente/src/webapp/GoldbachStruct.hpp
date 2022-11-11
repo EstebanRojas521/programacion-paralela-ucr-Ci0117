@@ -18,13 +18,18 @@ struct GoldbachStruct {
   int64_t number = 0;
   /// The source producer
   std::vector<int64_t> resultsVector = {0};
+  bool first =  false;
+  bool last =  false;
   /// The contents of the message (body or payload)
 
  public:
   /// Convenience constructor
-  GoldbachStruct(int64_t number  = 0, std::vector<int64_t>resultsVector = {0})
+  GoldbachStruct(int64_t number  = 0, std::vector<int64_t>resultsVector = {0}
+  ,bool first = false, bool last = false)
     : number(number)
-    , resultsVector(resultsVector) {
+    , resultsVector(resultsVector)
+    , first(first)
+    ,last(last) {
   }
 
   // no se necesita creo?

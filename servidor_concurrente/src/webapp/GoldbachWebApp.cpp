@@ -86,6 +86,8 @@ bool GoldbachWebApp::handleHttpRequest(HttpPackage& httpPackage) {
   if (std::regex_search(URI, matches, inQuery)) {
     std::vector<SumGoldbachModel*> producers;
     AppAssembler* assembler = new AppAssembler(httpPackage);
+    AppAssembler* fakeAssembler = new AppAssembler(httpPackage);
+    fakeAssembler->createOwnQueueASBM();
     assembler->createOwnQueueASBM();
     assert(matches.length() >= 3);
     int start = matches[1].length() == 1 ? 9 : 16;
@@ -102,15 +104,31 @@ bool GoldbachWebApp::handleHttpRequest(HttpPackage& httpPackage) {
     // aca creamos un hilo para cada numero de httpPackage.numerosIngresados
     // regresan un golbach struct que se pone en cola para el assembler
     int size = httpPackage.numerosIngresados.size();
-    
-    for(int i  = 0 ; i < size; i++){
-      int number = httpPackage.numerosIngresados[i];
-      if(i != size-1){
-        producers[i] = new SumGoldbachModel(number,false);
-      }
-      else{ 
-        //el el ultimo, queremos que se detenga
-        producers[i] = new SumGoldbachModel(number,true);
+    bool verdadero = true;
+    bool falso = false;
+    if(size == 1){
+      producers[0] = new SumGoldbachModel(httpPackage.numerosIngresados[0],verdadero,verdadero);
+    }
+    else if(size == 2){
+      producers[0] = new SumGoldbachModel(httpPackage.numerosIngresados[0],verdadero,falso);
+      producers[1] = new SumGoldbachModel(httpPackage.numerosIngresados[1],falso,verdadero);
+    }
+    else{
+      for(int i  = 0 ; i < size; i++){
+        int number = httpPackage.numerosIngresados[i];
+        int verdadero = 1;
+        int falso = 0;
+        if(i == 0){
+          producers[i] = new SumGoldbachModel(number,verdadero,falso);
+        }
+        if(i != size-1&&i!=0){
+          //std::cout<<number<<std::endl;
+          producers[i] = new SumGoldbachModel(number,falso,falso);
+        }
+        else if(i!=0){ 
+          //el el ultimo, queremos que se detenga
+          producers[i] = new SumGoldbachModel(number,falso,verdadero);
+        }
       }
     }
     for(int i  = 0 ; i < size; i++){
@@ -120,8 +138,9 @@ bool GoldbachWebApp::handleHttpRequest(HttpPackage& httpPackage) {
     for(int i  = 0 ; i < size; i++){
       producers[i]->startThread();
     }
+    assembler->setProducingQueueASBM(fakeAssembler->getConsumingQueueASBM());
     assembler->startThread();
-    
+    assembler->waitToFinish();
   } else {
     httpPackage.solicitudInvalida = true;
     this->invalidRequest(httpPackage);

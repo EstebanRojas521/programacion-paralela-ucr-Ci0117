@@ -27,8 +27,9 @@ class SumGoldbachModel: public Producer<GoldbachStruct>{
    */
 
   int64_t number;
-  bool last;
-  explicit SumGoldbachModel(int64_t number,bool last);
+  int64_t first;
+  int64_t last;
+  explicit SumGoldbachModel(int64_t number,int64_t first,int64_t last);
 
   /**
    * @brief Destructor de SumGoldbachModel

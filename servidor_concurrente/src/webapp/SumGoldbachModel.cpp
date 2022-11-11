@@ -4,8 +4,9 @@
 #include "SumGoldbachModel.hpp"
 #include <cstdlib>
 
-SumGoldbachModel::SumGoldbachModel(int64_t number,bool last)
+SumGoldbachModel::SumGoldbachModel(int64_t number,int64_t first,int64_t last)
     :number(number)
+    ,first(first)
     ,last(last){}
 
 SumGoldbachModel::~SumGoldbachModel() {}
@@ -129,6 +130,12 @@ GoldbachStruct SumGoldbachModel::processGoldbachNumber(NumberStruct* numberStruc
     }
     answer.number = numberStruct->number;
     answer.resultsVector = numberStruct->results;
+    if(first == 1){ 
+        answer.first = true;
+    }
+    if(last == 1){
+        answer.last = true;
+    }
     return answer;
 }
 
@@ -150,9 +157,8 @@ int SumGoldbachModel::run() {
     this->produce(this->processGoldbachNumber(numberStruct));
     //std::cout<<numberStruct->number<<std::endl;
     // condicion de parada
-    if(last == true){
-        this->produce(GoldbachStruct());
-    }
+    //std::cout<<"Boleano:"<<this->first<<std::endl;  
+   
     answer.resultsVector = numberStruct->results;
     answer.number = number;
     return 0;
