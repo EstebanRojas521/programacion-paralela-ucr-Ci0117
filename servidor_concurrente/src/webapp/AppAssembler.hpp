@@ -19,19 +19,15 @@
 #include "GoldbachStruct.hpp"
 
 class AppAssembler: public Assembler<GoldbachStruct>{
+  // talvez haya que poner referencia
+  HttpPackage& package;
 
-    //talvez haya que poner referencia
-    HttpPackage& package;
+ public:
+  explicit AppAssembler(HttpPackage& httpPackage);
+  int run() override;
+  void consumeASBM(GoldbachStruct data) override;
 
-    public:
-    
-        
-
-    explicit AppAssembler(HttpPackage& httpPackage);
-    int run() override; 
-    void consumeASBM(GoldbachStruct data) override;
-
-    /**
+  /**
    * @brief Imprimime los resultados de la suma de Goldbach cuando
    * los datos son válidos. Imprime resultados para números pares
    * @param goldbachStruct contiene lnumberos resultados

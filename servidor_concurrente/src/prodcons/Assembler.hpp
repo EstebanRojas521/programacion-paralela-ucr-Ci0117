@@ -7,10 +7,11 @@
 
 #include <cassert>
 
-//#include "Consumer.hpp"
-//#include "Producer.hpp"
+// #include "Consumer.hpp"
+// #include "Producer.hpp"
 #include "Queue.hpp"
 #include "Thread.hpp"
+
 /**
  * @brief An assembler is a worker of a assembly line. It receives incomplete
  * products, does some pre-defined work of them, and the resulting product
@@ -31,11 +32,13 @@ template <typename DataType>
 class Assembler: public virtual Thread{
   /// Objects of this class cannot be copied
   DISABLE_COPY(Assembler);
-protected:
-    Queue<DataType>* consumingQueue;
-    Queue<DataType>* producingQueue;
-    const DataType stopCondition;
-    bool ownsQueue;
+
+ protected:
+  Queue<DataType>* consumingQueue;
+  Queue<DataType>* producingQueue;
+  const DataType stopCondition;
+  bool ownsQueue;
+
  public:
   /// Constructor
   explicit Assembler(Queue<DataType>* consumingQueue = nullptr
@@ -43,7 +46,7 @@ protected:
     const DataType& stopCondition = DataType(),
     bool createOwnQueue = false)
     : consumingQueue(consumingQueue)
-    //aqui va coma o dos puntos
+    // aqui va coma o dos puntos
     , producingQueue(producingQueue)
     , stopCondition(stopCondition)
     , ownsQueue(createOwnQueue) {
@@ -54,15 +57,12 @@ protected:
     }
   }
 
-
-
   /// Destructor
   virtual ~Assembler() {
-     if (this->ownsQueue) {
+    if (this->ownsQueue) {
       delete this->consumingQueue;
     }
   }
-
 
   /// Get access to the queue where this thread will consume
   inline Queue<DataType>* getConsumingQueueASBM() {
@@ -94,10 +94,10 @@ protected:
       }
       // Process this data
       this->consumeASBM(data);
-    } 
+    }
   }
 
-    inline Queue<DataType>* getProducingQueueASBM() {
+  inline Queue<DataType>* getProducingQueueASBM() {
     return this->producingQueue;
   }
 
@@ -110,11 +110,8 @@ protected:
     this->producingQueue->push(data);
   }
 
-
-
   /// Override this method to process any data extracted from the queue
   virtual void consumeASBM(DataType data) = 0;
-
 };
 
 #endif  // ASSEMBLER_HPP

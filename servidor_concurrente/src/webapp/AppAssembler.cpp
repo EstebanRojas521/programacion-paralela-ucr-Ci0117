@@ -1,23 +1,19 @@
 // Copyright 2022  Yasmyn Chacón Hernández,Ulises Fonseca Hurtado
 // y Esteban Rojas Carranza - Universidad de Costa Rica.
 
+#include <string>
 #include "AppAssembler.hpp"
 
-
 AppAssembler::AppAssembler(HttpPackage& package)
-    :package(package){
-        
-    }
+    :package(package) {
+}
 
-
-int AppAssembler::run(){
+int AppAssembler::run() {
     this->consumeForeverASBM();
-
     return 0;
 }
 
-
-void AppAssembler::consumeASBM(GoldbachStruct data){
+void AppAssembler::consumeASBM(GoldbachStruct data) {
     data = data;
 
     // //std::cout<<"Im in AppAssembler"<<std::endl;
@@ -30,10 +26,9 @@ void AppAssembler::consumeASBM(GoldbachStruct data){
     // }
     // //aca imprimo resultados
 
-
-    //aca creamos HTML para enviarlo al sender 
-    if(data.first == true){
-        //std::cout<<"GOT TO APP"<<std::endl;   
+    // aca creamos HTML para enviarlo al sender
+    if (data.first == true) {
+        // std::cout<<"GOT TO APP"<<std::endl;
         package.httpResponse.setHeader("Server", "AttoServer v1.0");
         package.httpResponse.setHeader("Content-type",
         "text/html; charset=ascii");
@@ -54,20 +49,17 @@ void AppAssembler::consumeASBM(GoldbachStruct data){
         << "  <h1>" << title << "</h1>\n";
     }
     this->goldbach_print(data);
-    if(data.last == true){
-        //llamamos a sender
+    if (data.last == true) {
+        // llamamos a sender
         package.httpResponse.body()
         << "  <hr><p><a href=\"/\">Back</a></p>\n"
         << "</html>\n";
-        //this->produceASBM(GoldbachStruct());
+        // this->produceASBM(GoldbachStruct());
 
-
-        //no hice sender:(
+        // no hice sender:(
         this->package.httpResponse.send();
     }
 }
-
-
 
 void AppAssembler::goldbach_print(GoldbachStruct data) {
     int64_t absNumber = (int64_t)abs(data.number);
@@ -78,7 +70,6 @@ void AppAssembler::goldbach_print(GoldbachStruct data) {
     }
     package.httpResponse.body() << "<h1>     </h1>\n";
 }
-
 
 void AppAssembler::print_even(GoldbachStruct data) {
     int64_t minusOne = -1;
