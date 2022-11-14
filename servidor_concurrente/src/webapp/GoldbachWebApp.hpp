@@ -33,19 +33,18 @@ class GoldbachWebApp : public HttpApp{
    */
   GoldbachWebApp();
 
-
-    int run() override;
+  int run() override;
 
   /**
-   * @brief Metodo que consume sockets
-   * @param client El socket a consumir
+   * @brief Metodo que consume HttpPackages
+   * @param package El package a consumir
    */
-    void consume(HttpPackage package) override;
+  void consume(HttpPackage package) override;
+
   /**
    * @brief Destructor de GoldbachWebApp.
    */
   ~GoldbachWebApp();
-
 
   /** 
    * @brief Metodo que convierte una hilera a numero
@@ -54,8 +53,6 @@ class GoldbachWebApp : public HttpApp{
    * @return retorna false si convirtio el numero con exito, true caso contrarioS
    */
   bool convertStringToInt(std::string& number, int64_t& converted_number);
-
-
 
   /** 
    * @brief Se llama cuando el servidor se inicia
@@ -76,15 +73,11 @@ class GoldbachWebApp : public HttpApp{
    */
   bool handleHttpRequest(HttpPackage& httpPackage) override;
 
-
-  // bool appFound(HttpPackage& httpPackage) override;
  protected:
   /**
-   * @brief Consume las solicitudes disponibles en la cola
-   * @param httpPackage contiene las solicitudes y respuestas
+   * @brief Metodo que construye el mensaje base a mostrar al usuario
+   * @param httpPackage Package donde se guarda el mensaje
    */
-  // void consume(HttpPackage httpPackage);
-
   bool serveHomePage(HttpPackage httpPackage);
 
   /** 
