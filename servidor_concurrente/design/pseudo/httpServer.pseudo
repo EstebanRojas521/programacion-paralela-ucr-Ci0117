@@ -1,0 +1,43 @@
+procedimiento handleClientConnection(Socket)
+	queue(Socket)
+fin procedimiento
+
+procedimiento iniciar(argc,  argv[]) 
+        stopApps
+    intentar
+        if  analyzeArguments(argc, argv)
+            getInstance iniciar
+            for  index := 0  applications hacer
+                applications iniciar
+            fin for
+        stopApps := true
+        listenForConnections(port)
+        recibir solicitudes (hereda de TCPServer)
+            crea una cola de producción
+            crea consumidores
+        for index := 0  numberOfThreads hacer
+            crea consumidores tipo HttpConnectionHandler r(applications)
+        fin for
+        for index := 0 numberOfThreads
+            consume solicitudes – inicia hilo
+            acepta todas las conecciones
+        fin for
+    atrapar en caso de error de conección
+        for index := 0 numberOfThreads
+            detener, enviar condición de parada
+            y detener de forma secuencial enviando paquete con elementos en 0
+        fin for
+fin procedimiento
+
+procedimiento analyzeArguments(argc, argv[]) 
+	for index := 1 argc hacer
+	verificar argumentos recibidos
+        if argumentos son válidos 
+            aceptar y asignar cantidad de hilos indicados
+            si no se indica cantidad de hilos, dar por defecto 10
+fin procedimiento
+
+procedimiento stop()
+	detener servidor, no recibe solicitudes
+	mostrar mensaje de que se ha detenido el servidor
+fin procedimiento

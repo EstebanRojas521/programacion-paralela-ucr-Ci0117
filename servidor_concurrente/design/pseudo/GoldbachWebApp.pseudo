@@ -1,0 +1,46 @@
+procedimiento  createVectorOfNumbers(start, finish, vector numbers) {
+    for start := 1 finish haga
+        if  URI extraer números
+            agregar numeros
+        else 
+        if indice != a finish
+           convertir string a int
+        else
+           agregar los numeros al vector
+fin procedimiento
+
+procedimiento convertStringToInt(numero) 
+   intentar
+    mientras que el número este dentro del rango, convertir
+fin procedimiento
+
+procedimiento handleHttpRequest( httpPackage) 
+  if  recibe una solicitud, extraer los números
+	leer la URL y sacar los números y agregarlos al vector
+	if  existen solicitudes
+		crea hilos de trabajo
+		empaqueta los números recibidos
+    fin if
+for indice := 0 cantidad de solicitudes
+	empaquetar solicitudes y enviar al modelo de Goldbach
+fin for
+for indice := cantidad de solicitudes
+	encolar los paquetes para que sean procesados por el assembler
+fin for
+if solicitudes
+    enviar los paquetes al hilo correspondiente para calcular Goldbach
+    for  i  := 0 tamaño del vector
+        encolar las solicitudes para el modelo Goldbach
+        realizar mientras haya solicitudes
+	fin for
+for indice := 0 cantidad de solicitudes
+    tomar de la cola los paquetes
+for indice := 0 cantidad de solicitudes
+    iniciar el trabajo de los hilos
+	continuar mientras las solicitudes sean válidas
+fin for
+fin procedimiento
+
+procedimiento invalidRequest(httpPackage) 
+ 	si la solicitud no es valida mostrar mensaje de error
+fin procedimiento

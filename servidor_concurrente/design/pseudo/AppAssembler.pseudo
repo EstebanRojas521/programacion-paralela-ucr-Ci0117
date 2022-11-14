@@ -1,0 +1,31 @@
+procedimiento run() 
+    consumeForeverASBM();
+fin procedimiento
+
+procedimiento consumeASBM(Goldbach Struct ) 
+	crea HTML
+	empaqueta los resultados obtenidos del modelo Goldbach
+	muestra los resultados (método print)
+fin procedimiento
+
+procedimiento  goldbach_print(Goldbach Struct) 
+    imprime los resultados de acuerdo a la conjetura
+fin procedimiento
+
+procedimiento print_even(Goldbach Struct) 
+  	del paquete recibido 
+    if numero es par
+	    realizar la impresión de los resultados (dos numeros primos)
+     	si no aplica imprimir NA
+    fin if
+    agregar al body del HTML
+fin procedimiento
+
+procedimiento print_odd(Goldbach Struct)
+  	del paquete recibido 
+    if numero es impar
+	    realizar la impresión de los resultados (tres numeros primos)
+     	si no aplica imprimir NA
+    fin if
+    agregar al body del HTML
+fin procedimiento

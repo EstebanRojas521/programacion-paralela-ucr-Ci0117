@@ -1,0 +1,10 @@
+
+procedimiento run() 
+    consumeForever()
+fin procedimiento
+
+procedimiento consume(Socket) 
+    crea assembler (aplicaciones)
+    encola las solicitudes para el assembler
+    inicia los hilos
+fin procedimiento
