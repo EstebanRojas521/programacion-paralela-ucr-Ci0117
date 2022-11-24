@@ -36,7 +36,6 @@ class Consumer : public virtual Thread {
   /// @see stopCondition
   explicit Consumer(Queue<DataType>* consumingQueue = nullptr
     , const DataType& stopCondition = DataType()
-    // bool stopCondition = false
     , bool createOwnQueue = false)
     : consumingQueue(consumingQueue)
     , stopCondition(stopCondition)
@@ -80,7 +79,8 @@ class Consumer : public virtual Thread {
       // Get the next data to consume, or block while queue is empty
       const DataType& data = this->consumingQueue->pop();
       // If data is the stop condition, stop the loop
-      if ( data == DataType() ) {
+      if ( data == this->stopCondition ) {
+        std::cout <<"Break" <<std::endl;
         break;
       }
       // Process this data

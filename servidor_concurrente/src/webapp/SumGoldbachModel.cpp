@@ -155,6 +155,9 @@ int SumGoldbachModel::run() {
     numberStruct->number = this->number;
     // Se procesan las sumas de goldbach
     this->produce(this->processGoldbachNumber(numberStruct));
+    // if(answer.last == true){
+    //     this->produce(GoldbachStruct());
+    // }
     // std::cout<<numberStruct->number<<std::endl;
     // condicion de parada
     // std::cout<<"Boleano:"<<this->first<<std::endl;

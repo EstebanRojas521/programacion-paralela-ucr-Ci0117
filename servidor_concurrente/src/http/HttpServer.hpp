@@ -9,8 +9,10 @@
 #include "HttpRequest.hpp"
 #include "HttpResponse.hpp"
 #include "HttpConnectionHandler.hpp"
+#include "HttpDispatcher.hpp"
 #include "Queue.hpp"
 #include "Socket.hpp"
+#include "GoldbachWebApp.hpp"
 #define DEFAULT_PORT "8080"
 
 class HttpApp;
@@ -36,7 +38,13 @@ class HttpServer: public TcpServer {
   // Cola de produccion del server, tiene sockets de tipo de dato
   Queue<Socket>* producingQueue;
   // Vector de consumidores de tipo HttpConnectionHandler
-  std::vector<HttpConnectionHandler*> consumers;
+  std::vector<HttpConnectionHandler*> assemblers;
+
+  HttpDispatcher* dispatcher = nullptr;
+
+  // Dispatcher que consume de los httpConnectionHandlers
+
+
 
  protected:
   /// Lookup criteria for searching network information about this host

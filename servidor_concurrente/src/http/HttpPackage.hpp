@@ -6,6 +6,7 @@
 #define HTTPPACKAGE_H
 #include <inttypes.h>
 #include <vector>
+#include <string>
 #include <cstdint>
 #include "common.hpp"
 #include "HttpRequest.hpp"
@@ -18,6 +19,8 @@ struct  HttpPackage{
   HttpRequest httpRequest;
   /// Response de cada package
   HttpResponse httpResponse;
+
+  std::string key;
   /// Vector de numeros ingresados por el usuario
   std::vector<int64_t> numerosIngresados;
   // Agregar vector para resultados
@@ -33,11 +36,13 @@ struct  HttpPackage{
    * @param solicitudInvalida variable booleana, falsa por defecto
    */
   HttpPackage(HttpRequest httpRequest = HttpRequest(),
-               HttpResponse httpResponse = HttpResponse(),
-                std::vector<int64_t> numerosIngresados = {0},
-                 bool solicitudInvalida = false)
+              HttpResponse httpResponse = HttpResponse(),
+              std::string key = "",
+              std::vector<int64_t> numerosIngresados = {0},
+              bool solicitudInvalida = false)
     : httpRequest(httpRequest)
     , httpResponse(httpResponse)
+    , key(key)
     , numerosIngresados(numerosIngresados)
     , solicitudInvalida(solicitudInvalida) {}
 

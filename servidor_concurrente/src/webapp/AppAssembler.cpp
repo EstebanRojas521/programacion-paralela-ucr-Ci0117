@@ -9,11 +9,11 @@ AppAssembler::AppAssembler(HttpPackage& package)
 }
 
 int AppAssembler::run() {
-    this->consumeForeverASBM();
+    this->consumeForever();
     return 0;
 }
 
-void AppAssembler::consumeASBM(GoldbachStruct data) {
+void AppAssembler::consume(GoldbachStruct data) {
     data = data;
 
     // //std::cout<<"Im in AppAssembler"<<std::endl;
@@ -27,6 +27,7 @@ void AppAssembler::consumeASBM(GoldbachStruct data) {
     // //aca imprimo resultados
 
     // aca creamos HTML para enviarlo al sender
+
     if (data.first == true) {
         // std::cout<<"GOT TO APP"<<std::endl;
         package.httpResponse.setHeader("Server", "AttoServer v1.0");
@@ -35,6 +36,7 @@ void AppAssembler::consumeASBM(GoldbachStruct data) {
         std::string title = "Sums of Goldbach of ";
         int numbers_size =  package.numerosIngresados.size();
         for (int i=0; i < numbers_size; i++) {
+            std::cout<< this->package.numerosIngresados[i] << std::endl;
             title += std::to_string(this->package.numerosIngresados[i]);
             if (i+1 != numbers_size) {
                 title += ',';
@@ -57,6 +59,8 @@ void AppAssembler::consumeASBM(GoldbachStruct data) {
         // this->produceASBM(GoldbachStruct());
 
         // no hice sender:(
+        std::cout <<"Im on app assembler sender" <<std::endl;
+        this->produce(GoldbachStruct());
         this->package.httpResponse.send();
     }
 }

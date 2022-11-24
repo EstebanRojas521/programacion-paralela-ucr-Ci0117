@@ -7,6 +7,7 @@
 #include <vector>
 #include "Consumer.hpp"
 #include "Assembler.hpp"
+#include "AppAssembler.hpp"
 #include "Socket.hpp"
 #include "TcpServer.hpp"
 #include "HttpRequest.hpp"
@@ -18,7 +19,9 @@
 #include "HttpPackage.hpp"
 #include "GoldbachStruct.hpp"
 
-class AppAssembler: public Assembler<GoldbachStruct>{
+
+
+class AppAssembler: public Assembler<GoldbachStruct,GoldbachStruct>{
   // talvez haya que poner referencia
   HttpPackage& package;
 
@@ -39,7 +42,7 @@ class AppAssembler: public Assembler<GoldbachStruct>{
    * @brief Metodo que consume datos de tipo GoldbachStruct y los envia a imprimir
    * @param data GoldbachStruct a imprimir
    */
-  void consumeASBM(GoldbachStruct data) override;
+  void consume(GoldbachStruct data) override;
 
   /**
    * @brief Metodo que imprime las sumas de goldbach para un numero par

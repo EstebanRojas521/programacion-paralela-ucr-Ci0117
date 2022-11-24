@@ -30,6 +30,7 @@ class HttpApp:public Consumer<HttpPackage> {
   /// @return true If this application handled the request, false otherwise
   /// and another chained application should handle it
   virtual bool handleHttpRequest(HttpPackage& httpPackage) = 0;
+
   // virtual bool appFound(HttpPackage& httpPackage) = 0;
   /// Called when the web server stops, in order to allow the web application
   /// clean up and finish as well

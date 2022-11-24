@@ -28,6 +28,13 @@ void GoldbachWebApp::stop() {
 }
 
 
+int GoldbachWebApp::run() {
+  this->consumeForever();
+  
+  return EXIT_SUCCESS;
+}
+
+
 void GoldbachWebApp::consume(HttpPackage httpPackage) {
   this->handleHttpRequest(httpPackage);
 }
@@ -73,6 +80,7 @@ bool GoldbachWebApp::convertStringToInt(std::string& number,
 
 
 bool GoldbachWebApp::handleHttpRequest(HttpPackage& httpPackage) {
+  std::cout <<"Im on goldbach" << std::endl;
   if (httpPackage.httpRequest.getMethod() == "GET" &&
   httpPackage.httpRequest.getURI() == "/") {
     return this->serveHomePage(httpPackage);
@@ -85,10 +93,11 @@ bool GoldbachWebApp::handleHttpRequest(HttpPackage& httpPackage) {
   ("^/goldbach(/|\\?number=)(\\d+|\\-\\d+)(?:\\+(\\d+|\\-\\d+))*$");
   if (std::regex_search(URI, matches, inQuery)) {
     std::vector<SumGoldbachModel*> producers;
-    AppAssembler* assembler = new AppAssembler(httpPackage);
+    assembler = new AppAssembler(httpPackage);
+    this->producingQueue = new Queue<GoldbachStruct>();
     AppAssembler* fakeAssembler = new AppAssembler(httpPackage);
-    fakeAssembler->createOwnQueueASBM();
-    assembler->createOwnQueueASBM();
+    fakeAssembler->createOwnQueue();
+    assembler->createOwnQueue();
     assert(matches.length() >= 3);
     int start = matches[1].length() == 1 ? 9 : 16;
     int finish = matches[0].length() - 1;
@@ -106,6 +115,7 @@ bool GoldbachWebApp::handleHttpRequest(HttpPackage& httpPackage) {
     int size = httpPackage.numerosIngresados.size();
     bool verdadero = true;
     bool falso = false;
+    bool last = false;
     if (size == 1) {
       producers[0] = new SumGoldbachModel(httpPackage.numerosIngresados[0],
                                           verdadero, verdadero);
@@ -128,20 +138,34 @@ bool GoldbachWebApp::handleHttpRequest(HttpPackage& httpPackage) {
         } else if (i != 0) {
           // el el ultimo, queremos que se detenga
           producers[i] = new SumGoldbachModel(number, falso, verdadero);
+          last = true;
         }
       }
     }
     for (int i  = 0 ; i < size; i++) {
-      producers[i]->setProducingQueue(assembler->getConsumingQueueASBM());
+      producers[i]->setProducingQueue(this->producingQueue);
     }
-
+    assembler->setConsumingQueue(this->producingQueue);
+    assembler->startThread();
     for (int i  = 0 ; i < size; i++) {
       producers[i]->startThread();
     }
-    assembler->setProducingQueueASBM(fakeAssembler->getConsumingQueueASBM());
-    assembler->startThread();
+    assembler->setProducingQueue(this->producingQueue);
+    // for (int i  = 0 ; i < size; i++) {
+    //   producers[i]->produce(GoldbachStruct());
+    // }
+    //assembler->consume(GoldbachStruct());
+    //producers[size-1]->produce(GoldbachStruct());
+    //httpPackage.httpResponse.send();
+    //if(last == true){
+     //producers[size-1]->produce(GoldbachStruct());
+    //this->producingQueue->push(GoldbachStruct());
+    // for (int i  = 0 ; i < size; i++) {
+    //   producers[i]->waitToFinish();
+    // }
     assembler->waitToFinish();
-  } else {
+    //}
+  }  else {
     httpPackage.solicitudInvalida = true;
     this->invalidRequest(httpPackage);
   }
@@ -194,6 +218,4 @@ void GoldbachWebApp::invalidRequest(HttpPackage httpPackage) {
   << "</html>\n";
 }
 
-int GoldbachWebApp::run() {
-  return 0;
-}
+

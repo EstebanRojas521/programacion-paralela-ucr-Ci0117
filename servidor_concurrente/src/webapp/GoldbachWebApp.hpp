@@ -13,9 +13,12 @@
 #include "SumGoldbachModel.hpp"
 #include "common.hpp"
 #include "AppAssembler.hpp"
+#include "GoldbachStruct.hpp"
 /**
 * @brief A web application that calculates sums of goldbach
 */
+class AppAssembler;
+
 class GoldbachWebApp : public HttpApp{
   /// Objects of this class cannot be copied
   DISABLE_COPY(GoldbachWebApp);
@@ -26,7 +29,7 @@ class GoldbachWebApp : public HttpApp{
    * By default the program uses the number of cores in the computer.
    */
   int solvers_count = std::thread::hardware_concurrency();
-
+  AppAssembler* assembler = nullptr;
  public:
   /**
    * @brief Constructor de GoldbachWebApp.
@@ -39,6 +42,8 @@ class GoldbachWebApp : public HttpApp{
    * @brief Metodo que consume HttpPackages
    * @param package El package a consumir
    */
+
+  Queue<GoldbachStruct>* producingQueue;
   void consume(HttpPackage package) override;
 
   /**

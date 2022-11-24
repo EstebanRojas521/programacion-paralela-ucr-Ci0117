@@ -67,51 +67,50 @@ int HttpServer::start(int argc, char* argv[]) {
   bool stopApps = false;
   signal(SIGINT, signal_handler);
   try {
-    // signal(SIGINT, signal_handler);
     if (this->analyzeArguments(argc, argv)) {
-      // Start the log service
-      // Es una bitacora que guardae eventos y los guarde en discos
-      // Buena practica instaurar logs(bitacoras)
       Log::getInstance().start();
-
       // Start all web applications
       for (size_t index = 0; index < this->applications.size(); ++index) {
         this->applications[index]->start();
       }
       stopApps = true;
-
-      // Start waiting for connections
-      // Comienza a recibir solicitudes
-      // Metodo de TCP server
+      GoldbachWebApp* app = new GoldbachWebApp();
       this->listenForConnections(this->port);
       const NetworkAddress& address = this->getNetworkAddress();
       Log::append(Log::INFO, "webserver", "Listening on " + address.getIP()
         + " port " + std::to_string(address.getPort()));
-
-      // Accept all client connections
-      // Acepta todas las conciciones que le mandan
-      // Solo acepta uno a la vez =  pero deberia de ser concurrente =
-      // debe delegar tareas
-      // servidor se encarga de la ventanilla,
-      // aplicaciones de los procesos -> golbach
-      // HTTP = lenguje utilizado para comunicarse
-      // metodo heredado de TCPserver
-      // codigo de red = no preocuparse
-      // comienza a escuchar en un punto del sistema operativo
-      // -> se arma un socket
       this->producingQueue = new Queue<Socket>();
+      this->dispatcher = new HttpDispatcher();
+      this->dispatcher->createOwnQueue();
+      app->createOwnQueue();
+      //app->setConsumingQueue(this->producingQueue);
       // creamos 10 connection handler momentaneamente;
-      this->consumers.resize(this->numberOfThreads);
+      this->assemblers.resize(this->numberOfThreads);
       for ( size_t index = 0; index < this->numberOfThreads; ++index ) {
-        this->consumers[index] = new HttpConnectionHandler(this->applications);
-        assert(this->consumers[index]);
-        this->consumers[index]->setConsumingQueue(this->producingQueue);
+        this->assemblers[index] = new HttpConnectionHandler(this->applications);
+        assert(this->assemblers[index]);
+        this->assemblers[index]->setConsumingQueue(this->producingQueue);
       }
+  
+
       for ( size_t index = 0; index < this->numberOfThreads; ++index ) {
-        this->consumers[index]->startThread();
+        this->assemblers[index]->setProducingQueue(this->dispatcher->getConsumingQueue());
+      }
+      
+      //revisar key
+
+      //en que queque va a poner el dispatcher
+      //for (size_t index = 0; index < this->applications.size(); ++index) {
+        this->dispatcher->registerRedirect("/goldbach",app->getConsumingQueue());
+      //}
+      //aca va dispatcher for
+      
+      app -> startThread();
+      this->dispatcher->startThread();
+      for ( size_t index = 0; index < this->numberOfThreads; ++index ) {
+        this->assemblers[index]->startThread();
       }
       this->acceptAllConnections();
-
       // Nunca va a llegar a este punto
       // Aqui terminamos todos los hilos -> creo
     }
@@ -123,16 +122,16 @@ int HttpServer::start(int argc, char* argv[]) {
     Socket client;
     // std::cerr << "got here"<< std::endl;
     for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
-      // Thread::~thread(this->consumers[index]);
-      // this->consumers[index]->setStop();
+      // Thread::~thread(this->assemblers[index]);
+      // this->assemblers[index]->setStop();
       this->producingQueue->push(Socket());
     }
     std::cerr << "got here"<< std::endl;
     for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
-      this->consumers[index]->waitToFinish();
+      this->assemblers[index]->waitToFinish();
     }
     for ( size_t index = 0; index <this->numberOfThreads; ++index ) {
-      // delete this->consumers[index];
+      // delete this->assemblers[index];
     }
     // std::cerr << "error: " << error.what() << std::endl;
   }
@@ -161,6 +160,8 @@ bool HttpServer::analyzeArguments(int argc, char* argv[]) {
     }
   }
 
+
+  //corregir esto = hacer argc >= 2 tambien por si solo hay un argumento
   if (argc >= 3) {
     this->port = argv[1];
     this->numberOfThreads = std::strtoull(argv[2], nullptr, 10);

@@ -6,6 +6,7 @@
 
 #include <vector>
 #include "Consumer.hpp"
+#include "Assembler.hpp"
 #include "Socket.hpp"
 #include "TcpServer.hpp"
 #include "HttpRequest.hpp"
@@ -15,14 +16,14 @@
 #include "HttpServer.hpp"
 #include "HttpApp.hpp"
 #include "HttpPackage.hpp"
-#include "HttpAssembler.hpp"
+
 
 
 class HttpApp;
 class HttpServer;
 class HttpAssembler;
 
-class HttpConnectionHandler: public Consumer<Socket>{
+class HttpConnectionHandler: public Assembler<Socket,HttpPackage>{
   DISABLE_COPY(HttpConnectionHandler);
 
  protected:
@@ -41,6 +42,13 @@ class HttpConnectionHandler: public Consumer<Socket>{
    * @param applications vector para inicializar el vector propio de la clase
    */
   explicit HttpConnectionHandler(std::vector<HttpApp*> applications);
+
+
+  /**
+   * @brief Metodo que maneja un request Http
+   * @param httpPackage Package de donde saca IP y puerto
+   */
+  virtual bool handleHttpRequest(HttpPackage& httpPackage);
 
   /**
    * @brief Metodo que llama a consumeForever()
