@@ -23,7 +23,7 @@ class HttpApp;
 class HttpServer;
 class HttpAssembler;
 
-class HttpConnectionHandler: public Assembler<Socket,HttpPackage>{
+class HttpConnectionHandler: public Assembler<Socket, HttpPackage>{
   DISABLE_COPY(HttpConnectionHandler);
 
  protected:

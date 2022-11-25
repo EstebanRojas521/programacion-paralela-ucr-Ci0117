@@ -21,7 +21,7 @@
 
 
 
-class AppAssembler: public Assembler<GoldbachStruct,GoldbachStruct>{
+class AppAssembler: public Assembler<GoldbachStruct, GoldbachStruct>{
   // talvez haya que poner referencia
   HttpPackage& package;
 

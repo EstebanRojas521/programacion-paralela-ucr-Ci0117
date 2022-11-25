@@ -30,6 +30,7 @@ class GoldbachWebApp : public HttpApp{
    */
   int solvers_count = std::thread::hardware_concurrency();
   AppAssembler* assembler = nullptr;
+
  public:
   /**
    * @brief Constructor de GoldbachWebApp.

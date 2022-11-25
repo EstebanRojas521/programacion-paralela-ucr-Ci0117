@@ -30,7 +30,6 @@ void GoldbachWebApp::stop() {
 
 int GoldbachWebApp::run() {
   this->consumeForever();
-  
   return EXIT_SUCCESS;
 }
 
@@ -154,12 +153,12 @@ bool GoldbachWebApp::handleHttpRequest(HttpPackage& httpPackage) {
     // for (int i  = 0 ; i < size; i++) {
     //   producers[i]->produce(GoldbachStruct());
     // }
-    //assembler->consume(GoldbachStruct());
-    //producers[size-1]->produce(GoldbachStruct());
-    //httpPackage.httpResponse.send();
-    //if(last == true){
-     //producers[size-1]->produce(GoldbachStruct());
-    //this->producingQueue->push(GoldbachStruct());
+    // assembler->consume(GoldbachStruct());
+    // producers[size-1]->produce(GoldbachStruct());
+    // httpPackage.httpResponse.send();
+    // if(last == true){
+     // producers[size-1]->produce(GoldbachStruct());
+    // this->producingQueue->push(GoldbachStruct());
     // for (int i  = 0 ; i < size; i++) {
     //   producers[i]->waitToFinish();
     // }

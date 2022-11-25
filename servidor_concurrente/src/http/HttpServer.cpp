@@ -4,7 +4,6 @@
 #include <stdexcept>
 #include <string>
 #include <csignal>
-
 #include "HttpApp.hpp"
 #include "HttpServer.hpp"
 #include "HttpRequest.hpp"
@@ -83,7 +82,7 @@ int HttpServer::start(int argc, char* argv[]) {
       this->dispatcher = new HttpDispatcher();
       this->dispatcher->createOwnQueue();
       app->createOwnQueue();
-      //app->setConsumingQueue(this->producingQueue);
+      // app->setConsumingQueue(this->producingQueue);
       // creamos 10 connection handler momentaneamente;
       this->assemblers.resize(this->numberOfThreads);
       for ( size_t index = 0; index < this->numberOfThreads; ++index ) {
@@ -91,20 +90,20 @@ int HttpServer::start(int argc, char* argv[]) {
         assert(this->assemblers[index]);
         this->assemblers[index]->setConsumingQueue(this->producingQueue);
       }
-  
+
 
       for ( size_t index = 0; index < this->numberOfThreads; ++index ) {
-        this->assemblers[index]->setProducingQueue(this->dispatcher->getConsumingQueue());
+        this->assemblers[index]->setProducingQueue
+        (this->dispatcher->getConsumingQueue());
       }
-      
-      //revisar key
 
-      //en que queque va a poner el dispatcher
-      //for (size_t index = 0; index < this->applications.size(); ++index) {
-        this->dispatcher->registerRedirect("/goldbach",app->getConsumingQueue());
+      // revisar key
+
+      // en que queque va a poner el dispatcher
+      // for (size_t index = 0; index < this->applications.size(); ++index) {
+        this->dispatcher->registerRedirect("/goldbach",
+         app->getConsumingQueue());
       //}
-      //aca va dispatcher for
-      
       app -> startThread();
       this->dispatcher->startThread();
       for ( size_t index = 0; index < this->numberOfThreads; ++index ) {
@@ -161,7 +160,7 @@ bool HttpServer::analyzeArguments(int argc, char* argv[]) {
   }
 
 
-  //corregir esto = hacer argc >= 2 tambien por si solo hay un argumento
+  // corregir esto = hacer argc >= 2 tambien por si solo hay un argumento
   if (argc >= 3) {
     this->port = argv[1];
     this->numberOfThreads = std::strtoull(argv[2], nullptr, 10);

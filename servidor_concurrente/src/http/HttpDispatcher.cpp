@@ -4,24 +4,22 @@
 #include "HttpDispatcher.hpp"
 
 
-HttpDispatcher::HttpDispatcher(){}
+HttpDispatcher::HttpDispatcher() {}
 
-int HttpDispatcher::run(){ 
-    std::cout << "Im on dispatcher" <<std::endl;   
+int HttpDispatcher::run() {
     this->consumeForever();
-    for (const auto& pair : this ->toQueues){
+    for (const auto& pair : this ->toQueues) {
        pair.second -> push(HttpPackage());
     }
     return EXIT_SUCCESS;
-}  
+}
 
 
-std::string HttpDispatcher::extractKey( HttpPackage& package){
-    if(package.key == "/goldbach"){
-        std::cout << "Key was correct" <<std::endl;   
+std::string HttpDispatcher::extractKey(HttpPackage& package) {
+    if (package.key == "/goldbach") {
+        std::cout << "Key was correct" <<std::endl;
         return package.key;
-    }
-    else{
+    } else {
         serveNotFound(package);
     }
     return "";
