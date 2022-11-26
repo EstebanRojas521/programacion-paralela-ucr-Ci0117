@@ -21,6 +21,8 @@ struct lamina_t {
     uint64_t tiempo;
     ///Tamaño (alto/ancho) - h
     uint64_t tamanio;
+    ///Difusivilidad térmica - a
+    uint64_t difuTermica;
     /// Matriz
     vector<double>matriz;
 };
