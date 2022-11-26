@@ -23,12 +23,17 @@ struct lamina_t {
     uint64_t tamanio;
     ///Difusivilidad térmica - a
     uint64_t difuTermica;
-    /// Matriz
-    vector<double>matriz;
+    /// Matriz original
+    vector<vector<double>>matriz;
+    /// @brief  Matriz con cambio de estado
+    vector<vector<double>>matrizNuevoEstado;
 };
-
-int read();
-void write();
+/*
+ * Constructor de la lamina 
+ */
+void lamina(lamina_t& lamina);
+int read(lamina_t& lamina, string archivoEntrada);
+void write(lamina_t& lamina, string archivoSalida);
 
 ifstream &operator>>(ifstream &job, lamina_t &lamina);
 ofstream &operator<<(ofstream &reporte, lamina_t &lamina);
