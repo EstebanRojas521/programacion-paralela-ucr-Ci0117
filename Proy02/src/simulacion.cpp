@@ -28,6 +28,9 @@ void generarReporte();
 
 string format_time(const time_t segundos);
 
+void escribirReporte();
+
+int abrirReporte();
 
 void calculoTemperatura(lamina_t& lamina, size_t fila, size_t columna) {
 

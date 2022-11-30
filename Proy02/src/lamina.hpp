@@ -23,6 +23,8 @@ struct lamina_t {
     uint64_t tamanio;
     ///Difusivilidad térmica - a
     uint64_t difuTermica;
+    ///nombre de archivo (lámina)
+    string nombreArchivo;
     /// Matriz original
     vector<vector<double>>matriz;
     /// @brief  Matriz con cambio de estado

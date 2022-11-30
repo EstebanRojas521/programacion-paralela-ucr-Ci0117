@@ -25,9 +25,27 @@ void write(lamina_t& lamina, string archivoSalida) {
 }
 
 ifstream &operator>>(ifstream &job, lamina_t &lamina) {
-
+    try {
+        job >> lamina.nombreArchivo;
+        job >> lamina.tiempo;
+        job >> lamina.difuTermica;
+        job >> lamina.tamanio;
+        job >> lamina.estado;
+    } catch(const exception e) {
+        cerr << e.what();
+    }
+    return job;
 }
 
 ofstream &operator<<(ofstream &reporte, lamina_t &lamina) {
-
+    try {
+        reporte << lamina.nombreArchivo << '\t';
+        reporte << lamina.tiempo << '\t';
+        reporte << lamina.difuTermica << '\t';
+        reporte << lamina.tamanio << '\t';
+        reporte << lamina.estado << '\t';
+    } catch(const exception e) {
+        cerr << e.what();
+    }
+    return reporte;
 }
