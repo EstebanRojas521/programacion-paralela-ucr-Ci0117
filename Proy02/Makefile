@@ -1,12 +1,15 @@
-# C/C++ Makefile v2.2.3 2021-Oct-13 Jeisson Hidalgo ECCI-UCR CC-BY 4.0
+# C/C++ Makefile v2.4.1 2022-Jun-04 Jeisson Hidalgo ECCI-UCR CC-BY 4.0
 
 # Compiler and tool flags
-CC=cc
+CC=gcc
 XC=g++
 DEFS=
-FLAGS=$(strip -Wall -Wextra -fopenmp $(DEFS))
-FLAGC=$(FLAGS) -std=gnu11
-FLAGX=$(FLAGS) -std=gnu++11
+CSTD=-std=gnu11
+XSTD=-std=c17 #version de C++           #-std=gnu++11 version de C#
+FLAG=
+FLAGS=$(strip -Wall -Wextra $(FLAG) $(DEFS))
+FLAGC=$(FLAGS) $(CSTD)
+FLAGX=$(FLAGS) $(XSTD)
 LIBS=
 LINTF=-build/header_guard,-build/include_subdir
 LINTC=$(LINTF),-readability/casting
@@ -65,7 +68,7 @@ tsan: debug
 ubsan: FLAGS += -fsanitize=undefined
 ubsan: debug
 
--include $(DEPENDS)
+-include *.mk $(DEPENDS)
 .SECONDEXPANSION:
 
 # Linker call
@@ -126,12 +129,12 @@ clean:
 # Install dependencies (Debian)
 instdeps:
 	sudo apt install build-essential clang valgrind icdiff doxygen graphviz \
-	python3-gpg && sudo pip3 install cpplint
+	python3-pip python3-gpg && sudo pip3 install cpplint
 
 help:
 	@echo "Usage make [-jN] [VAR=value] [target]"
 	@echo "  -jN       Compile N files simultaneously [N=1]"
-	@echo "  VAR=value Overrides a variable, e.g CC=mpicc DEFS=-DGUI"
+	@echo "  VAR=value Overrides a variable, e.g CC=mpicc DEFS=-DGUI. See below"
 	@echo "  all       Run targets: doc lint [memcheck helgrind] test"
 	@echo "  asan      Build for detecting memory leaks and invalid accesses"
 	@echo "  clean     Remove generated directories and files"
@@ -148,3 +151,8 @@ help:
 	@echo "  test      Run executable against test cases in folder tests/"
 	@echo "  tsan      Build for detecting thread errors, e.g race conditions"
 	@echo "  ubsan     Build for detecting undefined behavior"
+	@echo "Variables:"
+	@echo "  CC: C compiler. XC: C++ compiler. C/XSTD: Force a C/C++ standard"
+	@echo "  DEFS: preprocessor symbols. FLAG: compiler flags"
+	@echo "  LIBS: libraries to be linked"
+	@echo "  ARGS: execution arguments"

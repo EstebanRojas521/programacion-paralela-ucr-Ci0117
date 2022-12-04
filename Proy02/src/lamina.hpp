@@ -19,25 +19,20 @@ struct lamina_t {
     uint64_t estado;
     /// Tiempo - t
     uint64_t tiempo;
-    ///Tamaño (alto/ancho) - h
+    /// Tamaño (alto/ancho) - h
     uint64_t tamanio;
-    ///Difusivilidad térmica - a
+    /// Difusivilidad térmica - a
     uint64_t difuTermica;
-    ///nombre de archivo (lámina)
+    /// nombre de archivo (lámina)
     string nombreArchivo;
     /// Matriz original
     vector<vector<double>>matriz;
     /// @brief  Matriz con cambio de estado
     vector<vector<double>>matrizNuevoEstado;
 };
-/*
- * Constructor de la lamina 
- */
-void lamina(lamina_t& lamina);
-int read(lamina_t& lamina, string archivoEntrada);
-void write(lamina_t& lamina, string archivoSalida);
 
-ifstream &operator>>(ifstream &job, lamina_t &lamina);
-ofstream &operator<<(ofstream &reporte, lamina_t &lamina);
+class lamina{
+
+};
 
 #endif
