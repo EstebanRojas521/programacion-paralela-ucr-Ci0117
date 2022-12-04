@@ -12,24 +12,21 @@ lamina_t lamina::readBinaryFile(txtData data){
     // Struct que contiene todos los datos listo...
     // para la simulacion de calor
     lamina_t simHitData;
-
+    //Igualamops los valores del archivo de texto con el binario
+    this->equalValues(data,simHitData);
     // Buffer donde leyemos el archivo binario y luego casteamos
     // a enteros/strings segun convenga
     char bufferData[8];
     // Buffer donde leyemos el archivo binario y luego casteamos
     // a los valores de la matriz
     char bufferNumber[8];
-    // Iterador para movernos atraves del archivo binario
-    //int bufferIterator = 0;
     // Concatenamos nombre de plate name para poder acceder a la carpeta
     data.plateName = "jobs/job001/" + data.plateName;
-    //
     //std::cout<<data.plateName<<std::endl;
     // Creamos fstream para leer el archivo binario
     std::fstream file;
     // Abrimos archivo binario
     file.open(data.plateName,std::ios::in|std::ios::binary);
-
     if(!file.is_open()){
         std::cerr << "Could not read binary file. " << std::endl;
         return simHitData;
@@ -37,7 +34,6 @@ lamina_t lamina::readBinaryFile(txtData data){
         file.seekp(0,std::ios::end);
         int size = (int)file.tellp();
         //std::cout <<"Size: "<< size << std::endl;
-
         // Ponemos cursos de lectura al principio del archivo
         file.seekp(0,std::ios::beg);
         // Leemos primeros 8 bytes del archivo binario
@@ -50,37 +46,55 @@ lamina_t lamina::readBinaryFile(txtData data){
         // Casteamos el buffer a nuestras columns
         simHitData.columns = *(uint64_t*)bufferData;
         std::cout<<"Columns: "<<simHitData.columns<<std::endl;
-
-        
-        // std::cout <<"Size: "<< size << std::endl;
-
-
-        // int current = (int)file.tellp();
-        // std::cout <<"Current cursor: "<< current << std::endl;
-        // Definimos cuantos bytes nos hacen falta recorrer
-        int localRows = 0;
-        int localColumns = 1;
+        // Iterador local de columnas
+        uint64_t localColumns = 1;
+        // Vector temporal
+        std::vector<double>localVector;
+        // Recorremos los bytes restante del archivo -> los numeros...
+        // de la matriz
         while(file.tellp()<size){
             file.read((char *)&bufferNumber,sizeof(bufferNumber));
             double number = *(double*)bufferNumber;
-            std::cout << number << " ";
+            localVector.push_back(number);
             if(localColumns == simHitData.columns){
-                std::cout<<std::endl;
+                // Igualamos nuestro vector local a nuestra matrix
+                simHitData.matrix.push_back(localVector);
+                // Limpiamos el vector para la siguiente fila
+                localVector.clear();  
+                // Ya imprimimos todos las columnas de esta fila...
+                // entonces reiniciamos contador de columnas
                 localColumns = 0;
             }
             localColumns++;
-            // current += 8;
         }
-
+        // Cerramos lectura de archivo binario
         file.close();
     }
+    
+    this->printOriginalMatrix(simHitData);
+    //Regresamos nuestros datos listos para la transferencia de calor
     return simHitData;
 }
 
 
-int lamina::sizeofbinaryFile(std::fstream binaryFile){
-    binaryFile.seekp(0,std::ios::end);
-    int size = (int)binaryFile.tellp();
-    std::cout <<"Size binary file: "<< size << std::endl;
-    return size;
+void lamina::equalValues(txtData &txtData,lamina_t &binaryData){
+    // Igualamos los valores obtenidos en el archivo de texto
+    // con el archivo binario
+    binaryData.plateName = txtData.plateName;
+    binaryData.time = txtData.time;
+    binaryData.diffusion = txtData.diffusion;
+    binaryData.area =txtData.area;
+    binaryData.epsilon =txtData.epsilon;
+    // Despues de esta subrutina al archivo binario le hace falta:
+    // Columnnas, filas y numeros de la matriz para estar listo
 }
+
+void lamina::printOriginalMatrix(lamina_t &binaryData){
+    for(long unsigned int i = 0;i<binaryData.matrix.size();i++){
+        for(long unsigned int j = 0;j<binaryData.matrix[i].size();j++){
+            std::cout << binaryData.matrix[i][j] << " ";
+        }
+        std::cout<<std::endl;
+    }
+}
+

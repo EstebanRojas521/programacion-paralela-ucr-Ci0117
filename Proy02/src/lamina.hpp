@@ -6,7 +6,6 @@
 #include <stdbool.h>
 #include <fstream>
 #include <iostream>
-//#include <sctring>
 #include <string>
 #include <vector>
 #include "readTxt.hpp"
@@ -21,11 +20,13 @@ struct lamina_t {
     /// Tiempo - t
     uint64_t time;
     /// Tamaño (alto/ancho) - h
-    uint64_t size;
+    double area;
     /// Difusivilidad térmica - a
-    uint64_t diffusion;
+    double diffusion;
+    /// eplsilon(e)
+    double epsilon;
     /// nombre de archivo (lámina)
-    std::string fileName;
+    std::string plateName;
     /// Matriz original
     std::vector<std::vector<double>>matrix;
     /// @brief  Matriz con cambio de estado
@@ -36,7 +37,9 @@ class lamina{
     public:
     lamina();
     lamina_t readBinaryFile(txtData data);
-    int sizeofbinaryFile(std::fstream binaryFile);
+    private:
+    void equalValues(txtData &txtData,lamina_t &binaryData);
+    void printOriginalMatrix(lamina_t &binaryData);
 };
 
 #endif
