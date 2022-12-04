@@ -3,36 +3,40 @@
 
 #ifndef LAMINA_HPP
 #define LAMINA_HPP
-
-#include <string>
+#include <stdbool.h>
+#include <fstream>
 #include <iostream>
+//#include <sctring>
+#include <string>
 #include <vector>
-
-using namespace std;
+#include "readTxt.hpp"
 
 struct lamina_t {
     /// Cantidad de filas - R
-    uint64_t filas;
+    uint64_t rows;
     /// Cantidad de columnas - C
-    uint64_t columnas;
+    uint64_t columns;
     /// Estado - k
-    uint64_t estado;
+    double state;
     /// Tiempo - t
-    uint64_t tiempo;
+    uint64_t time;
     /// Tamaño (alto/ancho) - h
-    uint64_t tamanio;
+    uint64_t size;
     /// Difusivilidad térmica - a
-    uint64_t difuTermica;
+    uint64_t diffusion;
     /// nombre de archivo (lámina)
-    string nombreArchivo;
+    std::string fileName;
     /// Matriz original
-    vector<vector<double>>matriz;
+    std::vector<std::vector<double>>matrix;
     /// @brief  Matriz con cambio de estado
-    vector<vector<double>>matrizNuevoEstado;
+    std::vector<std::vector<double>>resultantMatrix;
 };
 
 class lamina{
-
+    public:
+    lamina();
+    lamina_t readBinaryFile(txtData data);
+    int sizeofbinaryFile(std::fstream binaryFile);
 };
 
 #endif
