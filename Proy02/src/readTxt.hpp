@@ -14,6 +14,7 @@
 // para luego convertirlos a binario
 struct txtData{
     std::string plateName;
+    std::string fileName;
     uint64_t time;
     double diffusion;
     double area;

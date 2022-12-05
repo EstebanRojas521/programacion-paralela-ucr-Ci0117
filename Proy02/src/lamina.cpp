@@ -33,7 +33,7 @@ lamina_t lamina::readBinaryFile(txtData data){
     // a los valores de la matriz
     char bufferNumber[8];
     // Concatenamos nombre de plate name para poder acceder a la carpeta
-    data.plateName = "jobs/job001/" + data.plateName;
+    data.plateName = "jobs/" + data.plateName;
     //std::cout<<data.plateName<<std::endl;
     // Creamos fstream para leer el archivo binario
     std::fstream file;
@@ -52,12 +52,12 @@ lamina_t lamina::readBinaryFile(txtData data){
         file.read((char *)&bufferData,sizeof(bufferData));
         // Casteamos el buffer a nuestras filas
         simHitData.rows = *(uint64_t*)bufferData;
-        std::cout<<"Rows: "<<simHitData.rows<<" ";
+        //std::cout<<"Rows: "<<simHitData.rows<<" ";
         // Leemos siguientes 8 bytes
         file.read((char *)&bufferData,sizeof(bufferData));
         // Casteamos el buffer a nuestras columns
         simHitData.columns = *(uint64_t*)bufferData;
-        std::cout<<"Columns: "<<simHitData.columns<<std::endl;
+        // std::cout<<"Columns: "<<simHitData.columns<<std::endl;
         // Iterador local de columnas
         uint64_t localColumns = 1;
         // Vector temporal
@@ -82,7 +82,6 @@ lamina_t lamina::readBinaryFile(txtData data){
         // Cerramos lectura de archivo binario
         file.close();
     }
-    
     //this->printOriginalMatrix(simHitData);
     //Regresamos nuestros datos listos para la transferencia de calor
     return simHitData;
@@ -92,6 +91,7 @@ lamina_t lamina::readBinaryFile(txtData data){
 void lamina::equalValues(txtData &txtData,lamina_t &binaryData){
     // Igualamos los valores obtenidos en el archivo de texto
     // con el archivo binario
+    binaryData.fileName = txtData.fileName;
     binaryData.plateName = txtData.plateName;
     binaryData.time = txtData.time;
     binaryData.diffusion = txtData.diffusion;
