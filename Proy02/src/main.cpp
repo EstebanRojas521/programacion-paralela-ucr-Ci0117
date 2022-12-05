@@ -3,8 +3,7 @@
 
 #include "lamina.hpp"
 #include "readTxt.hpp"
-
-
+#include "simulacion.hpp"
 
 int main(int argc, char* argv[]){
     // int numberOfThreads = 0;
@@ -28,11 +27,16 @@ int main(int argc, char* argv[]){
     numberOfRows = instanceTxt->numberOfRows(fileName);
 
     // numberOfRows = 1;
-    for(int i = 0;i<numberOfRows;i++){
+    for(int i = 0; i < numberOfRows; i++){
+        simulacion* simulacionDeCalor = new simulacion;
         //instanceTxt->fillTxtStruct(fileName,i);
-        instanceBinary->readBinaryFile(instanceTxt->fillTxtStruct(fileName,i));
+        lamina_t lamina = instanceBinary->readBinaryFile(instanceTxt->fillTxtStruct(fileName,i));
+        size_t filas = lamina.rows;
+        size_t columnas = lamina.columns;
+        simulacionDeCalor->iniciarSimulacion(lamina, filas, columnas);
         // Calculamos 
         // Reportamos
+        delete simulacionDeCalor;
     }
 
     delete instanceTxt;
