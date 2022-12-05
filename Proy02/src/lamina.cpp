@@ -3,6 +3,14 @@
 
 #include "lamina.hpp"
 
+
+ /**
+    *@brief  Initialize the lamina_t struct
+    *@details
+    *   Intialize al the lamina_t stuct variables
+    *@param lamina_t reference to the struct that will be initalized
+    *@return Nothig. Void subrutine.
+*/
 void initValues(lamina_t& lamina) {
     lamina.area = 0;
     lamina.columns = 0;
@@ -22,8 +30,8 @@ lamina_t lamina::readBinaryFile(txtData data){
     // Struct que contiene todos los datos listo...
     // para la simulacion de calor
     lamina_t simHitData;
-
-    initValues(simHitData);
+    // Inicialiamos los valores del struct
+    this->initValues(simHitData);
     //Igualamops los valores del archivo de texto con el binario
     this->equalValues(data,simHitData);
     // Buffer donde leyemos el archivo binario y luego casteamos
