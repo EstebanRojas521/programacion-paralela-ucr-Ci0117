@@ -34,14 +34,14 @@ lamina_t lamina::readBinaryFile(txtData data){
     char bufferNumber[8];
     // Concatenamos nombre de plate name para poder acceder a la carpeta
     data.plateName = "jobs/" + data.plateName;
-    //std::cout<<data.plateName<<std::endl;
+    // std::cout<<data.plateName<<std::endl;
     // Creamos fstream para leer el archivo binario
     std::fstream file;
     // Abrimos archivo binario
-    //file.open(data.plateName,std::ios::in|std::ios::binary);
+    file.open(data.plateName,std::ios::in|std::ios::binary);
     //file.open("output/plate001-2.bin",std::ios::in|std::ios::binary);
     if(!file.is_open()){
-        std::cerr << "Could not read binary file. " << std::endl;
+        std::cerr << "Could not read binary file in lamina. " << std::endl;
         return simHitData;
     } else {
         file.seekp(0,std::ios::end);
