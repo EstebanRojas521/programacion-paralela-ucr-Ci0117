@@ -19,8 +19,8 @@ void simulacion::iniciarSimulacion(lamina_t& lamina, size_t filas, size_t column
     lamina_t laminaResultante;
     laminaResultante = lamina;
     bool hayEquilibrio = false;
-    std::cout << "\n";
-    printMatrix(lamina, filas, columnas);
+    //std::cout << "\n";
+    //printMatrix(lamina, filas, columnas);
     // Mientras no exista equilibrio, se busca el siguiente estado k de la matriz
     while (hayEquilibrio == false) {
         // Se recorre la matriz para calcular el valor de cada celda en el estado k+1
@@ -39,9 +39,9 @@ void simulacion::iniciarSimulacion(lamina_t& lamina, size_t filas, size_t column
         // Si retorna true, se termina de actualizar los estados 
         hayEquilibrio = verificarEquilibrio(lamina, laminaResultante, filas, columnas);
         copyMatrix(lamina, laminaResultante, filas, columnas);
-        printMatrix(lamina, filas, columnas);
+        //printMatrix(lamina, filas, columnas);
     }
-    std::cout << "Se hizo en " << lamina.state << " estados";
+   // std::cout << "Se hizo en " << lamina.state << " estados";
 
     // while 
 }
