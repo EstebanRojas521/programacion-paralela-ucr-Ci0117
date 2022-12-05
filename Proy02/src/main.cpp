@@ -6,6 +6,7 @@
 #include "writeBinary.hpp"
 
 void analyzeArguments();
+#include "simulacion.hpp"
 
 int main(int argc, char* argv[]){
     // int numberOfThreads = 0;
@@ -39,6 +40,16 @@ int main(int argc, char* argv[]){
         } else {
             instanceWriteBinary->createReportTxt(mainStruct,false);
         }
+    for(int i = 0; i < numberOfRows; i++){
+        simulacion* simulacionDeCalor = new simulacion;
+        //instanceTxt->fillTxtStruct(fileName,i);
+        lamina_t lamina = instanceBinary->readBinaryFile(instanceTxt->fillTxtStruct(fileName,i));
+        size_t filas = lamina.rows;
+        size_t columnas = lamina.columns;
+        simulacionDeCalor->iniciarSimulacion(lamina, filas, columnas);
+        // Calculamos 
+        // Reportamos
+        delete simulacionDeCalor;
     }
     delete instanceTxt;
     delete instanceBinary;
