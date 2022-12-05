@@ -32,16 +32,17 @@ struct lamina_t {
     // nombre de archivo (txt)
     std::string fileName;
     /// Matriz original
-    std::vector<std::vector<double>>matrix;
+    std::vector<std::vector<double>> matrix;
 };
 
 class lamina{
-    public:
+ public:
     lamina();
+    ~lamina();
     lamina_t readBinaryFile(txtData data);
     void printOriginalMatrix(lamina_t &binaryData);
-    private:
-    void equalValues(txtData &txtData,lamina_t &binaryData);
+ private:
+    void equalValues(txtData &txtData, lamina_t &binaryData);
 };
 
 #endif

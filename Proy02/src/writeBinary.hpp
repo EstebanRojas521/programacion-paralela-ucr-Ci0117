@@ -3,9 +3,9 @@
 
 #ifndef WRITEBINARY_HPP
 #define WRITEBINARY_HPP
+#include <stdbool.h>
 #include <fstream>
 #include <iostream>
-#include <stdbool.h>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -15,12 +15,9 @@
 class writeBinary{
  public:
     writeBinary();
-    void createReportTxt(lamina_t simHitData,bool first);
-    void createReportBinary(lamina_t simHitData,bool first);
+    ~writeBinary();
+    void createReportTxt(lamina_t simHitData, bool first);
+    void createReportBinary(lamina_t simHitData, bool first);
 };
-
-
-
-
 
 #endif

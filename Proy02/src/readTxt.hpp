@@ -3,10 +3,10 @@
 #ifndef READTXT_HPP
 #define READTXT_HPP
 
-#include <bits/stdc++.h>
-#include <iostream>
-#include <fstream>
 #include <stdbool.h>
+#include <bits/stdc++.h>
+#include <fstream>
+#include <iostream>
 #include <string>
 
 
@@ -23,11 +23,11 @@ struct txtData{
 };
 
 class readText{
-    public:
+ public:
     readText();
     int numberOfRows(std::string fileName);
-    txtData fillTxtStruct(std::string fileName,int lineNumber);
-    private:
+    txtData fillTxtStruct(std::string fileName, int lineNumber);
+ private:
     txtData createStruct(std::string data);
     void printTxtStruct(txtData data);
 };
