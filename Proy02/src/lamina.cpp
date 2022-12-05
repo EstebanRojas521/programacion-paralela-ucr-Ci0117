@@ -3,15 +3,27 @@
 
 #include "lamina.hpp"
 
-lamina::lamina(){
-
+void initValues(lamina_t& lamina) {
+    lamina.area = 0;
+    lamina.columns = 0;
+    lamina.diffusion = 0;
+    lamina.elapsedTime = "";
+    lamina.epsilon = 0;
+    lamina.plateName = "";
+    lamina.rows = 0;
+    lamina.state = 0;
+    lamina.time = 0;
 }
 
+lamina::lamina(){
+}
 
 lamina_t lamina::readBinaryFile(txtData data){
     // Struct que contiene todos los datos listo...
     // para la simulacion de calor
     lamina_t simHitData;
+
+    initValues(simHitData);
     //Igualamops los valores del archivo de texto con el binario
     this->equalValues(data,simHitData);
     // Buffer donde leyemos el archivo binario y luego casteamos
@@ -71,7 +83,7 @@ lamina_t lamina::readBinaryFile(txtData data){
         file.close();
     }
     
-    this->printOriginalMatrix(simHitData);
+    //this->printOriginalMatrix(simHitData);
     //Regresamos nuestros datos listos para la transferencia de calor
     return simHitData;
 }

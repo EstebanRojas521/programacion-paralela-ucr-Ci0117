@@ -27,10 +27,10 @@ struct lamina_t {
     double epsilon;
     /// nombre de archivo (lámina)
     std::string plateName;
+    /// tiempo de duracion en encontrar equilibrio del plate
+    std::string elapsedTime;
     /// Matriz original
     std::vector<std::vector<double>>matrix;
-    /// @brief  Matriz con cambio de estado
-    std::vector<std::vector<double>>resultantMatrix;
 };
 
 class lamina{
