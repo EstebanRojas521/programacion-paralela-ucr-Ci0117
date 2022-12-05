@@ -7,6 +7,13 @@ lamina::lamina() {}
 
 lamina::~lamina() {}
 
+/**
+*@brief  Initialize the lamina_t struct
+*@details
+*   Intialize al the lamina_t stuct variables
+*@param lamina_t reference to the struct that will be initalized
+*@return Nothig. Void subrutine.
+*/
 void initValues(lamina_t& lamina) {
     lamina.area = 0;
     lamina.columns = 0;
@@ -21,13 +28,14 @@ void initValues(lamina_t& lamina) {
 
 
 lamina_t lamina::readBinaryFile(txtData data) {
+    
     // Struct que contiene todos los datos listo...
     // para la simulacion de calor
     lamina_t simHitData;
-
+    // Inicialiamos los valores del struct
     initValues(simHitData);
-    // Igualamops los valores del archivo de texto con el binario
-    this->equalValues(data, simHitData);
+    //Igualamops los valores del archivo de texto con el binario
+    this->equalValues(data,simHitData);
     // Buffer donde leyemos el archivo binario y luego casteamos
     // a enteros/strings segun convenga
     char bufferData[8];
@@ -36,12 +44,13 @@ lamina_t lamina::readBinaryFile(txtData data) {
     char bufferNumber[8];
     // Concatenamos nombre de plate name para poder acceder a la carpeta
     data.plateName = "jobs/" + data.plateName;
-    // std::cout<<data.plateName<<std::endl;
     // Creamos fstream para leer el archivo binario
     std::fstream file;
-
-    if (!file.is_open()) {
-        std::cerr << "Could not read binary file. " << std::endl;
+    // Abrimos archivo binario
+    file.open(data.plateName,std::ios::in|std::ios::binary);
+    //file.open("output/plate001-2.bin",std::ios::in|std::ios::binary);
+    if (!file.is_open()){
+        std::cerr << "Could not read binary file in lamina. " << std::endl;
         return simHitData;
     } else {
         file.seekp(0, std::ios::end);

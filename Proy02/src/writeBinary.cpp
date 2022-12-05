@@ -50,7 +50,7 @@ void writeBinary::createReportBinary(lamina_t simHitData, bool first) {
     // Creamos la direccion de nuestro archivo de salida
     simHitData.plateName = "output/" + simHitData.plateName +
                              "-" + std::to_string(state) + ".bin";
-    std::cout << simHitData.plateName << std::endl;
+
     // Si el archivo existe, lo borrramos para sobrescribirlo...
     // con los datos de nuestra nueva simulacion
     if (first == true) {
@@ -61,16 +61,15 @@ void writeBinary::createReportBinary(lamina_t simHitData, bool first) {
     // Creamos fstream del archivo binario
     std::fstream file;
     // Abrimos archivo binario
-    file.open(simHitData.plateName, std::ios::binary|std::ios::out);
-    if (!file.is_open()) {
-        std::cerr << "Could not read binary file. " << std::endl;
+    file.open(simHitData.plateName,std::ios::binary|std::ios::out);
+    if(!file.is_open()){
+        std::cerr << "Could not read binary file in binary report."
+                                                     << std::endl;
     } else {
         // Escribimos nuestras filas en el archivo binario de salida
-        std::sprintf(buffer, "%ld", simHitData.rows);
-        file.write(reinterpret_cast<char*>(&simHitData.rows), 8);
+        file.write(reinterpret_cast<char*>(&simHitData.rows),8);
         // Escribimos nuestras columns en el archivo binario de salida
-        std::sprintf(buffer, "%ld", simHitData.columns);
-        file.write(reinterpret_cast<char*>(&simHitData.columns), 8);
+        file.write(reinterpret_cast<char*>(&simHitData.columns),8);
         // Escribimos nuestra matriz
         int rows = simHitData.rows;
         int columns = simHitData.columns;

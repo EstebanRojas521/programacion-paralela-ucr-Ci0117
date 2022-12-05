@@ -20,11 +20,9 @@ int main(int argc, char* argv[]){
     lamina_t laminaA;
     txtData txtDataA;
     txtDataA.plateName = argv[1];
-
     lamina_t laminaB;
     txtData txtDataB;
     txtDataB.plateName = argv[2];
-
     laminaA = miComparador->readBinaryFile(txtDataA);
     laminaB = miComparador->readBinaryFile(txtDataB);
 
