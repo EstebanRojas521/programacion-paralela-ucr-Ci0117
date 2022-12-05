@@ -27,6 +27,8 @@ struct lamina_t {
     double epsilon;
     /// nombre de archivo (lámina)
     std::string plateName;
+    // nombre de archivo (txt)
+    std::string fileName;
     /// Matriz original
     std::vector<std::vector<double>>matrix;
     /// @brief  Matriz con cambio de estado
@@ -37,9 +39,9 @@ class lamina{
     public:
     lamina();
     lamina_t readBinaryFile(txtData data);
+    void printOriginalMatrix(lamina_t &binaryData);
     private:
     void equalValues(txtData &txtData,lamina_t &binaryData);
-    void printOriginalMatrix(lamina_t &binaryData);
 };
 
 #endif

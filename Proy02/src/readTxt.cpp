@@ -11,8 +11,10 @@ readText::readText(){
 }
 
 txtData readText::fillTxtStruct(std::string fileName,int lineNumber){
-    // struct que contiene los datos de la linea
+    // Struct que contiene los datos de la linea
     txtData data;
+    // Guardamos nuestro file name para mas adelante-> para la...
+    // escritura
     // If stream del archivo
     std::ifstream myFile;
     // Iterardor que nos dice en que linea estamos
@@ -35,15 +37,14 @@ txtData readText::fillTxtStruct(std::string fileName,int lineNumber){
         }
         currentLine++;
     }
-
     // Tenemos la linea que queremos, pero ahora tenemos que 
     // separar sus datos(difusio,tiempo,area etc...)
     //std::cout << lineData <<std::endl;
     data = this->createStruct(lineData);
+    data.fileName = fileName;
     // Cerramos archivo de texto
     myFile.close();
-
-    printTxtStruct(data);
+    //this->printTxtStruct(data);
     return data;
 }
 
@@ -74,6 +75,7 @@ txtData readText::createStruct(std::string lineData){
         }
         spotNumber++;
     }
+
     return txtData;
 }
 
@@ -103,6 +105,7 @@ int readText::numberOfRows(std::string fileName){
 }
 
 void readText::printTxtStruct(txtData data){
+    std::cout<< data.fileName <<" ";
     std::cout<< data.plateName <<" ";
     std::cout<< data.time <<" ";
     std::cout<< data.diffusion <<" ";
