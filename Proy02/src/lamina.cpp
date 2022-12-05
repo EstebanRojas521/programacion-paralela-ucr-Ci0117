@@ -38,7 +38,8 @@ lamina_t lamina::readBinaryFile(txtData data){
     // Creamos fstream para leer el archivo binario
     std::fstream file;
     // Abrimos archivo binario
-    file.open(data.plateName,std::ios::in|std::ios::binary);
+    //file.open(data.plateName,std::ios::in|std::ios::binary);
+    //file.open("output/plate001-2.bin",std::ios::in|std::ios::binary);
     if(!file.is_open()){
         std::cerr << "Could not read binary file. " << std::endl;
         return simHitData;
@@ -97,6 +98,7 @@ void lamina::equalValues(txtData &txtData,lamina_t &binaryData){
     binaryData.diffusion = txtData.diffusion;
     binaryData.area =txtData.area;
     binaryData.epsilon =txtData.epsilon;
+    binaryData.state = 0;
     // Despues de esta subrutina al archivo binario le hace falta:
     // Columnnas, filas y numeros de la matriz para estar listo
 }

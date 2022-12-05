@@ -43,7 +43,9 @@ void simulacion::iniciarSimulacion(lamina_t& lamina, size_t filas, size_t column
     // std::cout << "Se hizo en " << lamina.state << " estados";
     time_t finish = time(0);
     lamina.elapsedTime = format_time(finish-start);
-}
+        //printMatrix(lamina, filas, columnas);
+    }
+ 
 
 bool simulacion::verificarEquilibrio(lamina_t& laminaBase,lamina_t& laminaResultante, size_t filas, size_t columnas) {
     bool hayEquilibrio = true;
