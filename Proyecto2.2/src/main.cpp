@@ -9,43 +9,62 @@
 #include "writeBinary.hpp"
 #include "simulacion.hpp"
 
-void analyzeArguments(int argc, char* argv[],std::string &fileName, int &threads);
+void analyzeArguments(int argc, char* argv[],
+ std::string &fileName, int &threads);
+int calculate_start(int rank, int end, int workers, int begin);
+int calculate_finish(int rank, int end, int workers, int begin);
 
 int main(int argc, char* argv[]) {
-    if (MPI_Init(&argc, &argv) == MPI_SUCCESS){
-        // Creamos instancias
+    if (MPI_Init(&argc, &argv) == MPI_SUCCESS) {
         readText* instanceTxt = new readText();
         lamina* instanceBinary = new lamina();
         writeBinary* instanceWriteBinary = new writeBinary();
-        lamina_t mainStruct;
-        // Numero de hilo 
+        int process_number = -1;  // rank
+        MPI_Comm_rank(MPI_COMM_WORLD, &process_number);
+        int process_count = -1;
+        MPI_Comm_size(MPI_COMM_WORLD, &process_count);
+        char process_hostname[MPI_MAX_PROCESSOR_NAME];
+        int hostname_length = -1;
+        MPI_Get_processor_name(process_hostname, &hostname_length);
         int numberOfThreads = 0;
         int numberOfRows = 0;
         std::string fileName = "";
-        std::vector<lamina_t> mainVector;
+        std::vector<lamina_t> laminas;
         // Analizamos los argumentos en linea de comandos
-        analyzeArguments(argc,argv,fileName,numberOfThreads);
+        analyzeArguments(argc, argv, fileName, numberOfThreads);
         // Nos indica cuantas filas tiene nuestro archivo txt...
         // para iterar serialmente atraves de el
         fileName = "jobs/" + fileName;
         numberOfRows = instanceTxt->numberOfRows(fileName);
-        // numberOfRows = 1;
-        for (int i = 0; i < numberOfRows; i++) {
-            // instanceTxt->fillTxtStruct(fileName,i);
-            simulacion* simulacionDeCalor = new simulacion;
-            lamina_t lamina = instanceBinary->readBinaryFile
-                                (instanceTxt->fillTxtStruct(fileName, i));
-            size_t filas = lamina.rows;
-            size_t columnas = lamina.columns;
-            simulacionDeCalor->iniciarSimulacion(lamina, filas, columnas);
-            if (i == 0) {
-                instanceWriteBinary->createReportTxt(lamina, true);
-            } else {
-                instanceWriteBinary->createReportTxt(lamina, false);
-            }
-            instanceWriteBinary->createReportBinary(lamina);
-            delete simulacionDeCalor;
+        const int overall_start = 0;
+        const int overall_finish = numberOfRows;
+        const int process_start = calculate_start(process_number, overall_finish
+        , process_count, overall_start);
+        const int process_finish = calculate_finish(process_number,
+        overall_finish, process_count, overall_start);
+        for (size_t i = process_start; i < process_finish; i++) {
+            lamina_t newLamina = instanceBinary->readBinaryFile
+            (instanceTxt->fillTxtStruct(fileName, i));
+            laminas.push_back(newLamina);
         }
+        #pragma omp parallel num_threads(numberOfThreads) \
+        default(none) shared(laminas, simulacionDeCalor, \
+                            instanceWriteBinary,std::cout,process_number)
+        {
+        #pragma omp for schedule(dynamic)
+        for (size_t i = 0; i < laminas.size(); i++) {
+            simulacionDeCalor->iniciarSimulacion(laminas[i],
+                        laminas[i].rows, laminas[i].columns);
+            if (process_number == 0&&omp_get_thread_num()==0) {
+                instanceWriteBinary->createReportTxt(laminas[i], false);
+            } else {
+                instanceWriteBinary->createReportTxt(laminas[i], false);
+            }
+            instanceWriteBinary->createReportBinary(laminas[i]);
+        }
+        }
+        delete simulacionDeCalor;
+        delete instanceWriteBinary;
         delete instanceTxt;
         delete instanceBinary;
         MPI_Finalize();
@@ -55,7 +74,8 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-void analyzeArguments(int argc, char* argv[],std::string &fileName, int &threads){
+void analyzeArguments(int argc, char* argv[], std::string
+&fileName, int &threads) {
     if (argc < 2) {
         throw std::invalid_argument("Please enter a Job file.");
     }
@@ -65,6 +85,15 @@ void analyzeArguments(int argc, char* argv[],std::string &fileName, int &threads
     }
     if (argc == 3) {
         fileName = argv[1];
-        threads =std::atoi(argv[2]);
+        threads = std::atoi(argv[2]);
     }
+}
+
+int calculate_start(int rank, int end, int workers, int begin) {
+    const int range = end - begin;
+    return begin + rank * (range/workers) + std::min(rank, range%workers);
+}
+
+int calculate_finish(int rank, int end, int workers, int begin) {
+  return calculate_start(rank + 1, end, workers, begin);
 }

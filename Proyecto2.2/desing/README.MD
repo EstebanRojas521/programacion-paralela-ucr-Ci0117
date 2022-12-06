@@ -1,1 +1,0 @@
-## Diseño de la primer parte del proyecto 2.1
