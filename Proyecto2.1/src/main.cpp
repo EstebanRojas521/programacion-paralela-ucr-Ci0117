@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
     fileName = "jobs/" + fileName;
     numberOfRows = instanceTxt->numberOfRows(fileName);
 
-    for (size_t i = 0; i < numberOfRows; i++) {
+    for (int i = 0; i < numberOfRows; i++) {
         // instanceTxt->fillTxtStruct(fileName,i);
         lamina_t newLamina = instanceBinary->readBinaryFile
                             (instanceTxt->fillTxtStruct(fileName, i));

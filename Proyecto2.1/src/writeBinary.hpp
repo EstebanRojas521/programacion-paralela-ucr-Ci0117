@@ -11,7 +11,9 @@
 #include <vector>
 #include "lamina.hpp"
 
-
+/**
+ * @brief Class that processes .bin and .text results/reports
+ */
 class writeBinary{
  public:
   /**
@@ -31,9 +33,9 @@ class writeBinary{
     *@brief  Rutines that creates the txt report
     * Rutine where the simHit data is read and the final state
     * state and the finisht time is written into a report
-    *@param lamina_t struct that coints the data what will be written
+    *@param simHitData struct that coints the data what will be written
     * the report
-    *@param bool it indicates if its the first data, if yes, then 
+    *@param first it indicates if its the first data, if yes, then 
     * create a new txt file
     *@return Nothing. Void subrutine.
     */
@@ -43,10 +45,8 @@ class writeBinary{
     *@brief  Rutines that creates the binary report
     * Rutine where the simHit data is read and the resultant matrix
     * is written into a binary file for further heat sinks if necessary
-    *@param lamina_t struct that coints the data what will be written
+    *@param simHitData struct that coints the data what will be written
     * the report
-    *@param bool it indicates if its the first data, if yes, then 
-    * create a new binary file
     *@return Nothing. Void subrutine.
     */
     void createReportBinary(lamina_t& simHitData);

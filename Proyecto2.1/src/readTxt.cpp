@@ -6,6 +6,8 @@
 // constructor vacio
 readText::readText() {}
 
+readText::~readText() {}
+
 txtData readText::fillTxtStruct(std::string fileName, int lineNumber) {
     // Struct que contiene los datos de la linea
     txtData data;
@@ -70,7 +72,6 @@ txtData readText::createStruct(std::string lineData) {
         if (spotNumber == 4) {
             // Tenemos todos los datos se puede
             // comenzar el proceso de calor
-            txtData.dataIsComplete = true;
             txtData.epsilon = std::stod(word);
         }
         spotNumber++;
