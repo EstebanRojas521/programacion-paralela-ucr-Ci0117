@@ -41,10 +41,6 @@ void writeBinary::createReportTxt(lamina_t simHitData,bool first){
 }   
 
 void writeBinary::createReportBinary(lamina_t simHitData,bool first){
-    
-    // Buffer donde almacenamos filas, columnas y numeros
-    // para nuestro archivo binario
-    char buffer[8];
     // Eliminamos el ".bin" para crear correctamente nuestra...
     // direccion
     simHitData.plateName.erase(8,6);

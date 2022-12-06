@@ -31,7 +31,7 @@ lamina_t lamina::readBinaryFile(txtData data){
     // para la simulacion de calor
     lamina_t simHitData;
     // Inicialiamos los valores del struct
-    this->initValues(simHitData);
+    initValues(simHitData);
     //Igualamops los valores del archivo de texto con el binario
     this->equalValues(data,simHitData);
     // Buffer donde leyemos el archivo binario y luego casteamos
