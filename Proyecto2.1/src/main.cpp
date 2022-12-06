@@ -15,35 +15,44 @@ int main(int argc, char* argv[]) {
     readText* instanceTxt = new readText();
     lamina* instanceBinary = new lamina();
     writeBinary* instanceWriteBinary = new writeBinary();
-    lamina_t mainStruct;
     // Numero de hilo 
     int numberOfThreads = 0;
     int numberOfRows = 0;
     std::string fileName = "";
-    std::vector<lamina_t> mainVector;
+    std::vector<lamina_t> laminas;
     // Analizamos los argumentos en linea de comandos
-    analyzeArguments(argc,argv,fileName,numberOfThreads);
+    analyzeArguments(argc, argv, fileName, numberOfThreads);
     // Nos indica cuantas filas tiene nuestro archivo txt...
     // para iterar serialmente atraves de el
     fileName = "jobs/" + fileName;
     numberOfRows = instanceTxt->numberOfRows(fileName);
-    // numberOfRows = 1;
-    for (int i = 0; i < numberOfRows; i++) {
+
+    for (size_t i = 0; i < numberOfRows; i++) {
         // instanceTxt->fillTxtStruct(fileName,i);
-        simulacion* simulacionDeCalor = new simulacion;
-        lamina_t lamina = instanceBinary->readBinaryFile
+        lamina_t newLamina = instanceBinary->readBinaryFile
                             (instanceTxt->fillTxtStruct(fileName, i));
-        size_t filas = lamina.rows;
-        size_t columnas = lamina.columns;
-        simulacionDeCalor->iniciarSimulacion(lamina, filas, columnas);
-        if (i == 0) {
-            instanceWriteBinary->createReportTxt(lamina, true);
-        } else {
-            instanceWriteBinary->createReportTxt(lamina, false);
-        }
-        instanceWriteBinary->createReportBinary(lamina);
-        delete simulacionDeCalor;
+        laminas.push_back(newLamina);
     }
+
+    simulacion* simulacionDeCalor = new simulacion;
+    #pragma omp parallel num_threads(numberOfThreads) \
+        default(none) shared(laminas, simulacionDeCalor, \
+                                    instanceWriteBinary)
+    {
+        #pragma omp for schedule(dynamic)
+        for (size_t i = 0; i < laminas.size(); i++) {
+            simulacionDeCalor->iniciarSimulacion(laminas[i],
+                        laminas[i].rows, laminas[i].columns);
+            if (i == 0) {
+                instanceWriteBinary->createReportTxt(laminas[i], true);
+            } else {
+                instanceWriteBinary->createReportTxt(laminas[i], false);
+            }
+            instanceWriteBinary->createReportBinary(laminas[i]);
+        }
+    }
+    delete simulacionDeCalor;
+    delete instanceWriteBinary;
     delete instanceTxt;
     delete instanceBinary;
     return 0;
@@ -55,7 +64,7 @@ void analyzeArguments(int argc, char* argv[],std::string &fileName, int &threads
     }
     if (argc == 2) {
         fileName = argv[1];
-        threads = 10;
+        threads = omp_get_max_threads();
     }
     if (argc == 3) {
         fileName = argv[1];
