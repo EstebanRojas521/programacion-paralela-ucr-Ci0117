@@ -33,6 +33,9 @@ struct lamina_t {
     double diffusion;
     /// eplsilon(e)
     double epsilon;
+    /// Donde debe comenzar el hilo
+    int thread_start;
+    /// Donde debe terminar el hilo
     /// nombre de archivo (lámina)
     std::string plateName;
     /// tiempo de duracion en encontrar equilibrio del plate
