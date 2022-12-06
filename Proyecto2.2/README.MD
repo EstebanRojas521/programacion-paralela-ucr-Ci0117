@@ -16,7 +16,7 @@ El código para compilar requiere un archivo de texto, el cual contenga los dato
 Un ejemplo para correr el presente código corresponde a:
 
 
-![image info](./desing/imagesReport/runCodeExample%231.png)
+![image info](./desing/imagesReport/runCodeExample%232.png)
 
 donde job0001.txt corresponde al .txt que se encuentra de la carpeta jobs/ que se utilizara durante la simulación y 10 corresponde al número de hilos.
 
@@ -26,11 +26,13 @@ Este código cuenta con un programa de pruebas para verificar si los resultados 
 
 Resumen:
 1. Hacer make
-2. Escribir ./bin/Proy02 job###.txt #DeHilos
+2. Escribir mpiexec -np #deProcesos bin/Proyecto2.2 job001.txt #deHilos
 3. Observar resultados .tsv en la carpeta output 
 4. Verificar con el programa de pruebas los resultados binarios
 
 ### Construcción
+
+La construccion de este codigo se hizo con la idea se paralelizar las secciones que representan mucho tiempo a nivel de ejecuccion , asi mismo se implmento utilizando la tecnologia MPI.
 
 En primer lugar, se comenzó leyendo el archivo.txt, el cual contenía los datos requeridos para comenzar con la simulación, utilizando las librería fstream. Donde todos estos datos se almacenaron en un struct.
 
