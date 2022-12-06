@@ -22,7 +22,6 @@ end read_text
 read_binary(txt struct)
     plate name := struct.plate
     create matrix
-    // Tal
     return matrix
 end read_binary
 

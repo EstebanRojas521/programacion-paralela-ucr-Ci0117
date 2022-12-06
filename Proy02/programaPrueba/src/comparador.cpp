@@ -19,6 +19,7 @@ lamina_t comparador::readBinaryFile(txtData data){
     file.open(data.plateName,std::ios::in|std::ios::binary);
     if(!file.is_open()){
         std::cerr << "Could not read binary file. " << std::endl;
+        std::cout << data.plateName << std::endl;
         return simHitData;
     } else {
         file.seekp(0,std::ios::end);
