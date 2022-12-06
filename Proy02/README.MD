@@ -40,4 +40,4 @@ Luego se procedio a leer el archivo binario el cual contiene cada matriz inicial
 
 Siguiente, se creo una simulacion la cual recibiera ese struct de lamina_t como parametro y almacenara la matriz resultante en ese mismo struct.
 
-Por ultimo, se creo una clase la cual se encargara de crear el reporte utilizando el struct el cual contiene los datoss obtenidos.
+Por ultimo, se creo una clase la cual se encargara de crear el reporte utilizando el struct el cual contiene los datos obtenidos.
