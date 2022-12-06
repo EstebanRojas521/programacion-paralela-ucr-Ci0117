@@ -8,14 +8,22 @@
 #include "writeBinary.hpp"
 #include "simulacion.hpp"
 
-void analyzeArguments(int argc, char* argv[],std::string &fileName, int &threads);
+/**
+ * @brief Method used to read arguments when executing 
+ * @param argc argument count
+ * @param argv argument vector
+ * @param fileName name of file to read
+ * @param threads amount of threads specified, if not, number of cores
+ */
+void analyzeArguments(int argc, char* argv[], std::string &fileName,
+                                                        int &threads);
 
 int main(int argc, char* argv[]) {
     // Creamos instancias
     readText* instanceTxt = new readText();
     lamina* instanceBinary = new lamina();
     writeBinary* instanceWriteBinary = new writeBinary();
-    // Numero de hilo 
+    // Numero de hilo
     int numberOfThreads = 0;
     int numberOfRows = 0;
     std::string fileName = "";
@@ -58,7 +66,8 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-void analyzeArguments(int argc, char* argv[],std::string &fileName, int &threads){
+void analyzeArguments(int argc, char* argv[], std::string &fileName,
+                                                     int &threads) {
     if (argc < 2) {
         throw std::invalid_argument("Please enter a Job file.");
     }
@@ -68,6 +77,6 @@ void analyzeArguments(int argc, char* argv[],std::string &fileName, int &threads
     }
     if (argc == 3) {
         fileName = argv[1];
-        threads =std::atoi(argv[2]);
+        threads = std::atoi(argv[2]);
     }
 }
