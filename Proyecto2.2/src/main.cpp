@@ -36,54 +36,32 @@ int main(int argc, char* argv[]) {
         // para iterar serialmente atraves de el
         fileName = "jobs/" + fileName;
         numberOfRows = instanceTxt->numberOfRows(fileName);
-
-        for (size_t i = 0; i < numberOfRows; i++) {
-            // instanceTxt->fillTxtStruct(fileName,i);
-            lamina_t newLamina = instanceBinary->readBinaryFile
-                                (instanceTxt->fillTxtStruct(fileName, i));
-            laminas.push_back(newLamina);
-        }
         const int overall_start = 0;
-        const int overall_finish = laminas.size();
+        const int overall_finish = numberOfRows;
         const int process_start = calculate_start(process_number, overall_finish
         , process_count, overall_start);
         const int process_finish = calculate_finish(process_number,
         overall_finish, process_count, overall_start);
-         std::cout << process_hostname << ':' << process_number << ": range ["
-        << process_start << ", " << process_finish << " ]" << std::endl;
-        simulacion* simulacionDeCalor = new simulacion;
+        for (size_t i = process_start; i < process_finish; i++) {
+            lamina_t newLamina = instanceBinary->readBinaryFile
+            (instanceTxt->fillTxtStruct(fileName, i));
+            laminas.push_back(newLamina);
+        }
         #pragma omp parallel num_threads(numberOfThreads) \
         default(none) shared(laminas, simulacionDeCalor, \
-        instanceWriteBinary, process_start, process_finish, std::cout, \
-        process_hostname, process_number ) {
-            int thread_start = -1;
-            int thread_finish = -1;
-            #pragma omp for
-            for (int index = process_start; index < process_finish; ++index) {
-                if (thread_start == -1) {
-                    thread_start = index;
-                }
-                thread_finish = index;
+                            instanceWriteBinary,std::cout,process_number)
+        {
+        #pragma omp for schedule(dynamic)
+        for (size_t i = 0; i < laminas.size(); i++) {
+            simulacionDeCalor->iniciarSimulacion(laminas[i],
+                        laminas[i].rows, laminas[i].columns);
+            if (process_number == 0&&omp_get_thread_num()==0) {
+                instanceWriteBinary->createReportTxt(laminas[i], false);
+            } else {
+                instanceWriteBinary->createReportTxt(laminas[i], false);
             }
-            ++thread_finish;
-            if (thread_start != -1) {
-                #pragma omp for
-                for (int i = thread_start; i <thread_finish ; i++) {
-                    simulacionDeCalor->iniciarSimulacion(laminas[i],
-                                laminas[i].rows, laminas[i].columns);
-                    if (i == 0) {
-                        instanceWriteBinary->createReportTxt(laminas[i], true);
-                    } else {
-                        instanceWriteBinary->createReportTxt(laminas[i], false);
-                    }
-                    instanceWriteBinary->createReportBinary(laminas[i]);
-                }
-                #pragma omp critical(can_print)
-                std::cout << '\t' << process_hostname << ':' <<
-                process_number << '.'<< omp_get_thread_num() <<
-                ": range [" << thread_start << ", " <<thread_finish
-                << "[ " << std::endl;
-            }
+            instanceWriteBinary->createReportBinary(laminas[i]);
+        }
         }
         delete simulacionDeCalor;
         delete instanceWriteBinary;
