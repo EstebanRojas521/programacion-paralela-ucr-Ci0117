@@ -1,30 +1,28 @@
 ### Problema a resolver 
-problema, construcción, manual de usuario
+El presente código busca simular la transferencia de calor entre materiales. La manera realizar esta simulación es a través de una matriz, la cual cada celda representa una celda dentro del material, el cual va a transferir o perder calor. La transferencia funciona de celda a la misma celda, por ejemplo se calcula la perdida o ganancia de la celda 2,2, y su resultado se almacena nuevamente en la celda 2,2. Los datos que utilizan dentro de esta transferencia corresponde a cuanto dura cada transferencia (pueden existir múltiples), el grado de difusión del material, el área de cada celda del material y el épsilon. Estos datos son importantes, ya que para calcular la perdida o ganancia de calor de cada celda se debe dictar a través de una fórmula la cual incluye todas estas variables.
 
-El presente codigo busca simular la transferencia de calor entre materiales. La manera realizar esta simulacion es atravez de una matriz, la cual cada celda representa una celda dentro del material el cual va a transferir o perder calor. La transferencia funciona de celda a la misma celda, por ejemplo se calcula la perdida o ganacia de la celda 2,2, y su resultado se almacena nuevamente en la celda 2,2. Los datos que utilizan dentro de esta transferencia corresponde a cuanto dura cada tranferencia (pueden existir multiples), el grado de difusion del material , el area de cada celda del material y el epsilon. Estos datos son importantes ya que para calcular la perdida o ganancia de calor de cada celda se debe dictar atraves de una formula la cual incluye todas estas variables.
-
-A continuacion un ejemplo de una transferencia de calor:
+A continuación un ejemplo de una transferencia de calor:
 
 ![image info](./desing/imagesReport/heatTransferExample.png)
 
 Imagen 1.1 obtenida de http://jeisson.work/concurrente/2021b/proyectos/heat/
 
-Tomemos por ejemplo la celda (1,2) la cual tiene un valor de 0 y luego 2.734. Este nuevo valor fue calculado utilizando la formula tiempo*difusion sobre area + la suma de calor de las celdas a su derecha,izquierda,arriba y abajo - 4 por el calor de la celda sobre el area mas el calor actual. Por lo tanto, este codigo busca resolver todas estas transfencias de calor hasta que el punto de equilibrio haya sido alcanzado. Asi mismo se busca leer las placas desde un archivo binario y escribir sus resultado de igual forma en un archivo binario, asi como crear un archivo de texto con los resultado de la simulacion.
+Tomemos por ejemplo la celda (1,2) la cual tiene un valor de 0 y luego 2.734. Este nuevo valor fue calculado utilizando la formula tiempo*difusión sobre área + la suma de calor de las celdas a su derecha, izquierda, arriba y abajo - 4 por el calor de la celda sobre el área más el calor actual. Por lo tanto, este código busca resolver todas estas transferencias de calor hasta que el punto de equilibrio haya sido alcanzado. Así mismo, se busca leer las placas desde un archivo binario y escribir su resultado de igual forma en un archivo binario, así como crear un archivo de texto con el resultado de la simulación.
 
 ### Manual de usuario
 
-El codigo para compilar requiere un archivo de texto el cual contenga los datos necesarios para la simulacion y el nombre de un archivo binario el cual contenga la matriz inicial. En este codigo todos esos datos se encuentran en la carpeta jobs/ y los resultados y reportes de la compilacion seran almacenados en la carpeta output/ . Este codigo unicamente recibe archivos .txt(job001.txt por ejemplo) como primer parametro y la cantidad de hilos que se usararan durante la simulacion como segundo parametro.
+El código para compilar requiere un archivo de texto, el cual contenga los datos necesarios para la simulación y el nombre de un archivo binario, el cual contenga la matriz inicial. En este código todos esos datos se encuentran en la carpeta jobs/ y los resultados y reportes de la compilación serán almacenados en la carpeta output/. Este código únicamente recibe archivos .txt(job001.txt por ejemplo) como primer parámetro y la cantidad de hilos que se utilizaran durante la simulación como segundo parámetro.
 
-Un ejemplo para correr el presente codigo corresponde a:
+Un ejemplo para correr el presente código corresponde a:
 
 
 ![image info](./desing/imagesReport/runCodeExample%231.png)
 
-donde job0001.txt corresponde al .txt que se encuentra de la carpeta jobs/ que se utilizara durante la simulacion y 10 corresponde al numero de hilos.
+donde job0001.txt corresponde al .txt que se encuentra de la carpeta jobs/ que se utilizara durante la simulación y 10 corresponde al número de hilos.
 
-Los resultados seran escritos en la carpeta output/
+Los resultados serán escritos en la carpeta output/
 
-Este codigo cuenta con un programa de pruebas para verificar si los resultados obtenidos fueron los deseados, donde el programa de pruebas cuenta con su propio manual de usuario dentro de su carpeta.
+Este código cuenta con un programa de pruebas para verificar si los resultados obtenidos fueron los deseados, donde el programa de pruebas cuenta con su propio manual de usuario dentro de su carpeta.
 
 Resumen:
 1. Hacer make
@@ -32,12 +30,12 @@ Resumen:
 3. Observar resultados .tsv en la carpeta output 
 4. Verificar con el programa de pruebas los resultados binarios
 
-### Construccion
+### Construcción
 
-En primer lugar se comenzo leyendo el archivo.txt el cual contenia los datos requeridos para comenzar con la simulacion, utilizando las libreria fstream. Donde todos estos datos se almacenaron en un struct.
+En primer lugar, se comenzó leyendo el archivo.txt, el cual contenía los datos requeridos para comenzar con la simulación, utilizando las librería fstream. Donde todos estos datos se almacenaron en un struct.
 
-Luego se procedio a leer el archivo binario el cual contiene cada matriz inicial y se almacenaron los datos para la simulacion en un struct de lamina_t (ver lamina.hpp)
+Luego se procedió a leer el archivo binario, el cual contiene cada matriz inicial y se almacenaron los datos para la simulación en un struct de lamina_t (ver lamina.hpp)
 
-Siguiente, se creo una simulacion la cual recibiera ese struct de lamina_t como parametro y almacenara la matriz resultante en ese mismo struct.
+Siguiente, se creó una simulación la cual recibiera ese struct de lamina_t como parámetro y almacenara la matriz resultante en ese mismo struct.
 
-Por ultimo, se creo una clase la cual se encargara de crear el reporte utilizando el struct el cual contiene los datoss obtenidos.
+Por último, se creó una clase la cual se encargara de crear el reporte utilizando el struct el cual contiene los datos obtenidos.
