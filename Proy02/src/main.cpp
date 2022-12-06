@@ -48,6 +48,7 @@ int main(int argc, char* argv[]) {
         instanceWriteBinary->createReportBinary(lamina, true);
         delete simulacionDeCalor;
     }
+    delete instanceWriteBinary;
     delete instanceTxt;
     delete instanceBinary;
     return 0;

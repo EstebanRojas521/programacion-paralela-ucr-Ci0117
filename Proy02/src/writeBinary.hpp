@@ -38,7 +38,7 @@ class writeBinary{
     * create a new txt file
     *@return Nothing. Void subrutine.
     */
-    void createReportTxt(lamina_t simHitData, bool first);
+    void createReportTxt(lamina_t& simHitData, bool first);
 
     /**
     *@brief  Rutines that creates the binary report
@@ -50,7 +50,7 @@ class writeBinary{
     * create a new binary file
     *@return Nothing. Void subrutine.
     */
-    void createReportBinary(lamina_t simHitData, bool first);
+    void createReportBinary(lamina_t& simHitData, bool first);
 };
 
 #endif
