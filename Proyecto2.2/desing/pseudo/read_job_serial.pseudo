@@ -1,0 +1,37 @@
+
+struct txtData 
+    plate := ""
+    time := 0
+    difussion := 0
+    area := 0
+    epsilon := 0
+end struct
+
+read_text(string txt name)
+    read txt file
+    //igual los datos a nuestro struct
+    struct.plate := txt plate
+    struct.txt.time
+    struct. := txt.difussion
+    struct. := txt.area
+    struct. := txt.epsilon
+    return struct
+end read_text
+
+
+read_binary(txt struct)
+    plate name := struct.plate
+    create matrix
+    // Tal
+    return matrix
+end read_binary
+
+int main
+    argument1 := first_parameter
+    for (until all lines of txt have been read)
+        txt struct := read_text(argument1)
+        initial_matrix := read_binary(txt struct)
+        result_matrix := heat_sim(txt struct, initial_matrix)
+        write_report(txt struct, result_matrix)
+    end for
+end main
