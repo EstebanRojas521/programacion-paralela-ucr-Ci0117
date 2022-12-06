@@ -38,7 +38,7 @@ void writeBinary::createReportTxt(lamina_t& simHitData, bool first) {
     }
 }
 
-void writeBinary::createReportBinary(lamina_t& simHitData, bool first) {
+void writeBinary::createReportBinary(lamina_t& simHitData) {
     // Buffer donde almacenamos filas, columnas y numeros
     // para nuestro archivo binario
     char buffer[8];
@@ -53,11 +53,10 @@ void writeBinary::createReportBinary(lamina_t& simHitData, bool first) {
 
     // Si el archivo existe, lo borrramos para sobrescribirlo...
     // con los datos de nuestra nueva simulacion
-    if (first == true) {
-        char fileBuffer[40];
-        strcpy(fileBuffer, simHitData.plateName.c_str());
-        remove(fileBuffer);
-    }
+
+    char fileBuffer[40];
+    strcpy(fileBuffer, simHitData.plateName.c_str());
+    remove(fileBuffer);
     // Creamos fstream del archivo binario
     std::fstream file;
     // Abrimos archivo binario

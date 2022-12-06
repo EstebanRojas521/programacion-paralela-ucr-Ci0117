@@ -50,7 +50,7 @@ class writeBinary{
     * create a new binary file
     *@return Nothing. Void subrutine.
     */
-    void createReportBinary(lamina_t& simHitData, bool first);
+    void createReportBinary(lamina_t& simHitData);
 };
 
 #endif

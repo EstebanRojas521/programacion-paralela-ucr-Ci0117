@@ -1,36 +1,32 @@
 // Copyright 2022  Yasmyn Chacón Hernández,Ulises Fonseca Hurtado
 // y Esteban Rojas Carranza - Universidad de Costa Rica.
+#include <omp.h>
 #include <stdbool.h>
+#include <thread>
 #include "lamina.hpp"
 #include "readTxt.hpp"
 #include "writeBinary.hpp"
 #include "simulacion.hpp"
 
-void analyzeArguments();
+void analyzeArguments(int argc, char* argv[],std::string &fileName, int &threads);
 
 int main(int argc, char* argv[]) {
-    // int numberOfThreads = 0;
-    int numberOfRows = 0;
+    // Creamos instancias
     readText* instanceTxt = new readText();
     lamina* instanceBinary = new lamina();
     writeBinary* instanceWriteBinary = new writeBinary();
     lamina_t mainStruct;
+    // Numero de hilo 
+    int numberOfThreads = 0;
+    int numberOfRows = 0;
     std::string fileName = "";
-    if (argc < 2) {
-        throw std::invalid_argument("Please enter a Job file.");
-    }
-    if (argc == 2) {
-        fileName = argv[1];
-    }
-    if (argc == 3) {
-        fileName = argv[2];
-    }
-
+    std::vector<lamina_t> mainVector;
+    // Analizamos los argumentos en linea de comandos
+    analyzeArguments(argc,argv,fileName,numberOfThreads);
     // Nos indica cuantas filas tiene nuestro archivo txt...
     // para iterar serialmente atraves de el
     fileName = "jobs/" + fileName;
     numberOfRows = instanceTxt->numberOfRows(fileName);
-
     // numberOfRows = 1;
     for (int i = 0; i < numberOfRows; i++) {
         // instanceTxt->fillTxtStruct(fileName,i);
@@ -45,11 +41,24 @@ int main(int argc, char* argv[]) {
         } else {
             instanceWriteBinary->createReportTxt(lamina, false);
         }
-        instanceWriteBinary->createReportBinary(lamina, true);
+        instanceWriteBinary->createReportBinary(lamina);
         delete simulacionDeCalor;
     }
-    delete instanceWriteBinary;
     delete instanceTxt;
     delete instanceBinary;
     return 0;
+}
+
+void analyzeArguments(int argc, char* argv[],std::string &fileName, int &threads){
+    if (argc < 2) {
+        throw std::invalid_argument("Please enter a Job file.");
+    }
+    if (argc == 2) {
+        fileName = argv[1];
+        threads = 10;
+    }
+    if (argc == 3) {
+        fileName = argv[1];
+        threads =std::atoi(argv[2]);
+    }
 }
