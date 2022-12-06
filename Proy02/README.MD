@@ -1,5 +1,5 @@
 ### Problema a resolver 
-problema, construcción, manual de usuario
+
 
 El presente codigo busca simular la transferencia de calor entre materiales. La manera realizar esta simulacion es atravez de una matriz, la cual cada celda representa una celda dentro del material el cual va a transferir o perder calor. La transferencia funciona de celda a la misma celda, por ejemplo se calcula la perdida o ganacia de la celda 2,2, y su resultado se almacena nuevamente en la celda 2,2. Los datos que utilizan dentro de esta transferencia corresponde a cuanto dura cada tranferencia (pueden existir multiples), el grado de difusion del material , el area de cada celda del material y el epsilon. Estos datos son importantes ya que para calcular la perdida o ganancia de calor de cada celda se debe dictar atraves de una formula la cual incluye todas estas variables.
 
@@ -40,4 +40,4 @@ Luego se procedio a leer el archivo binario el cual contiene cada matriz inicial
 
 Siguiente, se creo una simulacion la cual recibiera ese struct de lamina_t como parametro y almacenara la matriz resultante en ese mismo struct.
 
-Por ultimo, se creo una clase la cual se encargara de crear el reporte utilizando el struct el cual contiene los datoss obtenidos.
+Por ultimo, se creo una clase la cual se encargara de crear el reporte utilizando el struct el cual contiene los datos obtenidos.
