@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
         default(none) shared(laminas, simulacionDeCalor, \
                                     instanceWriteBinary)
     {
-        #pragma omp for schedule(dynamic)
+        #pragma omp for schedule(static)
         for (size_t i = 0; i < laminas.size(); i++) {
             simulacionDeCalor->iniciarSimulacion(laminas[i],
                         laminas[i].rows, laminas[i].columns);
