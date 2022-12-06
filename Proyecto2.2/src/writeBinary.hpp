@@ -13,6 +13,7 @@
 
 
 class writeBinary{
+
  public:
   /**
     *@brief  Constructor of writeBinary

@@ -5,7 +5,6 @@
 
 // constructor vacio
 readText::readText() {}
-readText::~readText() {}
 
 txtData readText::fillTxtStruct(std::string fileName, int lineNumber) {
     // Struct que contiene los datos de la linea
