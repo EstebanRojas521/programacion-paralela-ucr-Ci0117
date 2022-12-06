@@ -1,14 +1,13 @@
 // Copyright 2022  Yasmyn Chacón Hernández,Ulises Fonseca Hurtado
 // y Esteban Rojas Carranza - Universidad de Costa Rica.
 
-#include "simulacion.hpp"
-
 #include <math.h>
 #include <ctime>
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <vector>
+#include "simulacion.hpp"
 
 simulacion::simulacion() {}
 simulacion::~simulacion() {}

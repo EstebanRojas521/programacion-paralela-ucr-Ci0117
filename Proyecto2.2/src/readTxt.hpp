@@ -8,7 +8,6 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-
 /**
 *@brief  Struct of which contains al data of the txt
 *@details
@@ -28,7 +27,6 @@ struct txtData{
 };
 
 class readText{
-
  public:
     /**
     *@brief  Constructor for readText
@@ -56,7 +54,7 @@ class readText{
     *@param int especific line of the filename we will read
     *@return the txtData struct ready for further use
     */
-    txtData fillTxtStruct(std::string fileName,int lineNumber);
+    txtData fillTxtStruct(std::string fileName, int lineNumber);
 
  private:
     /**
@@ -67,7 +65,6 @@ class readText{
     *@return the txtData struct ready for further use
     */
     txtData createStruct(std::string data);
-    
     /**
     *@brief  Prints the txtData struct
     *@details

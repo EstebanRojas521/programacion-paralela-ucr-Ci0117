@@ -9,7 +9,6 @@
 #include "lamina.hpp"
 
 class simulacion {
-
  private:
     /**
     *@brief  Rutine where the heat sim  for a especif square is obtained

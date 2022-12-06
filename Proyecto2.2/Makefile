@@ -1,12 +1,12 @@
 # C/C++ Makefile v2.4.1 2022-Jun-04 Jeisson Hidalgo ECCI-UCR CC-BY 4.0
 
 # Compiler and tool flags
-CC=gcc
-XC=g++
+CC=mpicc
+XC=mpic++
 DEFS=
 CSTD=-std=gnu11
 XSTD=-std=c17 #version de C++           #-std=gnu++11 version de C#
-FLAG=
+FLAG=-fopenmp
 FLAGS=$(strip -Wall -Wextra $(FLAG) $(DEFS))
 FLAGC=$(FLAGS) $(CSTD)
 FLAGX=$(FLAGS) $(XSTD)

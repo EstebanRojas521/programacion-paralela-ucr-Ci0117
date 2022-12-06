@@ -10,8 +10,6 @@
 #include <vector>
 #include "readTxt.hpp"
 
-
-
 /**
 *@brief  Struct of which contains al data for the heat simulation
 *@details
@@ -46,7 +44,6 @@ struct lamina_t {
 };
 
 class lamina{
-
  public:
     /**
     *@brief  Constructor for lamina class
@@ -55,12 +52,10 @@ class lamina{
     *@return Nothing. Constructor subrutine.
     */
     lamina();
-    
     /**
      * @brief Destructor for lamina class
      */
     ~lamina();
-
     /**
     *@brief  Reads the binary file
     *@details
@@ -70,7 +65,6 @@ class lamina{
     *@return the lamina_t struct ready for the heat simulation
     */
     lamina_t readBinaryFile(txtData data);
-
     /**
     *@brief  Prints the matrix store in a binary file
     *@details
@@ -82,7 +76,6 @@ class lamina{
     void printOriginalMatrix(lamina_t &binaryData);
 
  private:
-
     /**
     *@brief  Transfers the data from the txtData struct to the lamina_t struct
     *@details
@@ -92,7 +85,7 @@ class lamina{
     *@param lamina_t struct wich will recieve data
     *@return Nothing. Void subrutine.
     */
-    void equalValues(txtData &txtData,lamina_t &binaryData);
+    void equalValues(txtData &txtData, lamina_t &binaryData);
 };
 
 #endif
