@@ -9,7 +9,6 @@
 #include "lamina.hpp"
 
 class simulacion {
-
  private:
     /**
     *@brief  Rutine where the heat sim  for a especif square is obtained
@@ -60,7 +59,7 @@ class simulacion {
     *@param time_t number of seconds where the heat sim finished
     *@return the time where the heat sim finished
     */
-    string format_time(const time_t seconds);
+    std::string format_time(const time_t seconds);
 
  public:
     /**

@@ -28,7 +28,6 @@ struct txtData{
 };
 
 class readText{
-
  public:
     /**
     *@brief  Constructor for readText
@@ -37,6 +36,12 @@ class readText{
     *@return Nothing. Constructor subrutine.
     */
     readText();
+
+    /**
+     * @brief Destructor of readText class
+     */
+    ~readText();
+
     /**
     *@brief  Retuns number of rows in a .txt file
     *@details
@@ -46,9 +51,7 @@ class readText{
     *@return the number of rows of the file
     */
     int numberOfRows(std::string fileName);
-    txtData fillTxtStruct(std::string fileName, int lineNumber);
 
- private:
     /**
     *@brief  Fills the txt struct
     *@details
@@ -58,7 +61,9 @@ class readText{
     *@param int especific line of the filename we will read
     *@return the txtData struct ready for further use
     */
-    txtData fillTxtStruct(std::string fileName,int lineNumber);
+    txtData fillTxtStruct(std::string fileName, int lineNumber);
+
+ private:
 
     /**
     *@brief  Takes the data of a especific line and saves it in a struct
@@ -68,7 +73,7 @@ class readText{
     *@return the txtData struct ready for further use
     */
     txtData createStruct(std::string data);
-    
+
     /**
     *@brief  Prints the txtData struct
     *@details
