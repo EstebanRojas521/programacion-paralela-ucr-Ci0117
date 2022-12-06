@@ -46,6 +46,7 @@ struct lamina_t {
 };
 
 class lamina{
+
  public:
     /**
     *@brief  Constructor for lamina class
@@ -54,7 +55,7 @@ class lamina{
     *@return Nothing. Constructor subrutine.
     */
     lamina();
-
+    
     /**
      * @brief Destructor for lamina class
      */
@@ -81,6 +82,7 @@ class lamina{
     void printOriginalMatrix(lamina_t &binaryData);
 
  private:
+
     /**
     *@brief  Transfers the data from the txtData struct to the lamina_t struct
     *@details
@@ -90,7 +92,7 @@ class lamina{
     *@param lamina_t struct wich will recieve data
     *@return Nothing. Void subrutine.
     */
-    void equalValues(txtData &txtData, lamina_t &binaryData);
+    void equalValues(txtData &txtData,lamina_t &binaryData);
 };
 
 #endif

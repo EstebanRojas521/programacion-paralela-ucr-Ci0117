@@ -50,7 +50,7 @@ void simulacion::iniciarSimulacion(lamina_t& lamina,
         copyMatrix(lamina, laminaResultante, filas, columnas);
     }
     time_t finish = time(0);
-    lamina.elapsedTime = this->format_time(finish-start);
+    lamina.elapsedTime = format_time(finish-start);
 }
 
 bool simulacion::verificarEquilibrio(lamina_t& laminaBase,
