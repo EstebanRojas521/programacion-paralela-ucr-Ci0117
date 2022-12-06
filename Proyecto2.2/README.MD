@@ -1,5 +1,4 @@
 ##Nota: tira error de mpi al final del proceso pero si imprime los resultados bien. 
-No se si ya reviso esto profe, pero si es asi hace falta el analisis de rendimiento unicamente en MPI. El OMP si esta completo, ojala no haya llegado a mi nombre aun para borrar esto y hacer el analisis de rendimiento jaja
 ### Problema a resolver 
 El presente código busca simular la transferencia de calor entre materiales. La manera realizar esta simulación es a través de una matriz, la cual cada celda representa una celda dentro del material, el cual va a transferir o perder calor. La transferencia funciona de celda a la misma celda, por ejemplo se calcula la perdida o ganancia de la celda 2,2, y su resultado se almacena nuevamente en la celda 2,2. Los datos que utilizan dentro de esta transferencia corresponde a cuanto dura cada transferencia (pueden existir múltiples), el grado de difusión del material, el área de cada celda del material y el épsilon. Estos datos son importantes, ya que para calcular la perdida o ganancia de calor de cada celda se debe dictar a través de una fórmula la cual incluye todas estas variables.
 

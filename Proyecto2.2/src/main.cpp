@@ -9,9 +9,31 @@
 #include "writeBinary.hpp"
 #include "simulacion.hpp"
 
+
+/**
+ * @brief Method used to read arguments when executing 
+ * @param argc argument count
+ * @param argv argument vector
+ * @param fileName name of file to read
+ * @param threads amount of threads specified, if not, number of cores
+ */
 void analyzeArguments(int argc, char* argv[],
  std::string &fileName, int &threads);
+ /**
+ * @brief Method that tells the mpi process when to start
+ * @param argc argument count
+ * @param argv argument vector
+ * @param fileName name of file to read
+ * @param threads amount of threads specified, if not, number of cores
+ */
 int calculate_start(int rank, int end, int workers, int begin);
+ /**
+ * @brief Method that tells the mpi process when to finish
+ * @param argc argument count
+ * @param argv argument vector
+ * @param fileName name of file to read
+ * @param threads amount of threads specified, if not, number of cores
+ */
 int calculate_finish(int rank, int end, int workers, int begin);
 
 int main(int argc, char* argv[]) {
@@ -49,13 +71,13 @@ int main(int argc, char* argv[]) {
         }
         #pragma omp parallel num_threads(numberOfThreads) \
         default(none) shared(laminas, simulacionDeCalor, \
-                            instanceWriteBinary,std::cout,process_number)
+                            instanceWriteBinary, std::cout, process_number)
         {
         #pragma omp for schedule(dynamic)
         for (size_t i = 0; i < laminas.size(); i++) {
             simulacionDeCalor->iniciarSimulacion(laminas[i],
                         laminas[i].rows, laminas[i].columns);
-            if (process_number == 0&&omp_get_thread_num()==0) {
+            if (process_number == 0 && omp_get_thread_num() == 0) {
                 instanceWriteBinary->createReportTxt(laminas[i], false);
             } else {
                 instanceWriteBinary->createReportTxt(laminas[i], false);
