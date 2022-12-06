@@ -46,9 +46,7 @@ class readText{
     *@return the number of rows of the file
     */
     int numberOfRows(std::string fileName);
-    txtData fillTxtStruct(std::string fileName, int lineNumber);
 
- private:
     /**
     *@brief  Fills the txt struct
     *@details
@@ -60,6 +58,7 @@ class readText{
     */
     txtData fillTxtStruct(std::string fileName,int lineNumber);
 
+ private:
     /**
     *@brief  Takes the data of a especific line and saves it in a struct
     *@details
