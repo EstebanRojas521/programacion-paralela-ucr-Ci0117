@@ -95,6 +95,9 @@ int readText::numberOfRows(std::string fileName) {
         }
         // Cerramos archivo
         myFile.close();
+    } else {
+        std::cerr << "\nerror: could not open file";
+        return 0;
     }
 
     // Regresamos el numero de filas

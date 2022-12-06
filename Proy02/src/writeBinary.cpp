@@ -6,7 +6,7 @@
 writeBinary::writeBinary() {}
 writeBinary::~writeBinary() {}
 
-void writeBinary::createReportTxt(lamina_t simHitData, bool first) {
+void writeBinary::createReportTxt(lamina_t& simHitData, bool first) {
     // Creamos ofstream del archivo donde vamos a escribir
     std::ofstream file;
     // Eliminamos el directorio "jobs/" de nuestro filename
@@ -31,14 +31,14 @@ void writeBinary::createReportTxt(lamina_t simHitData, bool first) {
         file << simHitData.area << " ";
         file << simHitData.epsilon << " ";
         file << simHitData.state << " ";
-        file << "Not implemented yet" << " " << std::endl;
+        file << simHitData.elapsedTime << " " << std::endl;
         file.close();
     } else {
         std::cerr << "Could not write results on .tsv file " << std::endl;
     }
 }
 
-void writeBinary::createReportBinary(lamina_t simHitData, bool first) {
+void writeBinary::createReportBinary(lamina_t& simHitData, bool first) {
     // Buffer donde almacenamos filas, columnas y numeros
     // para nuestro archivo binario
     char buffer[8];
@@ -54,7 +54,7 @@ void writeBinary::createReportBinary(lamina_t simHitData, bool first) {
     // Si el archivo existe, lo borrramos para sobrescribirlo...
     // con los datos de nuestra nueva simulacion
     if (first == true) {
-        char fileBuffer[20];
+        char fileBuffer[40];
         strcpy(fileBuffer, simHitData.plateName.c_str());
         remove(fileBuffer);
     }
