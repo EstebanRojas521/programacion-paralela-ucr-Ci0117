@@ -2,6 +2,8 @@
 // y Esteban Rojas Carranza - Universidad de Costa Rica.
 
 #include "../../src/lamina.hpp"
+//#include "../../output/plate001-4.bin"
+//#include "../../jobs"
 #include "comparador.h"
 
 #include <string>
@@ -25,8 +27,8 @@ int main(int argc, char* argv[]){
     txtDataB.plateName = txtDataA.plateName;
     // Buscamos nuestra plate en la carpeta de plates suministrada 
     // por el profe, y la comparamos con el plate que obtuvimos
-    txtDataA.plateName = "../../output/"+txtDataA.plateName;
-    txtDataB.plateName = "../../jobs/" + txtDataB.plateName;
+    txtDataA.plateName = "../output/"+txtDataA.plateName;
+    txtDataB.plateName = "../jobs/" + txtDataB.plateName;
     laminaA = miComparador->readBinaryFile(txtDataA);
     laminaB = miComparador->readBinaryFile(txtDataB);
     //std::cout << txtDataA.plateName << std::endl;

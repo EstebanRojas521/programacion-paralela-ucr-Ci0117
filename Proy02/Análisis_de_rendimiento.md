@@ -11,3 +11,4 @@ Los resultados fueron los siguientes:
 ![image info](./desing/imagesReport/ReportKcachegrind%232.png)
 
 Como se logra observar, las subrutinas las cuales consumen más tiempo corresponden a la simulación de calor. Por lo tanto, esas subrutinas se harán de forma concurrente.
+

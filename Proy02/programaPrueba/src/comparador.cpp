@@ -16,10 +16,9 @@ lamina_t comparador::readBinaryFile(txtData data){
     // Creamos fstream para leer el archivo binario
     std::fstream file;
     // Abrimos archivo binario
-    file.open(data.plateName,std::ios::in|std::ios::binary);
+    file.open(data.plateName,std::ios::binary|std::ios::in);
     if(!file.is_open()){
-        std::cerr << "Could not read binary file. " << std::endl;
-        std::cout << data.plateName << std::endl;
+        std::cerr << "Could not read binary file: " <<data.plateName<< std::endl;
         return simHitData;
     } else {
         file.seekp(0,std::ios::end);
