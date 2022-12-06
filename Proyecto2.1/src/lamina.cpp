@@ -3,15 +3,11 @@
 
 #include "lamina.hpp"
 
-lamina::lamina() {}
-
-lamina::~lamina() {}
-
 /**
 *@brief  Initialize the lamina_t struct
 *@details
 *   Intialize al the lamina_t stuct variables
-*@param lamina_t reference to the struct that will be initalized
+*@param lamina reference to the struct that will be initalized
 *@return Nothig. Void subrutine.
 */
 void initValues(lamina_t& lamina) {
@@ -26,6 +22,9 @@ void initValues(lamina_t& lamina) {
     lamina.time = 0;
 }
 
+lamina::lamina() {}
+
+lamina::~lamina() {}
 
 lamina_t lamina::readBinaryFile(txtData data) {
     // Struct que contiene todos los datos listo...

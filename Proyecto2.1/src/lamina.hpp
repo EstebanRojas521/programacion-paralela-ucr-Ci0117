@@ -10,8 +10,6 @@
 #include <vector>
 #include "readTxt.hpp"
 
-
-
 /**
 *@brief  Struct of which contains al data for the heat simulation
 *@details
@@ -45,6 +43,9 @@ struct lamina_t {
     std::vector<std::vector<double>> matrix;
 };
 
+/**
+ * @brief Class lamina that saves info in lamina_t structs 
+ */
 class lamina{
  public:
     /**
@@ -65,20 +66,10 @@ class lamina{
     *@details
     *   Reads the binary file and stores it at the
     *   lamina_t for the eventual heat simulation
-    *@param txtData struct wich contain the palete name
+    *@param data struct wich contain the palete name
     *@return the lamina_t struct ready for the heat simulation
     */
     lamina_t readBinaryFile(txtData data);
-
-    /**
-    *@brief  Prints the matrix store in a binary file
-    *@details
-    *   Used for checking if the matrix read from a binary file
-    *   was read correctly or not. Prints in console.
-    *@param lamina_t struct which contains the matrix that will be printed
-    *@return Nothing. Void subrutine.
-    */
-    void printOriginalMatrix(lamina_t &binaryData);
 
  private:
     /**
@@ -87,7 +78,7 @@ class lamina{
     *   Transfers the data from the txtData to the lamina_t with things 
     *   such as the file name and the palete name for further use    
     *@param txtData struct wich will give data
-    *@param lamina_t struct wich will recieve data
+    *@param binaryData struct which will recieve data
     *@return Nothing. Void subrutine.
     */
     void equalValues(txtData &txtData, lamina_t &binaryData);
