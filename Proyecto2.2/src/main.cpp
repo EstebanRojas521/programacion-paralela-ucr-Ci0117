@@ -69,6 +69,7 @@ int main(int argc, char* argv[]) {
             (instanceTxt->fillTxtStruct(fileName, i));
             laminas.push_back(newLamina);
         }
+        simulacion* simulacionDeCalor = new simulacion;
         #pragma omp parallel num_threads(numberOfThreads) \
         default(none) shared(laminas, simulacionDeCalor, \
                             instanceWriteBinary, std::cout, process_number)
@@ -82,6 +83,7 @@ int main(int argc, char* argv[]) {
             } else {
                 instanceWriteBinary->createReportTxt(laminas[i], false);
             }
+            #pragma critical(can_write_report)
             instanceWriteBinary->createReportBinary(laminas[i]);
         }
         }

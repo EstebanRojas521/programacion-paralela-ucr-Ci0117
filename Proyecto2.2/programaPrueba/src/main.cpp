@@ -9,16 +9,13 @@
 #include <string>
 
 int main(int argc, char* argv[]){
-
     if (argc != 3) {
         std::string error = "";
         error += "usage: bin/programaPrueba ../jobs/jobxxx/jobxxx.bin";
         error += " ../jobs/jobxxx/jobxxx.bin epsilon";
         throw std::invalid_argument(error);
     }
-
     comparador* miComparador = new comparador;
-
     lamina_t laminaA;
     txtData txtDataA;
     txtDataA.plateName = argv[1];
@@ -31,9 +28,6 @@ int main(int argc, char* argv[]){
     txtDataB.plateName = "../jobs/" + txtDataB.plateName;
     laminaA = miComparador->readBinaryFile(txtDataA);
     laminaB = miComparador->readBinaryFile(txtDataB);
-    //std::cout << txtDataA.plateName << std::endl;
-    //laminaA.epsilon = laminaB.epsilon = std::stod(argv[3]);
-
     bool iguales = miComparador->compare(laminaA, laminaB);
     if (iguales == true) {
         std::cout << "\nLas matrices son iguales\n"<< std::endl;
