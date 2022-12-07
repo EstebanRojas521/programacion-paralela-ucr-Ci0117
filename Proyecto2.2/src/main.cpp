@@ -19,20 +19,22 @@
  */
 void analyzeArguments(int argc, char* argv[],
  std::string &fileName, int &threads);
+
  /**
  * @brief Method that tells the mpi process when to start
- * @param argc argument count
- * @param argv argument vector
- * @param fileName name of file to read
- * @param threads amount of threads specified, if not, number of cores
+ * @param rank number used for formula
+ * @param end number used for formula
+ * @param workers workers used for formula
+ * @param begin number used for formula
  */
 int calculate_start(int rank, int end, int workers, int begin);
+
  /**
  * @brief Method that tells the mpi process when to finish
- * @param argc argument count
- * @param argv argument vector
- * @param fileName name of file to read
- * @param threads amount of threads specified, if not, number of cores
+ * @param rank number used for formula
+ * @param end number used for formula
+ * @param workers workers used for formula
+ * @param begin number used for formula
  */
 int calculate_finish(int rank, int end, int workers, int begin);
 
@@ -64,7 +66,7 @@ int main(int argc, char* argv[]) {
         , process_count, overall_start);
         const int process_finish = calculate_finish(process_number,
         overall_finish, process_count, overall_start);
-        for (size_t i = process_start; i < process_finish; i++) {
+        for (int i = process_start; i < process_finish; i++) {
             lamina_t newLamina = instanceBinary->readBinaryFile
             (instanceTxt->fillTxtStruct(fileName, i));
             laminas.push_back(newLamina);
@@ -83,7 +85,7 @@ int main(int argc, char* argv[]) {
             } else {
                 instanceWriteBinary->createReportTxt(laminas[i], false);
             }
-            #pragma critical(can_write_report)
+            #pragma omp critical(can_write_report)
             instanceWriteBinary->createReportBinary(laminas[i]);
         }
         }

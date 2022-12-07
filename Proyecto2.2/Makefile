@@ -5,7 +5,7 @@ CC=mpicc
 XC=mpic++
 DEFS=
 CSTD=-std=gnu11
-XSTD=-std=c17 #version de C++           #-std=gnu++11 version de C#
+XSTD=-std=gnu++11
 FLAG=-fopenmp
 FLAGS=$(strip -Wall -Wextra $(FLAG) $(DEFS))
 FLAGC=$(FLAGS) $(CSTD)

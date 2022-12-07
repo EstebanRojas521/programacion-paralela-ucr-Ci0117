@@ -18,7 +18,7 @@ void writeBinary::createReportTxt(lamina_t simHitData, bool first) {
     // Si el archivo existe, lo borrramos para sobrescribirlo...
     // con los datos de nuestra nueva simulacion
     if (first == true) {
-        char fileBuffer[20];
+        char fileBuffer[50];
         strcpy(fileBuffer, simHitData.fileName.c_str());
         remove(fileBuffer);
     }

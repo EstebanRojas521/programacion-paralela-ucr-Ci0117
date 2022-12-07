@@ -11,7 +11,7 @@ lamina::~lamina() {}
 *@brief  Initialize the lamina_t struct
 *@details
 *   Intialize al the lamina_t stuct variables
-*@param lamina_t reference to the struct that will be initalized
+*@param lamina reference to the struct that will be initalized
 *@return Nothig. Void subrutine.
 */
 void initValues(lamina_t& lamina) {

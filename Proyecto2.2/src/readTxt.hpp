@@ -40,7 +40,7 @@ class readText{
     *@details
     *   Reads the binary file and stores it at the
     *   lamina_t for the eventual heat simulation
-    *@param string name of the file we wanna know the number of rows
+    *@param fileName name of the file we wanna know the number of rows
     *@return the number of rows of the file
     */
     int numberOfRows(std::string fileName);
@@ -50,8 +50,8 @@ class readText{
     *@details
     *   Reads the txt file and stores it at the
     *   txt for the eventual heat simulation
-    *@param string name of the file we wanna know the number of rows
-    *@param int especific line of the filename we will read
+    *@param fileName name of the file we wanna know the number of rows
+    *@param lineNumber especific line of the filename we will read
     *@return the txtData struct ready for further use
     */
     txtData fillTxtStruct(std::string fileName, int lineNumber);
@@ -61,7 +61,7 @@ class readText{
     *@brief  Takes the data of a especific line and saves it in a struct
     *@details
     *   Reads a especific line and saves it in a txt struct
-    *@param string data of the line that was read
+    *@param data data of the line that was read
     *@return the txtData struct ready for further use
     */
     txtData createStruct(std::string data);
@@ -70,7 +70,7 @@ class readText{
     *@details
     *   Prints the txData struct for it to be checked
     *   if necessary. Prints in console.
-    *@param txtData data that will be printed
+    *@param data data that will be printed
     *@return Nothing. Void subrutine.
     */
     void printTxtStruct(txtData data);
