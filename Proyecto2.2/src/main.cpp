@@ -85,7 +85,7 @@ int main(int argc, char* argv[]) {
             } else {
                 instanceWriteBinary->createReportTxt(laminas[i], false);
             }
-            #pragma omp critical(can_write_report)
+            // #pragma omp critical(can_write_report)
             instanceWriteBinary->createReportBinary(laminas[i]);
         }
         }

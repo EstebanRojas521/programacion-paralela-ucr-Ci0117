@@ -50,7 +50,7 @@ void writeBinary::createReportBinary(lamina_t simHitData) {
 
     // Si el archivo existe, lo borrramos para sobrescribirlo...
     // con los datos de nuestra nueva simulacion
-    char fileBuffer[20];
+    char fileBuffer[50];
     strcpy(fileBuffer, simHitData.plateName.c_str());
     remove(fileBuffer);
     // Creamos fstream del archivo binario
