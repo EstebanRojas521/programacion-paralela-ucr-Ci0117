@@ -4,7 +4,7 @@ El presente código busca simular la transferencia de calor entre materiales. La
 
 A continuación un ejemplo de una transferencia de calor:
 
-![image info](./desing/imagesReport/heatTransferExample.png)
+![image info](./design/imagesReport/heatTransferExample.png)
 
 Imagen 1.1 obtenida de http://jeisson.work/concurrente/2021b/proyectos/heat/
 
@@ -17,7 +17,7 @@ El código para compilar requiere un archivo de texto, el cual contenga los dato
 Un ejemplo para correr el presente código corresponde a:
 
 
-![image info](./desing/imagesReport/runCodeExample%232.png)
+![image info](./design/imagesReport/runCodeExample%232.png)
 
 donde job0001.txt corresponde al .txt que se encuentra de la carpeta jobs/ que se utilizara durante la simulación y 10 corresponde al número de hilos.
 
