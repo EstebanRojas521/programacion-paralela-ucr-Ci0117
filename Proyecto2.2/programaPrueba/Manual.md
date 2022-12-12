@@ -10,5 +10,5 @@ Un ejemplo para ejecutar el programa de pruebas corresponde a:
 
 Imagen de ejemplo:
 
-![image info](../desing/imagesReport/runTestsExample%231.png)
+![image info](../design/imagesReport/runTestsExample%231.png)
 
