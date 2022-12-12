@@ -1,6 +1,7 @@
 // Copyright 2022  Yasmyn Chacón Hernández,Ulises Fonseca Hurtado
 // y Esteban Rojas Carranza - Universidad de Costa Rica.
 
+#include <ios>
 #include "writeBinary.hpp"
 
 writeBinary::writeBinary() {}
@@ -30,7 +31,7 @@ void writeBinary::createReportTxt(lamina_t& simHitData, bool first) {
         file << simHitData.diffusion << " ";
         file << simHitData.area << " ";
         file << simHitData.epsilon << " ";
-        file << simHitData.state << " ";
+        file << std::fixed << std::setprecision(0) << simHitData.state << " ";
         file << simHitData.elapsedTime << " " << std::endl;
         file.close();
     } else {
